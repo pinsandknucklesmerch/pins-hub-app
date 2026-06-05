@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import type { Garment } from "@prisma/client"
 import { addGarment, updateGarmentDetails, deleteGarment } from "./actions"
@@ -32,24 +32,26 @@ export default function GarmentDirectoryClient({
   const CURRENCY = "€"
 
   // Client-side filtering
-  const filtered = initialGarments.filter((g) => {
+  const filtered = useMemo(() => {
     const queryParts = normalizeSearch(search).split(" ").filter(Boolean)
 
     if (queryParts.length === 0) {
-      return true
+      return initialGarments
     }
 
-    const searchableText = normalizeSearch([
-      g.name,
-      g.code,
-      g.altCode,
-      g.brandName,
-      g.color,
-      g.tags
-    ].filter(Boolean).join(" "))
+    return initialGarments.filter((g) => {
+      const searchableText = normalizeSearch([
+        g.name,
+        g.code,
+        g.altCode,
+        g.brandName,
+        g.color,
+        g.tags
+      ].filter(Boolean).join(" "))
 
-    return queryParts.every((part) => searchableText.includes(part))
-  })
+      return queryParts.every((part) => searchableText.includes(part))
+    })
+  }, [initialGarments, search])
 
   async function handleAddGarment(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()

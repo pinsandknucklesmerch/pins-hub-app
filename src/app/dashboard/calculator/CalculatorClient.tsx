@@ -22,7 +22,9 @@ export default function CalculatorClient({
   const [designs, setDesigns] = useState<Design[]>([
     {
       quantity: 50,
-      positions: { FRONT: 1 }
+      positions: { FRONT: 1 },
+      pkMarkupEnabled: false,
+      pkMarkupPerUnit: 0
     }
   ])
 
@@ -35,7 +37,9 @@ export default function CalculatorClient({
       ...designs,
       {
         quantity: 50,
-        positions: { FRONT: 1 }
+        positions: { FRONT: 1 },
+        pkMarkupEnabled: false,
+        pkMarkupPerUnit: 0
       }
     ])
   }
@@ -65,15 +69,17 @@ export default function CalculatorClient({
     let pins = 0
     let base = 0
     let markup = 0
+    let pkMarkup = 0
 
     for (const b of breakdowns) {
       production += b.productionCost
       pins += b.pinsCost
       base += b.baseCost
       markup += b.markupCost
+      pkMarkup += b.pkMarkupCost
     }
 
-    return { production, pins, base, markup, total: production + pins + base + markup }
+    return { production, pins, base, markup, pkMarkup, total: production + pins + base + markup + pkMarkup }
   }, [breakdowns])
 
   const copyToClipboard = async (text: string) => {
@@ -98,8 +104,8 @@ export default function CalculatorClient({
   // Calculations for Production Cost (Sales Reference - excl VAT only)
   const productionSubtotalExclVat = orderTotals.production + orderTotals.base
 
-  // Calculations for Pins Cost (Customer Price includes Garment Base Cost + Pins Print Cost + Garment Markup)
-  const pinsSubtotalExclVat = orderTotals.pins + orderTotals.base + orderTotals.markup
+  // Calculations for Pins Cost (Customer Price includes Garment Base Cost + Pins Print Cost + Garment Markup + optional PK Markup)
+  const pinsSubtotalExclVat = orderTotals.pins + orderTotals.base + orderTotals.markup + orderTotals.pkMarkup
   const pinsTotalInclVat = pinsSubtotalExclVat * (1 + vatRate / 100)
 
   // Check if at least one design has a selected garment
@@ -107,7 +113,13 @@ export default function CalculatorClient({
     return designs.some((d) => d.garmentId !== undefined && d.garmentId !== "")
   }, [designs])
 
+  const displayProductionSubtotalExclVat = hasGarmentSelected ? productionSubtotalExclVat : 0
+  const displayPinsSubtotalExclVat = hasGarmentSelected ? pinsSubtotalExclVat : 0
+  const displayPinsTotalInclVat = hasGarmentSelected ? pinsTotalInclVat : 0
+
   const handleCopyClick = async () => {
+    if (!hasGarmentSelected) return
+
     let body = "\n\n"
     breakdowns.forEach((b, idx) => {
       const d = designs[idx]
@@ -121,9 +133,10 @@ export default function CalculatorClient({
       const baseCostPerUnit = d.quantity > 0 ? b.baseCost / d.quantity : 0
       const markupCostPerUnit = d.quantity > 0 ? b.markupCost / d.quantity : 0
       const pinsCostPerUnit = d.quantity > 0 ? b.pinsCost / d.quantity : 0
+      const pkMarkupCostPerUnit = d.quantity > 0 ? b.pkMarkupCost / d.quantity : 0
       
-      const unitExclVat = baseCostPerUnit + markupCostPerUnit + pinsCostPerUnit
-      const subtotalExclVat = b.baseCost + b.pinsCost + b.markupCost
+      const unitExclVat = baseCostPerUnit + markupCostPerUnit + pinsCostPerUnit + pkMarkupCostPerUnit
+      const subtotalExclVat = b.baseCost + b.pinsCost + b.markupCost + b.pkMarkupCost
       const totalInclVat = subtotalExclVat * (1 + vatRate / 100)
 
       body += `Item ${idx + 1}:\n${garmentCode}  ${garmentName} (${positionsText})\n`
@@ -135,7 +148,7 @@ export default function CalculatorClient({
   }
 
   return (
-    <div className="max-w-4xl">
+    <div className="w-full max-w-4xl">
       {designs.map((design, i) => (
         <DesignCard
           key={i}
@@ -160,9 +173,8 @@ export default function CalculatorClient({
         </button>
       </div>
 
-      {/* Pricing Container - only displayed once a garment is selected */}
-      {hasGarmentSelected && (
-        <div className="mt-8 p-6 bg-zinc-100/30 dark:bg-zinc-900/10 border border-zinc-200/60 dark:border-zinc-800/80 rounded-2xl transition-all duration-300">
+      {/* Pricing Container - always mounted so selecting a garment does not shift layout */}
+      <div className={`mt-8 min-h-[360px] p-6 bg-zinc-100/30 dark:bg-zinc-900/10 border border-zinc-200/60 dark:border-zinc-800/80 rounded-2xl ${hasGarmentSelected ? "" : "opacity-60"}`}>
           
           {/* Cost Categories Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -179,7 +191,7 @@ export default function CalculatorClient({
                 </div>
                 <div className="mb-6">
                   <span className="text-4xl md:text-5xl font-black text-sky-400 tabular-nums">
-                    {CURRENCY}{pinsTotalInclVat.toFixed(2)}
+                    {CURRENCY}{displayPinsTotalInclVat.toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -194,7 +206,7 @@ export default function CalculatorClient({
                 </div>
                 <div className="mb-6">
                   <span className="text-4xl md:text-5xl font-black text-zinc-300 tabular-nums">
-                    {CURRENCY}{productionSubtotalExclVat.toFixed(2)}
+                    {CURRENCY}{displayProductionSubtotalExclVat.toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -237,11 +249,12 @@ export default function CalculatorClient({
                         if (!d) return null
                         const garment = garments.find((g) => g.id === d.garmentId)
                         
-                        const baseCostPerUnit = d.quantity > 0 ? b.baseCost / d.quantity : 0
-                        const markupCostPerUnit = d.quantity > 0 ? b.markupCost / d.quantity : 0
-                        const pinsCostPerUnit = d.quantity > 0 ? b.pinsCost / d.quantity : 0
-                        const totalUnitCost = baseCostPerUnit + markupCostPerUnit + pinsCostPerUnit
-                        const pinsSubtotalExclVat =(b.baseCost + b.pinsCost + b.markupCost).toFixed(2)
+                            const baseCostPerUnit = d.quantity > 0 ? b.baseCost / d.quantity : 0
+                            const markupCostPerUnit = d.quantity > 0 ? b.markupCost / d.quantity : 0
+                            const pinsCostPerUnit = d.quantity > 0 ? b.pinsCost / d.quantity : 0
+                            const pkMarkupCostPerUnit = d.quantity > 0 ? b.pkMarkupCost / d.quantity : 0
+                            const totalUnitCost = baseCostPerUnit + markupCostPerUnit + pinsCostPerUnit + pkMarkupCostPerUnit
+                            const pinsSubtotalExclVat = (b.baseCost + b.pinsCost + b.markupCost + b.pkMarkupCost).toFixed(2)
 
                         return (
                           <div key={idx} className="space-y-3 pb-3 border-b border-zinc-900 last:border-0 last:pb-0">
@@ -279,8 +292,15 @@ export default function CalculatorClient({
                                   <span className="min-w-0 leading-snug">{posLabel} Pins ({priceLabel})</span>
                                   <span className="shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-zinc-300">{CURRENCY}{unitPrices.pinsPrice.toFixed(2)} / unit</span>
                                 </div>
-                              )
-                            })}
+                                )
+                              })}
+
+                            {d.pkMarkupEnabled && (
+                              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 text-sm text-zinc-400">
+                                <span className="min-w-0 leading-snug">PK Markup</span>
+                                <span className="shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-zinc-300">{CURRENCY}{pkMarkupCostPerUnit.toFixed(2)} / unit</span>
+                              </div>
+                            )}
                             
                             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 text-sm font-semibold">
                               <span className="min-w-0 text-zinc-500 leading-snug">Total Unit Cost (excl VAT)</span>
@@ -353,11 +373,11 @@ export default function CalculatorClient({
                 <div className="pt-4 border-t-2 border-zinc-800 space-y-2 text-xs font-semibold mt-6">
                   <div className="flex justify-between items-center text-zinc-400">
                     <span>Production Subtotal ({totalQty} units, excl VAT)</span>
-                    <span className="font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-zinc-300">{CURRENCY}{productionSubtotalExclVat.toFixed(2)}</span>
+                    <span className="font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-zinc-300">{CURRENCY}{displayProductionSubtotalExclVat.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between items-center text-zinc-400">
                     <span>Pins Subtotal ({totalQty} units, excl VAT)</span>
-                    <span className="font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-zinc-300">{CURRENCY}{pinsSubtotalExclVat.toFixed(2)}</span>
+                    <span className="font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-zinc-300">{CURRENCY}{displayPinsSubtotalExclVat.toFixed(2)}</span>
                   </div>
                 </div>
 
@@ -365,8 +385,7 @@ export default function CalculatorClient({
             </div>
           </div>
 
-        </div>
-      )}
+      </div>
     </div>
   )
 }

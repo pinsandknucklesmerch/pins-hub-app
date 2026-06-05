@@ -15,6 +15,9 @@ export type Design = {
   garmentId?: string
   quantity: number
   positions: Record<string, number>
+  pkMarkupEnabled?: boolean
+  pkMarkupInput?: string
+  pkMarkupPerUnit?: number
 }
 
 export type DesignCostBreakdown = {
@@ -22,6 +25,7 @@ export type DesignCostBreakdown = {
   pinsCost: number
   baseCost: number
   markupCost: number
+  pkMarkupCost: number
   garmentName?: string
   quantity: number
 }
@@ -80,12 +84,14 @@ export function calculateDesignCosts(
     ? garmentMarkups.find((m) => m.garmentType === garment.type)
     : undefined
   const markupCost = markup ? markup.markupValue * design.quantity : 0
+  const pkMarkupCost = design.pkMarkupEnabled ? (design.pkMarkupPerUnit ?? 0) * design.quantity : 0
 
   return {
     productionCost: prod,
     pinsCost: pins,
     baseCost,
     markupCost,
+    pkMarkupCost,
     garmentName: garment?.name,
     quantity: design.quantity
   }
@@ -209,10 +215,29 @@ export default function DesignCard({
     })
   }
 
+  function updatePkMarkupEnabled(enabled: boolean) {
+    onChange({
+      ...design,
+      pkMarkupEnabled: enabled
+    })
+  }
+
+  function updatePkMarkupPerUnit(value: string) {
+    if (!/^-?\d*\.?\d*$/.test(value)) return
+
+    const parsedValue = Number(value)
+
+    onChange({
+      ...design,
+      pkMarkupInput: value,
+      pkMarkupPerUnit: Number.isFinite(parsedValue) ? parsedValue : 0
+    })
+  }
+
 
 
   return (
-    <div className="relative bg-[#0b0c10] border border-zinc-800/80 p-6 mb-6 rounded-2xl shadow-[0_0_15px_rgba(0,0,0,0.2)] transition-all">
+    <div className="relative w-full min-h-[380px] bg-[#0b0c10] border border-zinc-800/80 p-6 mb-6 rounded-2xl shadow-[0_0_15px_rgba(0,0,0,0.2)]">
       {onRemove && (
         <button
           onClick={onRemove}
@@ -296,6 +321,27 @@ export default function DesignCard({
             ))}
           </div>
         )}
+
+        <div className="mt-4 space-y-2">
+          <label className="flex items-center gap-2 text-sm font-medium text-zinc-400">
+            <input
+              type="checkbox"
+              checked={design.pkMarkupEnabled ?? false}
+              onChange={(e) => updatePkMarkupEnabled(e.target.checked)}
+              className="h-4 w-4 rounded border-zinc-700 bg-[#111219] text-red-500 focus:ring-red-500/50"
+            />
+            PK Markup
+          </label>
+          {design.pkMarkupEnabled && (
+            <input
+              type="text"
+              inputMode="decimal"
+              value={design.pkMarkupInput ?? String(design.pkMarkupPerUnit ?? 0)}
+              onChange={(e) => updatePkMarkupPerUnit(e.target.value)}
+              className="w-full max-w-xs border border-zinc-800 rounded-lg p-2.5 bg-[#111219] text-white focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 outline-none transition-shadow"
+            />
+          )}
+        </div>
       </div>
     </div>
   )

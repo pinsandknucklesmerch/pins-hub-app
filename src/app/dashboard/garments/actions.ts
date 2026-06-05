@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { GarmentType } from "@prisma/client"
 import { getCalculatorReferenceTag } from "../calculator/data"
+import { getGarmentDirectoryTag } from "./data"
 
 function normalizeTags(value: FormDataEntryValue | null) {
   if (typeof value !== "string") {
@@ -64,6 +65,7 @@ export async function addGarment(formData: FormData) {
     }
   })
 
+  revalidateTag(getGarmentDirectoryTag(), "max")
   revalidateTag(getCalculatorReferenceTag(), "max")
   revalidatePath("/dashboard/garments")
   revalidatePath("/dashboard/calculator")
@@ -91,6 +93,7 @@ export async function updateGarmentDetails(formData: FormData) {
     }
   })
 
+  revalidateTag(getGarmentDirectoryTag(), "max")
   revalidateTag(getCalculatorReferenceTag(), "max")
   revalidatePath("/dashboard/garments")
   revalidatePath("/dashboard/calculator")
@@ -105,6 +108,7 @@ export async function deleteGarment(id: string) {
     where: { id }
   })
 
+  revalidateTag(getGarmentDirectoryTag(), "max")
   revalidateTag(getCalculatorReferenceTag(), "max")
   revalidatePath("/dashboard/garments")
   revalidatePath("/dashboard/calculator")
