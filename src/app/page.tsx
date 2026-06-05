@@ -56,25 +56,7 @@ export default function Home() {
               </div>
             </div>
           </Link>
-
-          {/* Placeholder Card 1 */}
-          <div className="relative h-full bg-zinc-950/50 border border-zinc-800/50 p-8 rounded-2xl flex flex-col items-start opacity-70">
-            <div className="w-12 h-12 rounded-full bg-zinc-800/50 text-zinc-500 flex items-center justify-center mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" x2="12" y1="15" y2="3"/>
-              </svg>
-            </div>
-            <h2 className="text-xl font-bold text-zinc-300 mb-2 tracking-tight">Order Management</h2>
-            <p className="text-zinc-500 mb-6 flex-1 text-sm leading-relaxed">
-              Track and manage active merchandise orders, invoices, and fulfillment status.
-            </p>
-            <div className="mt-auto px-3 py-1 bg-zinc-800/80 rounded-full text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
-              Coming Soon
-            </div>
-          </div>
-
+          
           {/* Garment Directory Card */}
           <Link href="/dashboard/garments" className="group relative">
             <div className="absolute -inset-0.5 bg-gradient-to-br from-red-600 to-zinc-800 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
@@ -100,6 +82,84 @@ export default function Home() {
               </div>
             </div>
           </Link>
+
+          {/* Placeholder Card 1 */}
+          <div className="relative h-full bg-zinc-950/50 border border-zinc-800/50 p-8 rounded-2xl flex flex-col items-start opacity-70">
+            <div className="w-12 h-12 rounded-full bg-zinc-800/50 text-zinc-500 flex items-center justify-center mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" x2="12" y1="15" y2="3"/>
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-zinc-300 mb-2 tracking-tight">Order Management</h2>
+            <p className="text-zinc-500 mb-6 flex-1 text-sm leading-relaxed">
+              Track and manage active merchandise orders, invoices, and fulfillment status.
+            </p>
+            <div className="mt-auto px-3 py-1 bg-zinc-800/80 rounded-full text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+              Coming Soon
+            </div>
+          </div>
+
+          {/* PK Tax Placeholder */}
+          <div className="relative h-full bg-zinc-950/50 border border-zinc-800/50 p-8 rounded-2xl flex flex-col items-start opacity-70">
+            <div className="w-12 h-12 rounded-full bg-zinc-800/50 text-zinc-500 flex items-center justify-center mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" x2="12" y1="2" y2="22" />
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-zinc-300 mb-2 tracking-tight">PK Tax</h2>
+            <p className="text-zinc-500 mb-6 flex-1 text-sm leading-relaxed">
+              Placeholder for internal tax tools and tax-related calculations.
+            </p>
+            <div className="mt-auto px-3 py-1 bg-zinc-800/80 rounded-full text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+              Coming Soon
+            </div>
+          </div>
+
+          {/* Refferals Placeholder */}
+          <div className="relative h-full bg-zinc-950/50 border border-zinc-800/50 p-8 rounded-2xl flex flex-col items-start opacity-70">
+            <div className="w-12 h-12 rounded-full bg-zinc-800/50 text-zinc-500 flex items-center justify-center mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" x2="15.42" y1="13.51" y2="17.49" />
+                <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-zinc-300 mb-2 tracking-tight">Refferals</h2>
+            <p className="text-zinc-500 mb-6 flex-1 text-sm leading-relaxed">
+              Placeholder for tracking referral sources, partners, and rewards.
+            </p>
+            <div className="mt-auto px-3 py-1 bg-zinc-800/80 rounded-full text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+              Coming Soon
+            </div>
+          </div>
+
+          {/* US Calculator Placeholder */}
+          <div className="relative h-full bg-zinc-950/50 border border-zinc-800/50 p-8 rounded-2xl flex flex-col items-start opacity-70">
+            <div className="w-12 h-12 rounded-full bg-zinc-800/50 text-zinc-500 flex items-center justify-center mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect width="16" height="20" x="4" y="2" rx="2" />
+                <line x1="8" x2="16" y1="6" y2="6" />
+                <path d="M8 11h.01" />
+                <path d="M12 11h.01" />
+                <path d="M16 11h.01" />
+                <path d="M8 16h.01" />
+                <path d="M12 16h.01" />
+                <path d="M16 16h.01" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-zinc-300 mb-2 tracking-tight">US Calculator</h2>
+            <p className="text-zinc-500 mb-6 flex-1 text-sm leading-relaxed">
+              Placeholder for US pricing, currency, and market-specific calculations.
+            </p>
+            <div className="mt-auto px-3 py-1 bg-zinc-800/80 rounded-full text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+              Coming Soon
+            </div>
+          </div>
 
         </div>
       </main>
