@@ -1,71 +1,107 @@
-
 generator client {
   provider = "prisma-client-js"
 }
-
 
 datasource db {
   provider = "postgresql"
 }
 
-
 model Garment {
-  id        String   @id @default(uuid())
-  code      String
-  altCode   String   @default("")
-  brandName String   @default("")
-  name      String
-  color     String   @default("")
-  type      GarmentType
-  basePrice Float
+  id            String      @id @default(uuid())
+  code          String
+  altCode       String      @default("")
+  brandName     String      @default("")
+  name          String
+  color         String      @default("")
+  type          GarmentType
+  basePrice     Float
   extraSizeCost Float?
-  tags      String   @default("")
-  
-  designs   Design[]
+  tags          String      @default("")
+  designs       Design[]
 }
 
 model GarmentMarkup {
-  id            String       @id @default(uuid())
-  garmentType   GarmentType
-  markupValue   Float
+  id          String      @id @default(uuid())
+  garmentType GarmentType
+  markupValue Float
 }
 
 model PrintPrice {
-  id               String @id @default(uuid())
-  colorCount       Int
-  qtyMin           Int
-  qtyMax           Int
-  productionPrice  Float
-  pinsPrice        Float
+  id              String @id @default(uuid())
+  colorCount      Int
+  qtyMin          Int
+  qtyMax          Int
+  productionPrice Float
+  pinsPrice       Float
 }
 
 model Order {
   id        String   @id @default(uuid())
   vatRate   Float
   createdAt DateTime @default(now())
-
   designs   Design[]
 }
 
 model Design {
-  id         String   @id @default(uuid())
-  orderId    String
-  garmentId  String
-  quantity   Int
-
-  order      Order    @relation(fields: [orderId], references: [id])
-  garment    Garment  @relation(fields: [garmentId], references: [id])
-
-  prints     DesignPrint[]
+  id        String        @id @default(uuid())
+  orderId   String
+  garmentId String
+  quantity  Int
+  order     Order         @relation(fields: [orderId], references: [id])
+  garment   Garment       @relation(fields: [garmentId], references: [id])
+  prints    DesignPrint[]
 }
 
 model DesignPrint {
-  id          String @id @default(uuid())
-  designId    String
-  position    PrintPosition
-  colorCount  Int
+  id         String        @id @default(uuid())
+  designId   String
+  position   PrintPosition
+  colorCount Int
+  design     Design        @relation(fields: [designId], references: [id])
+}
 
-  design      Design @relation(fields: [designId], references: [id])
+model Customer {
+  id                  String               @id @default(uuid())
+  name                String
+  email               String?
+  phone               String?
+  referralCode        String               @unique
+  loyaltyPoints       Int                  @default(0)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  referralsMade       Referral[]           @relation("ReferrerCustomerReferrals")
+  referralsReceived   Referral[]           @relation("ReferredCustomerReferrals")
+  loyaltyTransactions LoyaltyTransaction[]
+
+  @@index([name])
+}
+
+model Referral {
+  id                 String         @id @default(uuid())
+  referrerCustomerId String
+  referredCustomerId String         @unique
+  referralCodeUsed   String
+  status             ReferralStatus @default(PENDING)
+  notes              String?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  referrerCustomer   Customer       @relation("ReferrerCustomerReferrals", fields: [referrerCustomerId], references: [id], onDelete: Cascade)
+  referredCustomer   Customer       @relation("ReferredCustomerReferrals", fields: [referredCustomerId], references: [id], onDelete: Cascade)
+
+  @@index([referrerCustomerId, status])
+  @@index([referralCodeUsed])
+}
+
+model LoyaltyTransaction {
+  id           String                 @id @default(uuid())
+  customerId   String
+  pointsChange Int
+  type         LoyaltyTransactionType
+  reason       String
+  createdAt    DateTime               @default(now())
+  customer     Customer               @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId, createdAt])
 }
 
 enum PrintPosition {
@@ -80,4 +116,18 @@ enum GarmentType {
   TSHIRT
   LONGSLEEVE
   HOODIE
+}
+
+enum ReferralStatus {
+  PENDING
+  CONVERTED
+  REWARDED
+  CANCELLED
+}
+
+enum LoyaltyTransactionType {
+  EARNED
+  REDEEMED
+  ADJUSTED
+  REFERRAL_BONUS
 }

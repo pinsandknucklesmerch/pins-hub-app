@@ -322,26 +322,26 @@ export default function DesignCard({
           </div>
         )}
 
-        <div className="mt-4 space-y-2">
-          <label className="flex items-center gap-2 text-sm font-medium text-zinc-400">
-            <input
-              type="checkbox"
-              checked={design.pkMarkupEnabled ?? false}
-              onChange={(e) => updatePkMarkupEnabled(e.target.checked)}
-              className="h-4 w-4 rounded border-zinc-700 bg-[#111219] text-red-500 focus:ring-red-500/50"
-            />
-            PK Markup
-          </label>
-          {design.pkMarkupEnabled && (
-            <input
-              type="text"
-              inputMode="decimal"
-              value={design.pkMarkupInput ?? String(design.pkMarkupPerUnit ?? 0)}
-              onChange={(e) => updatePkMarkupPerUnit(e.target.value)}
-              className="w-full max-w-xs border border-zinc-800 rounded-lg p-2.5 bg-[#111219] text-white focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 outline-none transition-shadow"
-            />
-          )}
-        </div>
+      <div className="mt-4 space-y-2">
+        <label className="flex items-center gap-2 text-sm font-medium text-zinc-400">
+          <input
+            type="checkbox"
+            checked={design.pkMarkupEnabled ?? false}
+            onChange={(e) => updatePkMarkupEnabled(e.target.checked)}
+            className="h-4 w-4 rounded border-zinc-700 bg-[#111219] text-red-500 focus:ring-red-500/50"
+          />
+          PK Markup
+        </label>
+        {design.pkMarkupEnabled && (
+          <input
+            type="text"
+            inputMode="decimal"
+            value={design.pkMarkupInput ?? String(design.pkMarkupPerUnit ?? 0)}
+            onChange={(e) => updatePkMarkupPerUnit(e.target.value)}
+            className="w-full max-w-xs border border-zinc-800 rounded-lg p-2.5 bg-[#111219] text-white focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 outline-none transition-shadow"
+          />
+        )}
+      </div>
       </div>
     </div>
   )

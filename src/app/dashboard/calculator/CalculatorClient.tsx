@@ -70,6 +70,8 @@ export default function CalculatorClient({
   const [isDeliveryHelperEnabled, setIsDeliveryHelperEnabled] = useState(false)
   const [deliveryCountry, setDeliveryCountry] = useState("Germany")
   const [deliveryBoxCount, setDeliveryBoxCount] = useState(1)
+  const [deliveryMarkupEnabled, setDeliveryMarkupEnabled] = useState(false)
+  const [deliveryMarkupInput, setDeliveryMarkupInput] = useState("0")
   const vatRate = 27 // Hardcoded VAT Rate at 27%
   const CURRENCY = "€"
 
@@ -158,9 +160,30 @@ export default function CalculatorClient({
     return DELIVERY_RATES.find((rate) => rate.country === deliveryCountry) ?? DELIVERY_RATES[0]
   }, [deliveryCountry])
 
-  const deliveryTotalCost = useMemo(() => {
+  const deliveryMarkupPerBox = useMemo(() => {
+    const parsedValue = Number(deliveryMarkupInput)
+    return Number.isFinite(parsedValue) ? parsedValue : 0
+  }, [deliveryMarkupInput])
+
+  const deliveryBaseExclVat = useMemo(() => {
     return deliveryBoxCount * selectedDeliveryRate.cost
   }, [deliveryBoxCount, selectedDeliveryRate])
+
+  const deliveryMarkupExclVat = useMemo(() => {
+    return deliveryMarkupEnabled ? deliveryBoxCount * deliveryMarkupPerBox : 0
+  }, [deliveryBoxCount, deliveryMarkupEnabled, deliveryMarkupPerBox])
+
+  const deliverySubtotalExclVat = useMemo(() => {
+    return deliveryBaseExclVat + deliveryMarkupExclVat
+  }, [deliveryBaseExclVat, deliveryMarkupExclVat])
+
+  const deliveryVatAmount = useMemo(() => {
+    return deliverySubtotalExclVat * (vatRate / 100)
+  }, [deliverySubtotalExclVat, vatRate])
+
+  const deliveryTotalInclVat = useMemo(() => {
+    return deliverySubtotalExclVat + deliveryVatAmount
+  }, [deliverySubtotalExclVat, deliveryVatAmount])
 
   const displayProductionSubtotalExclVat = hasGarmentSelected ? productionSubtotalExclVat : 0
   const displayPinsSubtotalExclVat = hasGarmentSelected ? pinsSubtotalExclVat : 0
@@ -203,8 +226,13 @@ export default function CalculatorClient({
       `Delivery Country: ${selectedDeliveryRate.country}`,
       `Delivery Time: ${selectedDeliveryRate.deliveryTime}`,
       `Boxes: ${deliveryBoxCount}`,
-      `Cost Per Box: ${CURRENCY}${selectedDeliveryRate.cost}`,
-      `Total Delivery Cost: ${CURRENCY}${deliveryTotalCost}`
+      `Cost Per Box: ${CURRENCY}${selectedDeliveryRate.cost} excl. VAT`,
+      ...(deliveryMarkupEnabled
+        ? [`Delivery Markup: ${CURRENCY}${deliveryMarkupExclVat.toFixed(2)} excl. VAT`]
+        : []),
+      `Delivery Subtotal Excl. VAT: ${CURRENCY}${deliverySubtotalExclVat.toFixed(2)}`,
+      `VAT (${vatRate}%): ${CURRENCY}${deliveryVatAmount.toFixed(2)}`,
+      `Total Delivery Cost Incl. VAT: ${CURRENCY}${deliveryTotalInclVat.toFixed(2)}`
     ].join("\n")
 
     await copyToClipboard(deliveryInfo)
@@ -305,7 +333,7 @@ export default function CalculatorClient({
                     Cost Per Box
                   </label>
                   <div className="rounded-lg border border-zinc-800 bg-[#111219] px-3 py-2.5 text-sm font-semibold text-zinc-200">
-                    {CURRENCY}{selectedDeliveryRate.cost}
+                    {CURRENCY}{selectedDeliveryRate.cost} <span className="text-zinc-500">excl. VAT</span>
                   </div>
                 </div>
 
@@ -319,27 +347,47 @@ export default function CalculatorClient({
                 </div>
 
                 <div>
-                  <label className="mb-2 block text-xs font-bold uppercase tracking-widest text-zinc-500">
-                    Total Delivery Cost
+                  <label className="flex items-center gap-2 text-sm font-medium text-zinc-400">
+                    <input
+                      type="checkbox"
+                      checked={deliveryMarkupEnabled}
+                      onChange={(e) => setDeliveryMarkupEnabled(e.target.checked)}
+                      className="h-4 w-4 rounded border-zinc-700 bg-[#111219] text-red-500 focus:ring-red-500/50"
+                    />
+                    Delivery Markup
                   </label>
-                  <div className="rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2.5 text-sm font-bold text-red-300">
-                    {CURRENCY}{deliveryTotalCost}
-                  </div>
+                  {deliveryMarkupEnabled ? (
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      value={deliveryMarkupInput}
+                      onChange={(e) => {
+                        if (!/^-?\d*\.?\d*$/.test(e.target.value)) return
+                        setDeliveryMarkupInput(e.target.value)
+                      }}
+                      placeholder="Markup per box excl. VAT"
+                      className="mt-2 w-full rounded-lg border border-zinc-800 bg-[#111219] p-2.5 text-white outline-none transition-shadow focus:border-red-500/50 focus:ring-2 focus:ring-red-500/50 placeholder:text-zinc-500"
+                    />
+                  ) : (
+                    <div className="mt-2 rounded-lg border border-zinc-800 bg-[#111219] px-3 py-2.5 text-sm text-zinc-500">
+                      No delivery markup applied
+                    </div>
+                  )}
                 </div>
               </div>
 
-              <div className="rounded-xl border border-zinc-800 bg-[#0f1016] p-4">
+              <button
+                type="button"
+                onClick={handleDeliveryCopyClick}
+                className="rounded-xl border border-zinc-800 bg-[#0f1016] p-4 text-left transition-colors hover:border-red-500/30 hover:bg-[#13151d]"
+              >
                 <div className="mb-3 flex items-center justify-between gap-3">
                   <p className="text-xs font-black uppercase tracking-widest text-zinc-500">
                     Delivery Summary
                   </p>
-                  <button
-                    type="button"
-                    onClick={handleDeliveryCopyClick}
-                    className="rounded-lg border border-red-500/20 bg-red-600/10 px-3 py-2 text-xs font-bold text-red-400 transition-colors hover:bg-red-600/20 hover:border-red-500/40"
-                  >
+                  <span className="rounded-lg border border-red-500/20 bg-red-600/10 px-3 py-2 text-xs font-bold text-red-400 transition-colors">
                     Copy Delivery Info
-                  </button>
+                  </span>
                 </div>
 
                 <div className="space-y-3 text-sm">
@@ -353,18 +401,32 @@ export default function CalculatorClient({
                   </div>
                   <div className="flex items-center justify-between gap-4 text-zinc-400">
                     <span>Cost Per Box</span>
-                    <span className="font-mono text-zinc-200">{CURRENCY}{selectedDeliveryRate.cost}</span>
+                    <span className="font-mono text-zinc-200">{CURRENCY}{selectedDeliveryRate.cost} excl. VAT</span>
                   </div>
                   <div className="flex items-center justify-between gap-4 text-zinc-400">
                     <span>Number of Boxes</span>
                     <span className="font-mono text-zinc-200">{deliveryBoxCount}</span>
                   </div>
+                  {deliveryMarkupEnabled ? (
+                    <div className="flex items-center justify-between gap-4 text-zinc-400">
+                      <span>Delivery Markup</span>
+                      <span className="font-mono text-zinc-200">{CURRENCY}{deliveryMarkupExclVat.toFixed(2)} excl. VAT</span>
+                    </div>
+                  ) : null}
+                  <div className="flex items-center justify-between gap-4 text-zinc-400">
+                    <span>Subtotal Excl. VAT</span>
+                    <span className="font-mono text-zinc-200">{CURRENCY}{deliverySubtotalExclVat.toFixed(2)}</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 text-zinc-400">
+                    <span>VAT ({vatRate}%)</span>
+                    <span className="font-mono text-zinc-200">{CURRENCY}{deliveryVatAmount.toFixed(2)}</span>
+                  </div>
                   <div className="flex items-center justify-between gap-4 border-t border-zinc-800 pt-3 text-zinc-300">
-                    <span className="font-semibold">Total Delivery Cost</span>
-                    <span className="font-mono font-bold text-red-300">{CURRENCY}{deliveryTotalCost}</span>
+                    <span className="font-semibold">Total Delivery Cost Incl. VAT</span>
+                    <span className="font-mono font-bold text-red-300">{CURRENCY}{deliveryTotalInclVat.toFixed(2)}</span>
                   </div>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
         )}
