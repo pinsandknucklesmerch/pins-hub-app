@@ -260,7 +260,8 @@ export default function CalculatorClient({
   const handleCopyClick = async () => {
     if (!hasGarmentSelected) return
 
-    let body = "EU Price Calculator Quote\n\n"
+    // let body = "EU Price Calculator Quote\n\n"
+     let body = ""
     breakdowns.forEach((b, idx) => {
       const d = designs[idx]
       if (!d) return
@@ -291,7 +292,7 @@ export default function CalculatorClient({
     if (!isDeliveryHelperEnabled) return
 
     const deliveryInfo = [
-      "EU Price Calculator Delivery Helper",
+      // "EU Price Calculator Delivery Helper",
       "",
       `Delivery Country: ${selectedDeliveryRate.country}`,
       `Delivery Time: ${selectedDeliveryRate.deliveryTime}`,

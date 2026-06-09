@@ -308,6 +308,7 @@ export default function PkTaxCalculatorClient() {
   const [isResultsOpen, setIsResultsOpen] = useState(false)
   const [isBreakdownOpen, setIsBreakdownOpen] = useState(false)
   const [isTotalsOpen, setIsTotalsOpen] = useState(false)
+  const [isFactoryInvoiceOpen, setIsFactoryInvoiceOpen] = useState(false)
   const [rows, setRows] = useState<AccountManagerMonthlyInput[]>(createDefaultRows())
   const [nextRowId, setNextRowId] = useState(7)
 
@@ -552,6 +553,11 @@ export default function PkTaxCalculatorClient() {
     totals.companyProfit === 0 || totals.snuggleProfit === 0 || totals.pkTax === 0 || totals.orders === 0
   const noEligibleWeightedScore =
     breakdown.eligibleWeightedScoreTotal <= 0 && breakdown.totalSharedSalesTeamPool > 0
+  const factoryPkTaxPortion = breakdown.totalNetsuitePkTax * 0.4
+  const factoryAdminFees = breakdown.totalNetsuitePkTax * 0.1
+  const factoryMarketing = breakdown.totalNetsuitePkTax * 0.05
+  const factoryOperations = breakdown.totalNetsuitePkTax * 0.05
+  const factoryInvoiceTotal = breakdown.totalNetsuitePkTax * 0.6
 
   function updateRow(id: number, field: keyof AccountManagerMonthlyInput, value: string) {
     setRows((currentRows) =>
@@ -642,6 +648,15 @@ export default function PkTaxCalculatorClient() {
       toast.success("PK Tax summary copied.")
     } catch {
       toast.error("Failed to copy PK Tax summary.")
+    }
+  }
+
+  async function handleCopyFactoryInvoiceTotal() {
+    try {
+      await copyToClipboard(formatCurrencyGbp(factoryInvoiceTotal))
+      toast.success("Factory invoice total copied.")
+    } catch {
+      toast.error("Failed to copy factory invoice total.")
     }
   }
 
@@ -1090,6 +1105,62 @@ export default function PkTaxCalculatorClient() {
               <span>Eligible weighted score total</span>
               <span>{formatPercent(breakdown.eligibleWeightedScoreTotal)}</span>
             </div>
+          </div>
+        </div>
+      </AccordionSection>
+
+      <AccordionSection
+        title="Factory Invoice"
+        description="Expand to view the invoice total Justin Baker / EPCC should be billed for the Netsuite PK Tax portion only."
+        isOpen={isFactoryInvoiceOpen}
+        onToggle={() => setIsFactoryInvoiceOpen((current) => !current)}
+      >
+        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <p className="max-w-3xl text-sm leading-6 text-zinc-400">
+            Invoice Justin Baker / EPCC for this GBP total. This is 60% of the total Netsuite PK
+            Tax and does not include any Snuggle profit.
+          </p>
+
+          <button
+            type="button"
+            onClick={handleCopyFactoryInvoiceTotal}
+            className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-200 transition hover:border-red-500/50 hover:bg-red-500/15"
+          >
+            Copy Factory Invoice Total
+          </button>
+        </div>
+
+        <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
+          <div className="space-y-3 rounded-2xl border border-zinc-800 bg-[#12131a] p-4 text-sm text-zinc-300">
+            <div className="flex items-center justify-between">
+              <span>EPCC / PK Tax portion, 40% of total Netsuite PK Tax</span>
+              <span>{formatCurrencyGbp(factoryPkTaxPortion)}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Admin / bank fees, 10% of total Netsuite PK Tax</span>
+              <span>{formatCurrencyGbp(factoryAdminFees)}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Marketing, 5% of total Netsuite PK Tax</span>
+              <span>{formatCurrencyGbp(factoryMarketing)}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span>Operations, 5% of total Netsuite PK Tax</span>
+              <span>{formatCurrencyGbp(factoryOperations)}</span>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-5">
+            <p className="text-[10px] font-black uppercase tracking-[0.24em] text-red-400/80">
+              Factory Invoice Total
+            </p>
+            <p className="mt-3 text-3xl font-black tracking-tight text-white sm:text-4xl">
+              {formatCurrencyGbp(factoryInvoiceTotal)}
+            </p>
+            <p className="mt-3 text-sm leading-6 text-zinc-400">
+              This total is based only on Netsuite PK Tax at 60% and is separate from all account
+              manager payouts, Snuggle values, and ZAR totals.
+            </p>
           </div>
         </div>
       </AccordionSection>
