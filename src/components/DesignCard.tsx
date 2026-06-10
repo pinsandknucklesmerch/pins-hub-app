@@ -15,6 +15,7 @@ export type Design = {
   garmentId?: string
   quantity: number
   positions: Record<string, number>
+  itemLabel?: string
   pkMarkupEnabled?: boolean
   pkMarkupInput?: string
   pkMarkupPerUnit?: number
@@ -28,6 +29,22 @@ export type DesignCostBreakdown = {
   pkMarkupCost: number
   garmentName?: string
   quantity: number
+}
+
+const MIN_COLOR_COUNT = 1
+const MAX_COLOR_COUNT = 9
+const COLOR_COUNT_WARNING = "Acceptable color counts are between 1 and 9."
+
+function getDefaultItemLabel(itemNumber?: number) {
+  return itemNumber ? `Item #${itemNumber}` : "Item"
+}
+
+function getColorInputState(positions: Record<string, number>) {
+  return Object.fromEntries(
+    Object.entries(positions)
+      .filter(([, colorCount]) => colorCount > 0)
+      .map(([position, colorCount]) => [position, String(colorCount)])
+  )
 }
 
 export function getPrintUnitPrices(
@@ -157,7 +174,7 @@ function GarmentSelector({
         className="w-full border border-zinc-800 rounded-lg p-2.5 bg-[#111219] text-white focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 outline-none transition-shadow placeholder:text-zinc-500"
       />
       {isOpen && (
-        <ul className="absolute z-10 min-w-full w-max mt-2 max-h-60 overflow-auto bg-[#0b0c10] border border-zinc-800 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+        <ul className="absolute z-10 w-full mt-2 max-h-60 overflow-auto bg-[#0b0c10] border border-zinc-800 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
           {filtered.length === 0 ? (
             <li className="p-3 text-sm text-zinc-500">No garments found.</li>
           ) : (
@@ -197,6 +214,11 @@ export default function DesignCard({
   onChange: (d: Design) => void
   onRemove?: () => void
 }) {
+  const [colorInputs, setColorInputs] = useState<Record<string, string>>(() =>
+    getColorInputState(design.positions)
+  )
+  const [colorError, setColorError] = useState<string>("")
+
   function updateQuantity(value: number) {
     onChange({ ...design, quantity: value })
   }
@@ -213,6 +235,69 @@ export default function DesignCard({
         [position]: colors
       }
     })
+  }
+
+  function togglePosition(position: string, isSelected: boolean) {
+    if (isSelected) {
+      setColorInputs((current) => {
+        const next = { ...current }
+        delete next[position]
+        return next
+      })
+      updatePositionColor(position, 0)
+      return
+    }
+
+    setColorInputs((current) => ({ ...current, [position]: String(MIN_COLOR_COUNT) }))
+    updatePositionColor(position, MIN_COLOR_COUNT)
+  }
+
+  function updatePositionColorInput(position: string, value: string) {
+    if (!/^\d*$/.test(value)) return
+
+    setColorInputs((current) => ({ ...current, [position]: value }))
+
+    if (value === "") return
+
+    const parsedValue = Number(value)
+    if (
+      Number.isInteger(parsedValue) &&
+      parsedValue >= MIN_COLOR_COUNT &&
+      parsedValue <= MAX_COLOR_COUNT
+    ) {
+      updatePositionColor(position, parsedValue)
+    }
+  }
+
+  function normalizePositionColorInput(position: string) {
+    const value = colorInputs[position] ?? ""
+    const parsedValue = Number(value)
+    const isValid =
+      value !== "" &&
+      Number.isInteger(parsedValue) &&
+      parsedValue >= MIN_COLOR_COUNT &&
+      parsedValue <= MAX_COLOR_COUNT
+
+    if (!isValid) {
+      setColorError(COLOR_COUNT_WARNING)
+      setColorInputs((current) => ({
+        ...current,
+        [position]: String(MIN_COLOR_COUNT)
+      }))
+      updatePositionColor(position, MIN_COLOR_COUNT)
+      return
+    }
+
+    setColorError("")
+    const normalizedValue = String(parsedValue)
+    if (value !== normalizedValue) {
+      setColorInputs((current) => ({
+        ...current,
+        [position]: normalizedValue
+      }))
+    }
+
+    updatePositionColor(position, parsedValue)
   }
 
   function updatePkMarkupEnabled(enabled: boolean) {
@@ -234,10 +319,29 @@ export default function DesignCard({
     })
   }
 
+  const defaultItemLabel = getDefaultItemLabel(itemNumber)
+  const itemLabelValue = design.itemLabel ?? defaultItemLabel
+
+  function updateItemLabel(value: string) {
+    onChange({
+      ...design,
+      itemLabel: value
+    })
+  }
+
+  function normalizeItemLabel() {
+    const trimmedValue = (design.itemLabel ?? "").trim()
+
+    onChange({
+      ...design,
+      itemLabel: trimmedValue || undefined
+    })
+  }
+
 
 
   return (
-    <div className="relative w-full min-h-[380px] bg-[#0b0c10] border border-zinc-800/80 p-6 mb-6 rounded-2xl shadow-[0_0_15px_rgba(0,0,0,0.2)]">
+    <div className="relative w-full min-w-0 max-w-full min-h-[380px] overflow-hidden bg-[#0b0c10] border border-zinc-800/80 p-6 mb-6 rounded-2xl shadow-[0_0_15px_rgba(0,0,0,0.2)]">
       {onRemove && (
         <button
           onClick={onRemove}
@@ -249,9 +353,16 @@ export default function DesignCard({
           </svg>
         </button>
       )}
-      <label className="block text-lg font-bold text-zinc-300 mb-2">
-        {itemNumber ? `Item #${itemNumber}` : "Item"}
-      </label>
+      <div className="mb-2">
+        <input
+          type="text"
+          value={itemLabelValue}
+          onChange={(e) => updateItemLabel(e.target.value)}
+          onBlur={normalizeItemLabel}
+          aria-label={`Item ${itemNumber ?? 1} label`}
+          className="w-64 rounded-lg border border-zinc-800 bg-[#111219] px-3 py-2.5 text-lg font-bold text-zinc-100 outline-none transition-shadow placeholder:text-zinc-600 focus:border-red-500/50 focus:ring-2 focus:ring-red-500/40"
+        />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
@@ -285,13 +396,7 @@ export default function DesignCard({
               <button
                 key={pos.value}
                 type="button"
-                onClick={() => {
-                  if (isSelected) {
-                    updatePositionColor(pos.value, 0)
-                  } else {
-                    updatePositionColor(pos.value, 1)
-                  }
-                }}
+                onClick={() => togglePosition(pos.value, isSelected)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium border transition-all cursor-pointer ${
                   isSelected
                     ? "bg-red-500/10 text-red-400 border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
@@ -303,7 +408,7 @@ export default function DesignCard({
             )
           })}
         </div>
-
+{/* 
         {Object.keys(design.positions).some(p => design.positions[p] > 0) && (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 border border-zinc-800/50 bg-[#111219]/50 rounded-xl">
             {PRINT_POSITIONS.filter(pos => (design.positions[pos.value] || 0) > 0).map((pos) => (
@@ -313,14 +418,43 @@ export default function DesignCard({
                   type="number"
                   min={1}
                   max={9}
-                  value={design.positions[pos.value]}
-                  onChange={(e) => updatePositionColor(pos.value, parseInt(e.target.value) || 1)}
+                  value={colorInputs[pos.value] ?? ""}
+                  onChange={(e) => updatePositionColorInput(pos.value, e.target.value)}
+                  onBlur={() => normalizePositionColorInput(pos.value)}
                   className="w-full border border-zinc-800 rounded-lg p-2.5 bg-[#0b0c10] text-white focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 outline-none transition-shadow"
                 />
+                {colorError && (
+                  <p className="text-xs text-red-400 mt-1">{colorError}</p>
+                )}
               </div>
             ))}
           </div>
+        )} */}
+        <div className="min-h-[120px] grid grid-cols-2 md:grid-cols-3 gap-4 p-4 border border-zinc-800/50 bg-[#111219]/50 rounded-xl">
+  {PRINT_POSITIONS.filter(pos => (design.positions[pos.value] || 0) > 0).map((pos) => (
+    <div key={pos.value} className="flex flex-col">
+      <label className="text-xs font-bold text-red-400 mb-2 uppercase tracking-wider">
+        {pos.label} Colors
+      </label>
+
+      <input
+        type="number"
+        min={1}
+        max={9}
+        value={colorInputs[pos.value] ?? ""}
+        onChange={(e) => updatePositionColorInput(pos.value, e.target.value)}
+        onBlur={() => normalizePositionColorInput(pos.value)}
+        className="w-full border border-zinc-800 rounded-lg p-2.5 bg-[#0b0c10] text-white focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 outline-none transition-shadow"
+      />
+
+      <div className="min-h-[18px]">
+        {colorError && (
+          <p className="text-xs text-red-400 mt-1">{colorError}</p>
         )}
+      </div>
+    </div>
+  ))}
+</div>
 
       <div className="mt-4 space-y-2">
         <label className="flex items-center gap-2 text-sm font-medium text-zinc-400">

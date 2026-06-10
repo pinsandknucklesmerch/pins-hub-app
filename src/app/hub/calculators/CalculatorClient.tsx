@@ -9,6 +9,7 @@ import DesignCard, {
   PRINT_POSITIONS
 } from "@/components/DesignCard"
 import type { Garment, GarmentMarkup, PrintPrice } from "@prisma/client"
+import { formatDeliveryCopy, getQuoteFormatter } from "./copyFormatters"
 
 const DELIVERY_RATES = [
   { country: "Austria", cost: 25, deliveryTime: "1 day" },
@@ -262,52 +263,37 @@ export default function CalculatorClient({
   const handleCopyClick = async () => {
     if (!hasGarmentSelected) return
 
-    let body = `${calculatorTitle} Quote\n\n`
-    breakdowns.forEach((b, idx) => {
-      const d = designs[idx]
-      if (!d) return
-      const garment = garments.find((g) => g.id === d.garmentId)
-
-      const garmentCode = garment?.code || ""
-      const garmentName = garment?.name || "No garment"
-      const positionsText = Object.entries(d.positions).filter(([, c]) => c > 0).map(([p, c]) => `${c} Col ${PRINT_POSITIONS.find((pos) => pos.value === p)?.label || p}`).join(", ")
-      
-      const baseCostPerUnit = d.quantity > 0 ? b.baseCost / d.quantity : 0
-      const markupCostPerUnit = d.quantity > 0 ? b.markupCost / d.quantity : 0
-      const pinsCostPerUnit = d.quantity > 0 ? b.pinsCost / d.quantity : 0
-      const pkMarkupCostPerUnit = d.quantity > 0 ? b.pkMarkupCost / d.quantity : 0
-      
-      const unitExclVat = baseCostPerUnit + markupCostPerUnit + pinsCostPerUnit + pkMarkupCostPerUnit
-      const subtotalExclVat = b.baseCost + b.pinsCost + b.markupCost + b.pkMarkupCost
-      const totalInclVat = subtotalExclVat * (1 + vatRate / 100)
-
-      body += `Item ${idx + 1}:\n\n${garmentCode}  ${garmentName} (${positionsText})\n`
-      body += `${d.quantity} x ${CURRENCY}${unitExclVat.toFixed(2)} (excl vat) ea = ${CURRENCY}${totalInclVat.toFixed(2)}\n\n`
+    const quoteFormatter = getQuoteFormatter(calculatorTitle)
+    const body = quoteFormatter({
+      designs,
+      breakdowns,
+      garments,
+      currency: CURRENCY,
+      vatRate
     })
 
     await copyToClipboard(body)
-    toast.success(`${calculatorTitle} quote copied to clipboard`)
+    toast.success(`Quote copied to clipboard`)
   }
 
   const handleDeliveryCopyClick = async () => {
     if (!isDeliveryHelperEnabled) return
 
-    const deliveryInfo = [
-      `${calculatorTitle} Delivery Helper`,
-      "",
-      `Delivery Country: ${selectedDeliveryRate.country}`,
-      `Delivery Time: ${selectedDeliveryRate.deliveryTime}`,
-      `Boxes: ${deliveryBoxCount}`,
-      `Cost Per Box: ${CURRENCY}${deliverySubtotalExclVat.toFixed(2)} excl. VAT`,
-      `Total Delivery Cost Incl. VAT: ${CURRENCY}${deliveryTotalInclVat.toFixed(2)}`
-    ].join("\n")
+    const deliveryInfo = formatDeliveryCopy({
+      country: selectedDeliveryRate.country,
+      deliveryTime: selectedDeliveryRate.deliveryTime,
+      boxCount: deliveryBoxCount,
+      costPerBox: deliverySubtotalExclVat,
+      totalInclVat: deliveryTotalInclVat,
+      currency: CURRENCY
+    })
 
     await copyToClipboard(deliveryInfo)
-    toast.success(`${calculatorTitle} delivery info copied to clipboard`)
+    toast.success(`Delivery info copied to clipboard`)
   }
 
   return (
-    <div className="w-full max-w-5xl">
+  <div className="w-full max-w-5xl min-w-0 overflow-x-hidden">
       {designs.map((design, i) => (
         <DesignCard
           key={i}
@@ -332,7 +318,7 @@ export default function CalculatorClient({
         </button>
       </div>
 
-      <div className="mt-6 bg-[#0b0c10] border border-red-500/20 rounded-2xl overflow-hidden shadow-[0_0_15px_rgba(239,68,68,0.08)]">
+      <div className="mt-6 min-h-[96px] bg-[#0b0c10] border border-red-500/20 rounded-2xl overflow-hidden shadow-[0_0_15px_rgba(239,68,68,0.08)]">
         <div className="px-6 py-4 bg-[#111219] flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-3">
             <label className="flex items-center gap-3 text-sm font-semibold text-zinc-200">
@@ -579,14 +565,11 @@ export default function CalculatorClient({
       )}
 
       {/* Pricing Container - always mounted so selecting a garment does not shift layout */}
-      <div
-        className={
-          hasGarmentSelected
-            ? "mt-8 min-h-[360px] rounded-2xl border border-zinc-200/60 bg-zinc-100/30 p-6 dark:border-zinc-800/80 dark:bg-zinc-900/10"
-            : "hidden"
-        }
-      >
-          
+    <div
+  className={`mt-8 min-h-[360px] rounded-2xl border border-zinc-200/60 bg-zinc-100/30 p-6 transition-opacity dark:border-zinc-800/80 dark:bg-zinc-900/10 ${
+    hasGarmentSelected ? "opacity-100" : "opacity-0 pointer-events-none"
+  }`}
+>
           {/* Cost Categories Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
@@ -670,7 +653,7 @@ export default function CalculatorClient({
                         return (
                           <div key={idx} className="space-y-3 pb-3 border-b border-zinc-900 last:border-0 last:pb-0">
                             <div className="flex justify-between items-center text-[10px] font-bold text-zinc-500 uppercase tracking-wider">
-                              <span>Item #{idx + 1} - {garment?.name || "No garment"}</span>
+                              <span>{d.itemLabel?.trim() || `Item #${idx + 1}`} - {garment?.name || "No garment"}</span>
                               <span className="shrink-0 whitespace-nowrap font-mono text-zinc-400">{d.quantity} units</span>
                             </div>
                             
@@ -742,7 +725,7 @@ export default function CalculatorClient({
                         return (
                           <div key={idx} className="space-y-3 pb-3 border-b border-zinc-900 last:border-0 last:pb-0">
                             <div className="flex justify-between items-center text-[10px] font-bold text-zinc-500 uppercase tracking-wider">
-                              <span>Item #{idx + 1} - {garment?.name || "No garment"}</span>
+                              <span>{d.itemLabel?.trim() || `Item #${idx + 1}`} - {garment?.name || "No garment"}</span>
                               <span className="shrink-0 whitespace-nowrap font-mono text-zinc-400">{d.quantity} units</span>
                             </div>
                             {garment && (

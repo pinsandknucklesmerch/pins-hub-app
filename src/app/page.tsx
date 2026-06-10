@@ -146,34 +146,6 @@ export default function Home() {
             }
           />
 
-          <NavigationCard
-            title="US Calculator"
-            description="Placeholder for US pricing, currency, and market-specific calculations."
-            badge="Coming Soon"
-            disabled
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <rect width="16" height="20" x="4" y="2" rx="2" />
-                <line x1="8" x2="16" y1="6" y2="6" />
-                <path d="M8 11h.01" />
-                <path d="M12 11h.01" />
-                <path d="M16 11h.01" />
-                <path d="M8 16h.01" />
-                <path d="M12 16h.01" />
-                <path d="M16 16h.01" />
-              </svg>
-            }
-          />
         </div>
       </main>
     </div>
