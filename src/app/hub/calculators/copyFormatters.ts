@@ -52,12 +52,13 @@ export function formatEuQuoteCopy({
       const subtotalExclVat =
         breakdown.baseCost + breakdown.pinsCost + breakdown.markupCost + breakdown.pkMarkupCost
       const unitExclVat = design.quantity > 0 ? subtotalExclVat / design.quantity : 0
+      const subtotalInclVat = subtotalExclVat * 1.27 // or use vatRate if available
 
       return [
         `${getItemLabel(design, index)}:`,
         "",
         `${garmentCode} ${garmentName}${positionsText ? ` (${positionsText})` : ""}`,
-        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} (excl vat) ea = ${currency}${subtotalExclVat.toFixed(2)}`
+        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} (excl vat) ea = ${currency}${subtotalInclVat.toFixed(2)}`
       ].join("\n")
     })
     .filter((entry): entry is string => Boolean(entry))
