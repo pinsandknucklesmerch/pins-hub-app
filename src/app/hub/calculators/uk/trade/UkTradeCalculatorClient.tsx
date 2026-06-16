@@ -38,9 +38,7 @@ function getSelectedPositionEntries(positions: Record<string, number>) {
 }
 
 function getGarmentDisplayName(garment?: Garment) {
-  if (!garment) {
-    return "No garment"
-  }
+  if (!garment) return "No garment"
 
   return [garment.brandName, garment.name, garment.color].filter(Boolean).join(" - ")
 }
@@ -167,7 +165,7 @@ export default function UkTradeCalculatorClient({
   }, [breakdowns])
 
   return (
-    <div className="grid w-full min-w-0 gap-5 overflow-x-hidden xl:grid-cols-[minmax(0,1fr)_420px] 2xl:grid-cols-[minmax(0,1fr)_480px]">
+    <div className="grid w-full min-w-0 gap-5 overflow-x-hidden xl:grid-cols-[minmax(0,1fr)_minmax(420px,0.9fr)]">
       <div className="max-w-[900px] space-y-4">
         {designs.map((design, index) => (
           <UkTradeDesignCard
@@ -210,127 +208,134 @@ export default function UkTradeCalculatorClient({
             hasAnyGarmentSelected ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-1">
-            <div className="rounded-2xl border border-brand-border bg-brand-panel p-5 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
+          <div className="grid gap-3 md:grid-cols-2">
+            <div className="rounded-2xl border border-brand-border bg-brand-panel p-6 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
               <p className="text-xs font-bold uppercase tracking-widest text-brand-muted/80">
                 Garment Cost
               </p>
-              <p className="mt-3 text-3xl font-black tabular-nums text-brand-cream/90">
+              <p className="mt-3 text-4xl font-black tabular-nums text-brand-cream/90">
                 {formatCurrency(totals.garmentCost)}
               </p>
             </div>
 
-            <div className="rounded-2xl border border-brand-border bg-brand-panel p-5 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
-              <p className="text-xs font-bold uppercase tracking-widest text-brand-muted/80">
-                Print Cost
-              </p>
-              <p className="mt-3 text-3xl font-black tabular-nums text-brand-cream/90">
-                {formatCurrency(totals.printCost)}
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-brand-border bg-brand-panel p-5 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
-              <p className="text-xs font-bold uppercase tracking-widest text-brand-muted/80">
-                Setup Cost
-              </p>
-              <p className="mt-3 text-3xl font-black tabular-nums text-brand-cream/90">
-                {formatCurrency(totals.setupCost)}
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-blue-500/30 bg-brand-panel p-5 shadow-[0_0_20px_rgba(59,130,246,0.06)]">
+            <div className="rounded-2xl border border-blue-500/30 bg-brand-panel p-6 shadow-[0_0_20px_rgba(59,130,246,0.06)]">
               <p className="text-xs font-bold uppercase tracking-widest text-brand-muted/80">
                 Total Cost
               </p>
-              <p className="mt-3 text-3xl font-black tabular-nums text-sky-400">
+              <p className="mt-3 text-4xl font-black tabular-nums text-sky-400">
                 {formatCurrency(totals.totalCost)}
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-brand-border bg-brand-panel p-5 shadow-[0_0_15px_rgba(0,0,0,0.2)] sm:col-span-2 xl:col-span-1">
-              <p className="text-xs font-bold uppercase tracking-widest text-brand-muted/80">
-                Cost Per Unit
-              </p>
-              <p className="mt-3 text-3xl font-black tabular-nums text-brand-cream/90">
-                {formatCurrency(totals.costPerUnit)}
-              </p>
-              <p className="mt-2 text-sm text-brand-muted">
-                Based on {totals.totalQuantity} valid unit
-                {totals.totalQuantity === 1 ? "" : "s"} across {totals.validItemCount} valid
-                item{totals.validItemCount === 1 ? "" : "s"}.
               </p>
             </div>
           </div>
 
           <div className="mt-6 rounded-2xl border border-brand-border bg-brand-panel shadow-[0_0_15px_rgba(0,0,0,0.2)]">
-            <div className="border-b border-brand-border bg-brand-panel-alt px-6 py-4">
+            <div className="flex items-center justify-between border-b border-brand-border bg-brand-panel-alt px-6 py-4">
               <h2 className="text-xs font-bold uppercase tracking-widest text-brand-muted">
-                Item Breakdown
+                Breakdown
               </h2>
+              <span className="text-brand-muted">⌄</span>
             </div>
 
-            <div className="space-y-4 px-6 py-5">
-              {breakdowns.map((breakdown, index) => (
-                <div
-                  key={index}
-                  className="space-y-3 border-b border-brand-border/80 pb-4 last:border-0 last:pb-0"
-                >
-                  <div className="flex items-center justify-between gap-4 text-[10px] font-bold uppercase tracking-wider text-brand-muted/80">
-                    <span>
-                      {designs[index]?.itemLabel?.trim() || `Item #${index + 1}`} -{" "}
-                      {breakdown.garmentName}
-                    </span>
-                    <span className="shrink-0 whitespace-nowrap font-mono text-brand-muted">
-                      {breakdown.quantity} units
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
-                    <span>Garment Cost</span>
-                    <span className="font-mono text-brand-cream/90">
-                      {formatCurrency(breakdown.garmentCost)}
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
-                    <span>Print Cost</span>
-                    <span className="font-mono text-brand-cream/90">
-                      {formatCurrency(breakdown.printCost)}
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
-                    <span>Setup Cost</span>
-                    <span className="font-mono text-brand-cream/90">
-                      {formatCurrency(breakdown.setupCost)}
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-cream/90">
-                    <span className="font-semibold">Total Cost</span>
-                    <span className="font-mono font-semibold text-sky-300">
-                      {formatCurrency(breakdown.totalCost)}
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
-                    <span>Cost Per Unit</span>
-                    <span className="font-mono text-brand-cream/90">
-                      {formatCurrency(breakdown.costPerUnit)}
-                    </span>
-                  </div>
-
-                  {!breakdown.hasValidPrice ? (
-                    <div className="rounded-xl border border-brand-red/35 bg-brand-red/10 p-3">
-                      <ul className="space-y-1 text-sm text-brand-cream/90">
-                        {breakdown.missingReasons.map((reason) => (
-                          <li key={reason}>{reason}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : null}
+            <div className="space-y-5 px-6 py-5">
+              <div className="space-y-3">
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
+                  <span>Print Cost</span>
+                  <span className="font-mono text-brand-cream/90">
+                    {formatCurrency(totals.printCost)}
+                  </span>
                 </div>
-              ))}
+
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
+                  <span>Setup Cost</span>
+                  <span className="font-mono text-brand-cream/90">
+                    {formatCurrency(totals.setupCost)}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
+                  <span>Cost Per Unit</span>
+                  <span className="font-mono text-brand-cream/90">
+                    {formatCurrency(totals.costPerUnit)}
+                  </span>
+                </div>
+
+                <p className="text-xs text-brand-muted">
+                  Based on {totals.totalQuantity} valid unit
+                  {totals.totalQuantity === 1 ? "" : "s"} across{" "}
+                  {totals.validItemCount} valid item
+                  {totals.validItemCount === 1 ? "" : "s"}.
+                </p>
+              </div>
+
+              <div className="border-t border-brand-border pt-5">
+                <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-brand-muted">
+                  Item Breakdown
+                </h3>
+
+                <div className="space-y-4">
+                  {breakdowns.map((breakdown, index) => (
+                    <div
+                      key={index}
+                      className="space-y-3 border-b border-brand-border/80 pb-4 last:border-0 last:pb-0"
+                    >
+                      <div className="flex items-center justify-between gap-4 text-[10px] font-bold uppercase tracking-wider text-brand-muted/80">
+                        <span>
+                          {designs[index]?.itemLabel?.trim() || `Item #${index + 1}`} -{" "}
+                          {breakdown.garmentName}
+                        </span>
+                        <span className="shrink-0 whitespace-nowrap font-mono text-brand-muted">
+                          {breakdown.quantity} units
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
+                        <span>Garment Cost</span>
+                        <span className="font-mono text-brand-cream/90">
+                          {formatCurrency(breakdown.garmentCost)}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
+                        <span>Print Cost</span>
+                        <span className="font-mono text-brand-cream/90">
+                          {formatCurrency(breakdown.printCost)}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
+                        <span>Setup Cost</span>
+                        <span className="font-mono text-brand-cream/90">
+                          {formatCurrency(breakdown.setupCost)}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-cream/90">
+                        <span className="font-semibold">Total Cost</span>
+                        <span className="font-mono font-semibold text-sky-300">
+                          {formatCurrency(breakdown.totalCost)}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
+                        <span>Cost Per Unit</span>
+                        <span className="font-mono text-brand-cream/90">
+                          {formatCurrency(breakdown.costPerUnit)}
+                        </span>
+                      </div>
+
+                      {!breakdown.hasValidPrice ? (
+                        <div className="rounded-xl border border-brand-red/35 bg-brand-red/10 p-3">
+                          <ul className="space-y-1 text-sm text-brand-cream/90">
+                            {breakdown.missingReasons.map((reason) => (
+                              <li key={reason}>{reason}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
