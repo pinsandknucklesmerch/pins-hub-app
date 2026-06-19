@@ -11,10 +11,32 @@ export const PRINT_POSITIONS = [
 
 export const NECK_PRINT_UNIT_PRICE = 0.7
 
+export type EmbroiderySize = "SMALL" | "MEDIUM" | "LARGE"
+
+export type EmbroiderySelection = {
+  enabled: boolean
+  size: EmbroiderySize
+}
+
+export const EMBROIDERY_SIZE_PRICING: Record<
+  EmbroiderySize,
+  { label: string; productionUnitCost: number; customerUnitCost: number }
+> = {
+  SMALL: { label: "Small", productionUnitCost: 1.25, customerUnitCost: 1.5 },
+  MEDIUM: { label: "Medium", productionUnitCost: 1.85, customerUnitCost: 2 },
+  LARGE: { label: "Large", productionUnitCost: 2.5, customerUnitCost: 2.75 }
+}
+
+export const DEFAULT_EMBROIDERY_SIZE: EmbroiderySize = "SMALL"
+export const EMBROIDERY_CUSTOMER_DIGITIZING_FEE = 25
+export const EMBROIDERY_PRODUCTION_DIGITIZING_COST = 23
+
 export type Design = {
   garmentId?: string
   quantity: number
   positions: Record<string, number>
+  embroideryEnabled?: boolean
+  embroideries?: Record<string, EmbroiderySelection>
   itemLabel?: string
   pkMarkupEnabled?: boolean
   pkMarkupInput?: string
@@ -27,6 +49,12 @@ export type DesignCostBreakdown = {
   baseCost: number
   markupCost: number
   pkMarkupCost: number
+  embroideryCost: number
+  embroideryMarkupCost: number
+  digitizingFee: number
+  embroideryProductionCost: number
+  digitizingProductionCost: number
+  embroideryPositionCount: number
   garmentName?: string
   quantity: number
 }
@@ -45,6 +73,18 @@ function getColorInputState(positions: Record<string, number>) {
       .filter(([, colorCount]) => colorCount > 0)
       .map(([position, colorCount]) => [position, String(colorCount)])
   )
+}
+
+export function formatEmbroiderySizeLabel(size: EmbroiderySize) {
+  return `${EMBROIDERY_SIZE_PRICING[size].label} Embroidery`
+}
+
+export function getEmbroideryPositionEntries(design: Design) {
+  if (!design.embroideryEnabled) {
+    return []
+  }
+
+  return Object.entries(design.embroideries ?? {}).filter(([, embroidery]) => embroidery.enabled)
 }
 
 export function getPrintUnitPrices(
@@ -80,7 +120,8 @@ export function calculateDesignCosts(
   design: Design,
   garments: Garment[],
   printPrices: PrintPrice[],
-  garmentMarkups: GarmentMarkup[]
+  garmentMarkups: GarmentMarkup[],
+  embroideryMarkupPerUnit = 3
 ): DesignCostBreakdown {
   let prod = 0
   let pins = 0
@@ -102,6 +143,17 @@ export function calculateDesignCosts(
     : undefined
   const markupCost = markup ? markup.markupValue * design.quantity : 0
   const pkMarkupCost = design.pkMarkupEnabled ? (design.pkMarkupPerUnit ?? 0) * design.quantity : 0
+  const embroideryEntries = getEmbroideryPositionEntries(design)
+  const embroideryCost = embroideryEntries.reduce((sum, [, embroidery]) => {
+    return sum + EMBROIDERY_SIZE_PRICING[embroidery.size].customerUnitCost * design.quantity
+  }, 0)
+  const embroideryProductionCost = embroideryEntries.reduce((sum, [, embroidery]) => {
+    return sum + EMBROIDERY_SIZE_PRICING[embroidery.size].productionUnitCost * design.quantity
+  }, 0)
+  const embroideryPositionCount = embroideryEntries.length
+  const embroideryMarkupCost = embroideryPositionCount * embroideryMarkupPerUnit * design.quantity
+  const digitizingFee = embroideryPositionCount * EMBROIDERY_CUSTOMER_DIGITIZING_FEE
+  const digitizingProductionCost = embroideryPositionCount * EMBROIDERY_PRODUCTION_DIGITIZING_COST
 
   return {
     productionCost: prod,
@@ -109,6 +161,12 @@ export function calculateDesignCosts(
     baseCost,
     markupCost,
     pkMarkupCost,
+    embroideryCost,
+    embroideryMarkupCost,
+    digitizingFee,
+    embroideryProductionCost,
+    digitizingProductionCost,
+    embroideryPositionCount,
     garmentName: garment?.name,
     quantity: design.quantity
   }
@@ -319,8 +377,47 @@ export default function DesignCard({
     })
   }
 
+  function updateDesignEmbroideryEnabled(enabled: boolean) {
+    onChange({
+      ...design,
+      embroideryEnabled: enabled
+    })
+  }
+
+  function updatePositionEmbroideryEnabled(position: string, enabled: boolean) {
+    onChange({
+      ...design,
+      embroideryEnabled: true,
+      embroideries: {
+        ...design.embroideries,
+        [position]: {
+          size: design.embroideries?.[position]?.size ?? DEFAULT_EMBROIDERY_SIZE,
+          enabled
+        }
+      }
+    })
+  }
+
+  function updatePositionEmbroiderySize(position: string, size: EmbroiderySize) {
+    onChange({
+      ...design,
+      embroideryEnabled: true,
+      embroideries: {
+        ...design.embroideries,
+        [position]: {
+          enabled: design.embroideries?.[position]?.enabled ?? true,
+          size
+        }
+      }
+    })
+  }
+
   const defaultItemLabel = getDefaultItemLabel(itemNumber)
   const itemLabelValue = design.itemLabel ?? defaultItemLabel
+  const embroideryControlsEnabled = design.embroideryEnabled ?? false
+  const activePositionRows = embroideryControlsEnabled
+    ? PRINT_POSITIONS
+    : PRINT_POSITIONS.filter((pos) => (design.positions[pos.value] || 0) > 0)
 
   function updateItemLabel(value: string) {
     onChange({
@@ -387,7 +484,18 @@ export default function DesignCard({
       </div>
 
       <div className="mb-6">
-        <h4 className="text-sm font-medium text-brand-muted mb-3">Print Positions</h4>
+        <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h4 className="text-sm font-medium text-brand-muted">Print Positions</h4>
+          <label className="flex items-center gap-2 text-sm font-medium text-brand-muted">
+            <input
+              type="checkbox"
+              checked={embroideryControlsEnabled}
+              onChange={(e) => updateDesignEmbroideryEnabled(e.target.checked)}
+              className="h-4 w-4 rounded border-brand-border/80 bg-brand-panel-alt text-brand-red focus:ring-brand-red/40"
+            />
+            Add Embroidery
+          </label>
+        </div>
 
         <div className="flex flex-wrap gap-3 mb-4">
           {PRINT_POSITIONS.map((pos) => {
@@ -430,31 +538,79 @@ export default function DesignCard({
             ))}
           </div>
         )} */}
-        <div className="min-h-[120px] grid grid-cols-2 md:grid-cols-3 gap-4 p-4 border border-brand-border/60 bg-brand-panel-alt/50 rounded-xl">
-  {PRINT_POSITIONS.filter(pos => (design.positions[pos.value] || 0) > 0).map((pos) => (
-    <div key={pos.value} className="flex flex-col">
-      <label className="text-xs font-bold text-brand-red/90 mb-2 uppercase tracking-wider">
-        {pos.label} Colors
-      </label>
+        <div className="min-h-[120px] grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 p-4 border border-brand-border/60 bg-brand-panel-alt/50 rounded-xl">
+          {activePositionRows.map((pos) => {
+            const hasPrint = (design.positions[pos.value] || 0) > 0
+            const embroidery = design.embroideries?.[pos.value]
+            const hasEmbroidery = embroideryControlsEnabled && (embroidery?.enabled ?? false)
 
-      <input
-        type="number"
-        min={1}
-        max={9}
-        value={colorInputs[pos.value] ?? ""}
-        onChange={(e) => updatePositionColorInput(pos.value, e.target.value)}
-        onBlur={() => normalizePositionColorInput(pos.value)}
-        className="w-full border border-brand-border rounded-lg p-2.5 bg-brand-panel text-brand-cream focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red/60 outline-none transition-shadow"
-      />
+            return (
+              <div key={pos.value} className="flex min-h-[104px] flex-col rounded-lg border border-brand-border/60 bg-brand-panel/60 p-3">
+                <div className="flex items-start justify-between gap-3">
+                  <label className="mb-2 text-xs font-bold uppercase tracking-wider text-brand-red/90">
+                    {pos.label}
+                  </label>
 
-      <div className="min-h-[18px]">
-        {colorError && (
-          <p className="text-xs text-brand-red/90 mt-1">{colorError}</p>
-        )}
-      </div>
-    </div>
-  ))}
-</div>
+                  {embroideryControlsEnabled && (
+                    <label className="flex items-center gap-2 text-[11px] font-semibold text-brand-muted">
+                      <input
+                        type="checkbox"
+                        checked={hasEmbroidery}
+                        onChange={(e) => updatePositionEmbroideryEnabled(pos.value, e.target.checked)}
+                        className="h-3.5 w-3.5 rounded border-brand-border/80 bg-brand-panel-alt text-brand-red focus:ring-brand-red/40"
+                      />
+                      Embroidery
+                    </label>
+                  )}
+                </div>
+
+                {hasPrint ? (
+                  <>
+                    <span className="mb-1 text-[11px] font-semibold text-brand-muted/80">Print Colours</span>
+                    <input
+                      type="number"
+                      min={1}
+                      max={9}
+                      value={colorInputs[pos.value] ?? ""}
+                      onChange={(e) => updatePositionColorInput(pos.value, e.target.value)}
+                      onBlur={() => normalizePositionColorInput(pos.value)}
+                      className="w-full border border-brand-border rounded-lg p-2.5 bg-brand-panel text-brand-cream focus:ring-2 focus:ring-brand-red/40 focus:border-brand-red/60 outline-none transition-shadow"
+                    />
+
+                    <div className="min-h-[18px]">
+                      {colorError && (
+                        <p className="text-xs text-brand-red/90 mt-1">{colorError}</p>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="min-h-[58px] rounded-lg border border-brand-border/60 bg-brand-panel-alt/50 px-3 py-2 text-xs text-brand-muted/80">
+                    No print selected
+                  </div>
+                )}
+
+                {hasEmbroidery && (
+                  <div className="mt-3">
+                    <label className="mb-1 block text-[11px] font-semibold text-brand-muted/80">
+                      Embroidery Size
+                    </label>
+                    <select
+                      value={embroidery?.size ?? DEFAULT_EMBROIDERY_SIZE}
+                      onChange={(e) => updatePositionEmbroiderySize(pos.value, e.target.value as EmbroiderySize)}
+                      className="w-full rounded-lg border border-brand-border bg-brand-panel-alt p-2 text-sm text-brand-cream outline-none transition-shadow focus:border-brand-red/60 focus:ring-2 focus:ring-brand-red/40"
+                    >
+                      {Object.entries(EMBROIDERY_SIZE_PRICING).map(([size, price]) => (
+                        <option key={size} value={size}>
+                          {price.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
 
       <div className="mt-4 space-y-2">
         <label className="flex items-center gap-2 text-sm font-medium text-brand-muted">

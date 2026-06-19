@@ -6,6 +6,9 @@ type Design,
 calculateDesignCosts,
 type DesignCostBreakdown,
 getPrintUnitPrices,
+getEmbroideryPositionEntries,
+formatEmbroiderySizeLabel,
+EMBROIDERY_SIZE_PRICING,
 } from "@/components/DesignCard"
 import type { Garment, GarmentMarkup, PrintPrice } from "@prisma/client"
 import { formatDeliveryCopy, getQuoteFormatter } from "./copyFormatters"
@@ -88,6 +91,7 @@ export default function CalculatorClient({
   // EU pricing implementation. Extract shared calculator helpers from here once additional regional calculators are added.
   const vatRate = 27 // Hardcoded VAT Rate at 27%
   const CURRENCY = "€"
+  const embroideryMarkupPerUnit = calculatorTitle.toLowerCase().includes("trade") ? 2 : 3
 
   useEffect(() => {
     if (!isBoxCapacityGuideOpen) {
@@ -177,8 +181,10 @@ export default function CalculatorClient({
   }
 
   const breakdowns: DesignCostBreakdown[] = useMemo(() => {
-    return designs.map((d) => calculateDesignCosts(d, garments, printPrices, garmentMarkups))
-  }, [designs, garments, printPrices, garmentMarkups])
+    return designs.map((d) =>
+      calculateDesignCosts(d, garments, printPrices, garmentMarkups, embroideryMarkupPerUnit)
+    )
+  }, [designs, garments, printPrices, garmentMarkups, embroideryMarkupPerUnit])
 
   const totalQty = useMemo(() => {
     return breakdowns.reduce((sum, b) => sum + b.quantity, 0)
@@ -190,6 +196,11 @@ export default function CalculatorClient({
     let base = 0
     let markup = 0
     let pkMarkup = 0
+    let embroidery = 0
+    let embroideryMarkup = 0
+    let digitizing = 0
+    let embroideryProduction = 0
+    let digitizingProduction = 0
 
     for (const b of breakdowns) {
       production += b.productionCost
@@ -197,9 +208,25 @@ export default function CalculatorClient({
       base += b.baseCost
       markup += b.markupCost
       pkMarkup += b.pkMarkupCost
+      embroidery += b.embroideryCost
+      embroideryMarkup += b.embroideryMarkupCost
+      digitizing += b.digitizingFee
+      embroideryProduction += b.embroideryProductionCost
+      digitizingProduction += b.digitizingProductionCost
     }
 
-    return { production, pins, base, markup, pkMarkup, total: production + pins + base + markup + pkMarkup }
+    return {
+      production,
+      pins,
+      base,
+      markup,
+      pkMarkup,
+      embroidery,
+      embroideryMarkup,
+      digitizing,
+      embroideryProduction,
+      digitizingProduction
+    }
   }, [breakdowns])
 
   const copyToClipboard = async (text: string) => {
@@ -222,10 +249,18 @@ export default function CalculatorClient({
 }
 
   // Calculations for Production Cost (Sales Reference - excl VAT only)
-  const productionSubtotalExclVat = orderTotals.production + orderTotals.base
+  const productionSubtotalExclVat =
+    orderTotals.production + orderTotals.base + orderTotals.embroideryProduction + orderTotals.digitizingProduction
 
   // Calculations for Pins Cost (Customer Price includes Garment Base Cost + Pins Print Cost + Garment Markup + optional PK Markup)
-  const pinsSubtotalExclVat = orderTotals.pins + orderTotals.base + orderTotals.markup + orderTotals.pkMarkup
+  const pinsSubtotalExclVat =
+    orderTotals.pins +
+    orderTotals.base +
+    orderTotals.markup +
+    orderTotals.pkMarkup +
+    orderTotals.embroidery +
+    orderTotals.embroideryMarkup +
+    orderTotals.digitizing
   const pinsTotalInclVat = pinsSubtotalExclVat * (1 + vatRate / 100)
 
   // Check if at least one design has a selected garment
@@ -265,6 +300,7 @@ export default function CalculatorClient({
   const displayProductionSubtotalExclVat = hasGarmentSelected ? productionSubtotalExclVat : 0
   const displayPinsSubtotalExclVat = hasGarmentSelected ? pinsSubtotalExclVat : 0
   const displayPinsTotalInclVat = hasGarmentSelected ? pinsTotalInclVat : 0
+  const displayPinsVatAmount = hasGarmentSelected ? pinsTotalInclVat - pinsSubtotalExclVat : 0
   const displayPinsProfit = hasGarmentSelected ?  pinsSubtotalExclVat - productionSubtotalExclVat : 0
 
   const handleCopyClick = async () => {
@@ -664,9 +700,27 @@ export default function CalculatorClient({
                             const baseCostPerUnit = d.quantity > 0 ? b.baseCost / d.quantity : 0
                             const markupCostPerUnit = d.quantity > 0 ? b.markupCost / d.quantity : 0
                             const pinsCostPerUnit = d.quantity > 0 ? b.pinsCost / d.quantity : 0
-                            const pkMarkupCostPerUnit = d.quantity > 0 ? b.pkMarkupCost / d.quantity : 0
-                            const totalUnitCost = baseCostPerUnit + markupCostPerUnit + pinsCostPerUnit + pkMarkupCostPerUnit
-                            const pinsSubtotalExclVat = (b.baseCost + b.pinsCost + b.markupCost + b.pkMarkupCost).toFixed(2)
+                    const pkMarkupCostPerUnit = d.quantity > 0 ? b.pkMarkupCost / d.quantity : 0
+                    const embroideryCostPerUnit = d.quantity > 0 ? b.embroideryCost / d.quantity : 0
+                    const embroideryMarkupCostPerUnit = d.quantity > 0 ? b.embroideryMarkupCost / d.quantity : 0
+                    const digitizingFeePerUnit = d.quantity > 0 ? b.digitizingFee / d.quantity : 0
+                    const totalUnitCost =
+                      baseCostPerUnit +
+                      markupCostPerUnit +
+                      pinsCostPerUnit +
+                      pkMarkupCostPerUnit +
+                      embroideryCostPerUnit +
+                      embroideryMarkupCostPerUnit +
+                      digitizingFeePerUnit
+                    const pinsSubtotalExclVat = (
+                      b.baseCost +
+                      b.pinsCost +
+                      b.markupCost +
+                      b.pkMarkupCost +
+                      b.embroideryCost +
+                      b.embroideryMarkupCost +
+                      b.digitizingFee
+                    ).toFixed(2)
 
                         return (
                           <div key={idx} className="space-y-3 pb-3 border-b border-brand-border/80 last:border-0 last:pb-0">
@@ -705,11 +759,40 @@ const posLabel = getPrintPositionLabel(pos)
 <span className="shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-brand-cream/90">{formatBreakdownUnitAmount(CURRENCY, unitPrices.pinsPrice)}</span>
                                 </div>
                                 )
-                              })}
+                    })}
 
-                            {d.pkMarkupEnabled && (
-                              <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 text-sm text-brand-muted">
-                                <span className="min-w-0 leading-snug">PK Markup</span>
+                    {getEmbroideryPositionEntries(d).map(([pos, embroidery]) => (
+                      <div key={`${pos}-embroidery`} className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 text-sm text-brand-muted">
+                        <span className="min-w-0 leading-snug">
+                          {getPrintPositionLabel(pos)} {formatEmbroiderySizeLabel(embroidery.size)}
+                        </span>
+                        <span className="shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-brand-cream/90">
+                          {formatBreakdownUnitAmount(CURRENCY, EMBROIDERY_SIZE_PRICING[embroidery.size].customerUnitCost)}
+                        </span>
+                      </div>
+                    ))}
+
+                    {b.digitizingFee > 0 && (
+                      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 text-sm text-brand-muted">
+                        <span className="min-w-0 leading-snug">Digitizing Fee</span>
+                        <span className="shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-brand-cream/90">
+                          {CURRENCY}{b.digitizingFee.toFixed(2)}
+                        </span>
+                      </div>
+                    )}
+
+                    {b.embroideryMarkupCost > 0 && (
+                      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 text-sm text-brand-muted">
+                        <span className="min-w-0 leading-snug">Embroidery Markup</span>
+                        <span className="shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-brand-cream/90">
+                          {formatBreakdownUnitAmount(CURRENCY, embroideryMarkupCostPerUnit)}
+                        </span>
+                      </div>
+                    )}
+
+                    {d.pkMarkupEnabled && (
+                      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 text-sm text-brand-muted">
+                        <span className="min-w-0 leading-snug">PK Markup</span>
 <span className="shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-brand-cream/90">{formatBreakdownUnitAmount(CURRENCY, pkMarkupCostPerUnit)}</span>
                               </div>
                             )}
@@ -737,8 +820,16 @@ const posLabel = getPrintPositionLabel(pos)
                         if (!d) return null
                         const garment = garments.find((g) => g.id === d.garmentId)
                         const baseCostPerUnit = d.quantity > 0 ? b.baseCost / d.quantity : 0
-                        const prodCostPerUnit = d.quantity > 0 ? b.productionCost / d.quantity : 0
-                        const totalUnitCost = baseCostPerUnit + prodCostPerUnit
+                    const prodCostPerUnit = d.quantity > 0 ? b.productionCost / d.quantity : 0
+                    const embroideryProductionCostPerUnit =
+                      d.quantity > 0 ? b.embroideryProductionCost / d.quantity : 0
+                    const digitizingProductionCostPerUnit =
+                      d.quantity > 0 ? b.digitizingProductionCost / d.quantity : 0
+                    const totalUnitCost =
+                      baseCostPerUnit +
+                      prodCostPerUnit +
+                      embroideryProductionCostPerUnit +
+                      digitizingProductionCostPerUnit
 
                         return (
                           <div key={idx} className="space-y-3 pb-3 border-b border-brand-border/80 last:border-0 last:pb-0">
@@ -764,8 +855,27 @@ const posLabel = getPrintPositionLabel(pos)
 <span className="font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-brand-cream/90">{formatBreakdownUnitAmount(CURRENCY, unitPrices.productionPrice)}</span>
                                 </div>
                               )
-                            })}
-                            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 text-sm font-semibold">
+                    })}
+                    {getEmbroideryPositionEntries(d).map(([pos, embroidery]) => (
+                      <div key={`${pos}-embroidery-production`} className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 text-sm text-brand-muted">
+                        <span className="min-w-0 leading-snug">
+                          {getPrintPositionLabel(pos)} Embroidery Production Cost
+                        </span>
+                        <span className="font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-brand-cream/90">
+                          {formatBreakdownUnitAmount(CURRENCY, EMBROIDERY_SIZE_PRICING[embroidery.size].productionUnitCost)}
+                        </span>
+                      </div>
+                    ))}
+
+                    {b.digitizingProductionCost > 0 && (
+                      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 text-sm text-brand-muted">
+                        <span className="min-w-0 leading-snug">Digitizing Production Cost</span>
+                        <span className="font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-brand-cream/90">
+                          {CURRENCY}{b.digitizingProductionCost.toFixed(2)}
+                        </span>
+                      </div>
+                    )}
+                    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 text-sm font-semibold">
                               <span className="text-brand-muted/80">Unit Cost (excl VAT)</span>
 <span className="hub-info-text shrink-0 whitespace-nowrap text-xs md:text-sm font-mono font-bold">{formatBreakdownUnitAmount(CURRENCY, totalUnitCost)}</span>
                             </div>
@@ -792,8 +902,16 @@ const posLabel = getPrintPositionLabel(pos)
                     <span className="font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-brand-cream/90">{CURRENCY}{displayPinsSubtotalExclVat.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between items-center text-brand-muted">
+                    <span>VAT ({vatRate}%)</span>
+                    <span className="font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-brand-cream/90">{CURRENCY}{displayPinsVatAmount.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-brand-muted">
+                    <span>Total Incl. VAT</span>
+                    <span className="font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono text-brand-cream/90">{CURRENCY}{displayPinsTotalInclVat.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-brand-muted">
                     <span>Pins Profit ({totalQty} units, excl VAT)</span>
-                  <span className="hub-info-text font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono">{CURRENCY}{displayPinsProfit.toFixed(2)}</span>
+                    <span className="hub-info-text font-mono shrink-0 whitespace-nowrap text-xs md:text-sm font-mono">{CURRENCY}{displayPinsProfit.toFixed(2)}</span>
                   </div>
                 </div>
 
