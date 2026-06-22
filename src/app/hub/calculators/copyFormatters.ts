@@ -1,9 +1,9 @@
 import type { Garment } from "@prisma/client"
 
 import {
+  DESIGN_EMBROIDERY_ITEMS,
   PRINT_POSITIONS,
-  formatEmbroiderySizeLabel,
-  getEmbroideryPositionEntries,
+  formatDesignEmbroiderySizeLabel,
   type Design,
   type DesignCostBreakdown
 } from "@/components/DesignCard"
@@ -52,13 +52,24 @@ function getCustomerSubtotalExclVat(breakdown: DesignCostBreakdown) {
     breakdown.markupCost +
     breakdown.pkMarkupCost +
     breakdown.embroideryCost +
-    breakdown.embroideryMarkupCost +
     breakdown.digitizingFee
   )
 }
 
-function formatPositionSummary(positions: Record<string, number>, variant: "eu" | "us") {
-  return Object.entries(positions)
+function formatEmbroiderySummary(design: Pick<Design, "embroideryItems">) {
+  return DESIGN_EMBROIDERY_ITEMS.flatMap((item) => {
+    const size = design.embroideryItems?.[item.key]
+
+    if (!size) {
+      return []
+    }
+
+    return `${item.label}: ${formatDesignEmbroiderySizeLabel(size)}`
+  }).join(", ")
+}
+
+function formatPositionSummary(design: Design, variant: "eu" | "us") {
+  const printSummary = Object.entries(design.positions)
     .filter(([, colorCount]) => colorCount > 0)
     .map(([position, colorCount]) => {
       const label = getPrintPositionLabel(position)
@@ -69,7 +80,9 @@ function formatPositionSummary(positions: Record<string, number>, variant: "eu" 
 
       return `${colorCount} Col ${label}`
     })
-    .join(", ")
+  const embroiderySummary = formatEmbroiderySummary(design)
+
+  return [...printSummary, embroiderySummary].filter(Boolean).join(", ")
 }
 
 function formatGarmentSummary(
@@ -100,13 +113,10 @@ function formatGarmentTitle(
 }
 
 function formatEuPositionDetails(design: Design) {
-  const embroideryByPosition = Object.fromEntries(getEmbroideryPositionEntries(design))
-
-  return PRINT_POSITIONS.flatMap((position) => {
+  const printDetails = PRINT_POSITIONS.flatMap((position) => {
     const colorCount = design.positions[position.value] || 0
-    const embroidery = embroideryByPosition[position.value]
 
-    if (colorCount <= 0 && !embroidery) {
+    if (colorCount <= 0) {
       return []
     }
 
@@ -116,12 +126,20 @@ function formatEuPositionDetails(design: Design) {
       lines.push(`${colorCount} Col Print`)
     }
 
-    if (embroidery) {
-      lines.push(formatEmbroiderySizeLabel(embroidery.size))
+    return lines.join("\n")
+  })
+
+  const embroideryDetails = DESIGN_EMBROIDERY_ITEMS.flatMap((item) => {
+    const size = design.embroideryItems?.[item.key]
+
+    if (!size) {
+      return []
     }
 
-    return lines.join("\n")
-  }).join("\n\n")
+    return `${item.label}: ${formatDesignEmbroiderySizeLabel(size)}`
+  })
+
+  return [...printDetails, ...embroideryDetails].join("\n\n")
 }
 
 export function formatEuQuoteCopy({
@@ -169,7 +187,7 @@ export function formatUsClientQuoteCopy({
       if (!design) return null
 
       const garment = garments.find((item) => item.id === design.garmentId)
-      const positionsText = formatPositionSummary(design.positions, "us")
+      const positionsText = formatPositionSummary(design, "us")
       const subtotalExclVat = getCustomerSubtotalExclVat(breakdown)
       const unitExclVat = design.quantity > 0 ? subtotalExclVat / design.quantity : 0
       const totalInclVat = subtotalExclVat * (1 + vatRate / 100)
@@ -200,7 +218,7 @@ export function formatUkTradeQuoteCopy({
       if (!design || !breakdown.hasValidPrice) return null
 
       const garment = garments.find((item) => item.id === design.garmentId)
-      const positionsText = formatPositionSummary(design.positions, "eu")
+      const positionsText = formatPositionSummary(design, "eu")
       const unitExclVat = design.quantity > 0 ? breakdown.totalCost / design.quantity : 0
 
       return [
