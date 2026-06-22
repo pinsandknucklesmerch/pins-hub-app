@@ -18,10 +18,6 @@ export default function StagingUpdatesPanel() {
         <li>Embroidery pricing includes unit cost and digitizing fee.</li>
         <li>Please test copied quote output, VAT totals, and breakdown display.</li>
       </ul>
-
-      <p className="mt-2 text-[0.68rem] leading-4 text-brand-muted-soft">
-        This panel only appears in preview/staging when NEXT_PUBLIC_SHOW_STAGING_UPDATES is true.
-      </p>
     </div>
   )
 }

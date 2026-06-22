@@ -2,8 +2,6 @@ import type { Garment } from "@prisma/client"
 
 import {
   DESIGN_EMBROIDERY_ITEMS,
-  PRINT_POSITIONS,
-  formatDesignEmbroiderySizeLabel,
   type Design,
   type DesignCostBreakdown
 } from "@/components/DesignCard"
@@ -61,7 +59,19 @@ function formatDigitizingFeeLine(breakdown: DesignCostBreakdown, currency: strin
     return null
   }
 
-  return `Digitizing Fee = ${currency}${breakdown.digitizingFee.toFixed(2)} ex vat`
+  return `Digitizing Fee = ${currency}${formatCompactAmount(breakdown.digitizingFee)} ex vat`
+}
+
+function formatEuDigitizingFeeLine(breakdown: DesignCostBreakdown, currency: string) {
+  if (breakdown.digitizingFee <= 0) {
+    return null
+  }
+
+  return `Digitizing fee = ${currency}${formatCompactAmount(breakdown.digitizingFee)} (incl vat)`
+}
+
+function formatCompactAmount(value: number) {
+  return Number.isInteger(value) ? value.toFixed(0) : value.toFixed(2)
 }
 
 function formatEmbroiderySummary(design: Pick<Design, "embroideryItems">) {
@@ -72,7 +82,7 @@ function formatEmbroiderySummary(design: Pick<Design, "embroideryItems">) {
       return []
     }
 
-    return `${item.label}: ${formatDesignEmbroiderySizeLabel(size)}`
+    return item.label
   }).join(", ")
 }
 
@@ -109,47 +119,6 @@ function formatGarmentSummary(
   return `${garmentSummary}${positionsText ? ` (${positionsText}${suffix})` : ""}`
 }
 
-function formatGarmentTitle(
-  garment: { code?: string; brandName?: string; name?: string; color?: string } | undefined,
-) {
-  return [
-    garment?.code?.trim(),
-    garment?.brandName?.trim(),
-    garment?.name?.trim(),
-    garment?.color?.trim(),
-  ].filter(Boolean).join(" ") || "No garment"
-}
-
-function formatEuPositionDetails(design: Design) {
-  const printDetails = PRINT_POSITIONS.flatMap((position) => {
-    const colorCount = design.positions[position.value] || 0
-
-    if (colorCount <= 0) {
-      return []
-    }
-
-    const lines = [`${position.label}:`]
-
-    if (colorCount > 0) {
-      lines.push(`${colorCount} Col Print`)
-    }
-
-    return lines.join("\n")
-  })
-
-  const embroideryDetails = DESIGN_EMBROIDERY_ITEMS.flatMap((item) => {
-    const size = design.embroideryItems?.[item.key]
-
-    if (!size) {
-      return []
-    }
-
-    return `${item.label}: ${formatDesignEmbroiderySizeLabel(size)}`
-  })
-
-  return [...printDetails, ...embroideryDetails].join("\n\n")
-}
-
 export function formatEuQuoteCopy({
   designs,
   breakdowns,
@@ -162,22 +131,18 @@ export function formatEuQuoteCopy({
       if (!design) return null
 
       const garment = garments.find((item) => item.id === design.garmentId)
-      const positionDetails = formatEuPositionDetails(design)
+      const positionsText = formatPositionSummary(design, "eu")
       const subtotalExclVat = getCustomerSubtotalExclVat(breakdown)
-      const digitizingFeeLine = formatDigitizingFeeLine(breakdown, currency)
+      const digitizingFeeLine = formatEuDigitizingFeeLine(breakdown, currency)
       const unitExclVat = design.quantity > 0 ? subtotalExclVat / design.quantity : 0
       const totalInclVat = subtotalExclVat * 1.27
-      const vatAmount = totalInclVat - subtotalExclVat
 
       return [
         `${getBreakdownItemLabel(design.itemLabel, index)}:`,
         "",
-        formatGarmentTitle(garment),
-        positionDetails,
+        formatGarmentSummary(garment, positionsText),
         ...(digitizingFeeLine ? [digitizingFeeLine] : []),
-        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${subtotalExclVat.toFixed(2)} ex vat)`,
-        `VAT = ${currency}${vatAmount.toFixed(2)}`,
-        `TOTAL = ${currency}${totalInclVat.toFixed(2)}`,
+        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} (excl vat) ea = ${currency}${totalInclVat.toFixed(2)}`,
       ].filter(Boolean).join("\n\n")
     })
     .filter((entry): entry is string => Boolean(entry))

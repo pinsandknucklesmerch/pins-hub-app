@@ -51,6 +51,7 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
 - Preserve shared `hub-*` classes and existing card/panel language where possible.
 - Avoid layout shift, especially around calculator result panels; pricing containers are intentionally kept mounted/stable.
 - UI-only work must not alter pricing, VAT, PK Tax, referral, loyalty, database, or route behavior unless explicitly requested.
+- EU Standard and US Client copied quote layouts are stable customer-facing contracts. Do not redesign, simplify, or reformat copied quote output unless the request explicitly targets quote copy.
 - The staging updates content in `src/components/StagingUpdatesPanel.tsx` is manually maintained. Codex must not edit, rewrite, remove, or auto-update staging update notes unless explicitly asked. The panel must remain gated by `process.env.NEXT_PUBLIC_SHOW_STAGING_UPDATES === "true"`.
 - Navigation wording should stay consistent with existing routes, especially `Back to Hub`.
 - The home card label is intentionally spelled `Refferals` for now.
