@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 
 import PkIcon from "@/assets/P&K_ICON.png"
 import PkLogo from "@/assets/P&K_LOGO.png"
+import StagingUpdatesPanel from "@/components/StagingUpdatesPanel"
 
 const navItems = [
   {
@@ -118,6 +119,8 @@ export default function HubSidebar() {
           )
         })}
       </nav>
+
+      <StagingUpdatesPanel />
 
       <div className="mt-auto space-y-2.5 border-t border-brand-border pt-4 sm:space-y-3 sm:pt-5">
         <div className="rounded-xl border border-brand-border bg-brand-panel-alt/70 p-3 sm:rounded-2xl sm:p-4">

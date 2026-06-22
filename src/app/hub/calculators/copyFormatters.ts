@@ -56,6 +56,14 @@ function getCustomerSubtotalExclVat(breakdown: DesignCostBreakdown) {
   )
 }
 
+function formatDigitizingFeeLine(breakdown: DesignCostBreakdown, currency: string) {
+  if (breakdown.digitizingFee <= 0) {
+    return null
+  }
+
+  return `Digitizing Fee = ${currency}${breakdown.digitizingFee.toFixed(2)} ex vat`
+}
+
 function formatEmbroiderySummary(design: Pick<Design, "embroideryItems">) {
   return DESIGN_EMBROIDERY_ITEMS.flatMap((item) => {
     const size = design.embroideryItems?.[item.key]
@@ -156,6 +164,7 @@ export function formatEuQuoteCopy({
       const garment = garments.find((item) => item.id === design.garmentId)
       const positionDetails = formatEuPositionDetails(design)
       const subtotalExclVat = getCustomerSubtotalExclVat(breakdown)
+      const digitizingFeeLine = formatDigitizingFeeLine(breakdown, currency)
       const unitExclVat = design.quantity > 0 ? subtotalExclVat / design.quantity : 0
       const totalInclVat = subtotalExclVat * 1.27
       const vatAmount = totalInclVat - subtotalExclVat
@@ -165,6 +174,7 @@ export function formatEuQuoteCopy({
         "",
         formatGarmentTitle(garment),
         positionDetails,
+        ...(digitizingFeeLine ? [digitizingFeeLine] : []),
         `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${subtotalExclVat.toFixed(2)} ex vat)`,
         `VAT = ${currency}${vatAmount.toFixed(2)}`,
         `TOTAL = ${currency}${totalInclVat.toFixed(2)}`,
@@ -189,6 +199,7 @@ export function formatUsClientQuoteCopy({
       const garment = garments.find((item) => item.id === design.garmentId)
       const positionsText = formatPositionSummary(design, "us")
       const subtotalExclVat = getCustomerSubtotalExclVat(breakdown)
+      const digitizingFeeLine = formatDigitizingFeeLine(breakdown, currency)
       const unitExclVat = design.quantity > 0 ? subtotalExclVat / design.quantity : 0
       const totalInclVat = subtotalExclVat * (1 + vatRate / 100)
       const vatAmount = totalInclVat - subtotalExclVat
@@ -197,6 +208,7 @@ export function formatUsClientQuoteCopy({
         `${getBreakdownItemLabel(design.itemLabel, index)}:`,
         "",
         formatGarmentSummary(garment, positionsText, " + base"),
+        ...(digitizingFeeLine ? [digitizingFeeLine] : []),
         `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${subtotalExclVat.toFixed(2)} ex vat)`,
         `VAT = ${currency}${vatAmount.toFixed(2)}`,
         `TOTAL = ${currency}${totalInclVat.toFixed(2)}`,
