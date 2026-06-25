@@ -18,12 +18,12 @@ export default function Home() {
                     <BrandLogo className="mt-2 h-8 w-auto max-w-full opacity-90" />
                   </div>
                   <span className="rounded-full border border-brand-border bg-brand-panel-alt/70 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-brand-muted">
-              4 Live Tools
+                  5 Live Tools
                   </span>
                 </div>
                 <p className="max-w-3xl text-sm leading-6 text-brand-muted md:text-[0.95rem]">
-                  Pricing, garment data, PK Tax workflows, referrals, and reusable operational
-                  copy in one system.
+                  Pricing, garment data, commercial invoices, PK Tax workflows, referrals, and reusable operational copy in
+                  one system.
                 </p>
               </div>
             </section>
@@ -74,6 +74,21 @@ export default function Home() {
                     <circle cx="9" cy="7" r="4" />
                     <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
                     <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </>
+                }
+              />
+
+              <NavigationCard
+                href="/hub/commercial-invoices"
+                title="Commercial Invoices"
+                description="Manual commercial invoice builder for addresses, shipment details, line items."
+                compact
+                icon={
+                  <>
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <path d="M14 2v6h6" />
+                    <path d="M8 13h8" />
+                    <path d="M8 17h5" />
                   </>
                 }
               />
