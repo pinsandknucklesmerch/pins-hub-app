@@ -25,9 +25,16 @@ const navItems = [
     ),
   },
   {
-    label: "Garment Directory",
-    href: "/hub/garments",
-    icon: <path d="M20.38 3.46 16 2l-2 3-2-3-4.38 1.46L6 9l3 2v9h6v-9l3-2Z" />,
+    label: "Data Management",
+    href: "/hub/data",
+    icon: (
+      <>
+        <path d="M4 7h16" />
+        <path d="M4 12h16" />
+        <path d="M4 17h10" />
+        <path d="M7 4v16" />
+      </>
+    ),
   },
   {
     label: "PK Tax",

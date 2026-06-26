@@ -1,0 +1,26 @@
+Found 7 batch files (7 logical batches, 0 multi-part):
+  batch-0.json: 169 nodes, 153 edges
+  batch-2.json: 25 nodes, 63 edges
+  batch-3.json: 30 nodes, 64 edges
+  batch-4.json: 35 nodes, 83 edges
+  batch-5.json: 13 nodes, 28 edges
+  batch-6.json: 10 nodes, 11 edges
+  batch-7.json: 39 nodes, 35 edges
+
+Input: 321 nodes, 437 edges
+
+Fixed (67 corrections):
+    67 × duplicate node IDs removed (kept last)
+
+Could not fix (172 issues — needs agent review):
+   169 × complexity None → defaulted to "moderate"
+  - Edge function:src/app/hub/calculators/CalculatorPageContent.tsx:CalculatorPageContent → function:src/app/hub/calculators/data.ts:getCalculatorReferenceData (calls): dropped, missing target 'function:src/app/hub/calculators/data.ts:getCalculatorReferenceData'
+  - Edge function:src/app/hub/garments/page.tsx:GarmentDirectoryPage → function:src/app/hub/garments/data.ts:getGarmentDirectoryData (calls): dropped, missing target 'function:src/app/hub/garments/data.ts:getGarmentDirectoryData'
+  - Edge file:src/lib/db.ts → file:prisma/schema.prisma (related): dropped, missing target 'file:prisma/schema.prisma'
+
+Output: 254 nodes, 380 edges
+
+Imports edge recovery:
+  Recovered 0 `imports` edges from importMap (90 entries scanned)
+
+Written to /home/duncan/Work/pins-and-knuckles/02-projects/pins-hub/pins-hub-app/.understand-anything/intermediate/assembled-graph.json (217 KB)

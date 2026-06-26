@@ -1,7 +1,12 @@
+import { connection } from "next/server"
 import BackLink from "@/components/BackLink"
 import CommercialInvoiceClient from "./CommercialInvoiceClient"
+import { listCommercialInvoices } from "./data"
 
-export default function CommercialInvoicesPage() {
+export default async function CommercialInvoicesPage() {
+  await connection()
+  const data = await listCommercialInvoices()
+
   return (
     <div className="hub-page-stack">
       <BackLink href="/">Back to Hub</BackLink>
@@ -14,7 +19,7 @@ export default function CommercialInvoicesPage() {
         </p>
       </section>
 
-      <CommercialInvoiceClient />
+      <CommercialInvoiceClient initialData={data} />
     </div>
   )
 }

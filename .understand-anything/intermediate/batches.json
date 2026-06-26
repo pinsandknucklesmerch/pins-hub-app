@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "algorithm": "louvain",
   "totalFiles": 90,
-  "totalBatches": 8,
+  "totalBatches": 6,
   "exportsByPath": {
     "eslint.config.mjs": [],
     "next.config.ts": [],
@@ -27,6 +27,7 @@
     "src/app/hub/calculators/copyFormatters.ts": [
       "formatEuQuoteCopy",
       "formatUsClientQuoteCopy",
+      "formatUkTradeQuoteCopy",
       "formatDeliveryCopy",
       "getQuoteFormatter"
     ],
@@ -69,6 +70,7 @@
       "UkTradeCalculatorClient"
     ],
     "src/app/hub/calculators/uk/trade/UkTradeDesignCard.tsx": [
+      "UK_TRADE_EMBROIDERY_ITEMS",
       "UkTradeDesignCard"
     ],
     "src/app/hub/calculators/uk/tradeScreenPrintData.ts": [
@@ -203,6 +205,14 @@
     "src/components/DesignCard.tsx": [
       "PRINT_POSITIONS",
       "NECK_PRINT_UNIT_PRICE",
+      "DESIGN_EMBROIDERY_ITEMS",
+      "DESIGN_EMBROIDERY_SIZE_PRICING",
+      "DESIGN_EMBROIDERY_SIZE_OPTIONS",
+      "EMBROIDERY_CUSTOMER_DIGITIZING_FEE",
+      "EMBROIDERY_PRODUCTION_DIGITIZING_COST",
+      "formatDesignEmbroiderySizeLabel",
+      "getSelectedDesignEmbroideryEntries",
+      "isPrintPositionSelected",
       "getPrintUnitPrices",
       "calculateDesignCosts",
       "DesignCard"
@@ -230,168 +240,6 @@
     ]
   },
   "batches": [
-    {
-      "batchIndex": 1,
-      "files": [
-        {
-          "path": "src/app/hub/referrals/AccordionSection.tsx",
-          "language": "typescript",
-          "sizeLines": 53,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/ReferralRuleCard.tsx",
-          "language": "typescript",
-          "sizeLines": 204,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/ReferralScenarioComparison.tsx",
-          "language": "typescript",
-          "sizeLines": 121,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/ReferralScenarioManager.tsx",
-          "language": "typescript",
-          "sizeLines": 150,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/ReferralSimulationSummary.tsx",
-          "language": "typescript",
-          "sizeLines": 242,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/ReferralTabs.tsx",
-          "language": "typescript",
-          "sizeLines": 33,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/ReferralTestCaseCard.tsx",
-          "language": "typescript",
-          "sizeLines": 245,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/ReferralsClient.tsx",
-          "language": "typescript",
-          "sizeLines": 670,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/actions.ts",
-          "language": "typescript",
-          "sizeLines": 533,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/constants.ts",
-          "language": "typescript",
-          "sizeLines": 1,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/data.ts",
-          "language": "typescript",
-          "sizeLines": 98,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/page.tsx",
-          "language": "typescript",
-          "sizeLines": 27,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/simulator.ts",
-          "language": "typescript",
-          "sizeLines": 624,
-          "fileCategory": "code"
-        }
-      ],
-      "batchImportData": {
-        "src/app/hub/referrals/AccordionSection.tsx": [],
-        "src/app/hub/referrals/ReferralRuleCard.tsx": [
-          "src/app/hub/referrals/simulator.ts"
-        ],
-        "src/app/hub/referrals/ReferralScenarioComparison.tsx": [
-          "src/app/hub/referrals/simulator.ts"
-        ],
-        "src/app/hub/referrals/ReferralScenarioManager.tsx": [
-          "src/app/hub/referrals/simulator.ts"
-        ],
-        "src/app/hub/referrals/ReferralSimulationSummary.tsx": [
-          "src/app/hub/referrals/AccordionSection.tsx",
-          "src/app/hub/referrals/ReferralScenarioComparison.tsx",
-          "src/app/hub/referrals/simulator.ts"
-        ],
-        "src/app/hub/referrals/ReferralTabs.tsx": [
-          "src/app/hub/referrals/simulator.ts"
-        ],
-        "src/app/hub/referrals/ReferralTestCaseCard.tsx": [
-          "src/app/hub/referrals/simulator.ts"
-        ],
-        "src/app/hub/referrals/ReferralsClient.tsx": [
-          "src/app/hub/referrals/AccordionSection.tsx",
-          "src/app/hub/referrals/actions.ts",
-          "src/app/hub/referrals/data.ts",
-          "src/app/hub/referrals/ReferralRuleCard.tsx",
-          "src/app/hub/referrals/ReferralScenarioManager.tsx",
-          "src/app/hub/referrals/ReferralSimulationSummary.tsx",
-          "src/app/hub/referrals/ReferralTabs.tsx",
-          "src/app/hub/referrals/ReferralTestCaseCard.tsx",
-          "src/app/hub/referrals/simulator.ts"
-        ],
-        "src/app/hub/referrals/actions.ts": [
-          "src/app/hub/referrals/constants.ts",
-          "src/app/hub/referrals/data.ts",
-          "src/lib/db.ts"
-        ],
-        "src/app/hub/referrals/constants.ts": [],
-        "src/app/hub/referrals/data.ts": [
-          "src/app/hub/referrals/simulator.ts",
-          "src/lib/db.ts"
-        ],
-        "src/app/hub/referrals/page.tsx": [
-          "src/app/hub/referrals/data.ts",
-          "src/app/hub/referrals/ReferralsClient.tsx",
-          "src/components/BackLink.tsx"
-        ],
-        "src/app/hub/referrals/simulator.ts": []
-      },
-      "neighborMap": {
-        "src/app/hub/referrals/actions.ts": [
-          {
-            "path": "src/lib/db.ts",
-            "batchIndex": 2,
-            "symbols": [
-              "prisma"
-            ]
-          }
-        ],
-        "src/app/hub/referrals/data.ts": [
-          {
-            "path": "src/lib/db.ts",
-            "batchIndex": 2,
-            "symbols": [
-              "prisma"
-            ]
-          }
-        ],
-        "src/app/hub/referrals/page.tsx": [
-          {
-            "path": "src/components/BackLink.tsx",
-            "batchIndex": 3,
-            "symbols": [
-              "BackLink"
-            ]
-          }
-        ]
-      }
-    },
     {
       "batchIndex": 2,
       "files": [
@@ -1169,56 +1017,6 @@
           }
         ]
       }
-    },
-    {
-      "batchIndex": 8,
-      "files": [
-        {
-          "path": "src/app/hub/calculators/CalculatorLoading.tsx",
-          "language": "typescript",
-          "sizeLines": 34,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/calculators/eu/standard/loading.tsx",
-          "language": "typescript",
-          "sizeLines": 1,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/calculators/eu/us-clients/loading.tsx",
-          "language": "typescript",
-          "sizeLines": 1,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/garments/loading.tsx",
-          "language": "typescript",
-          "sizeLines": 36,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/app/hub/referrals/loading.tsx",
-          "language": "typescript",
-          "sizeLines": 41,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/components/BrandLogo.tsx",
-          "language": "typescript",
-          "sizeLines": 31,
-          "fileCategory": "code"
-        }
-      ],
-      "batchImportData": {
-        "src/app/hub/calculators/CalculatorLoading.tsx": [],
-        "src/app/hub/calculators/eu/standard/loading.tsx": [],
-        "src/app/hub/calculators/eu/us-clients/loading.tsx": [],
-        "src/app/hub/garments/loading.tsx": [],
-        "src/app/hub/referrals/loading.tsx": [],
-        "src/components/BrandLogo.tsx": []
-      },
-      "neighborMap": {}
     }
   ]
 }

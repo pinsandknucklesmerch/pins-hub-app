@@ -72,20 +72,20 @@
       "path": "src/app/page.tsx",
       "language": "typescript",
       "fileCategory": "code",
-      "totalLines": 115,
-      "nonEmptyLines": 107,
+      "totalLines": 123,
+      "nonEmptyLines": 114,
       "functions": [
         {
           "name": "Home",
-          "startLine": 6,
-          "endLine": 115,
+          "startLine": 5,
+          "endLine": 123,
           "params": []
         }
       ],
       "exports": [
         {
           "name": "Home",
-          "line": 6,
+          "line": 5,
           "isDefault": true
         }
       ],
@@ -100,13 +100,13 @@
       "path": "src/components/HubSidebar.tsx",
       "language": "typescript",
       "fileCategory": "code",
-      "totalLines": 151,
-      "nonEmptyLines": 142,
+      "totalLines": 157,
+      "nonEmptyLines": 147,
       "functions": [
         {
           "name": "isActive",
-          "startLine": 68,
-          "endLine": 71,
+          "startLine": 86,
+          "endLine": 89,
           "params": [
             "pathname",
             "href"
@@ -114,15 +114,15 @@
         },
         {
           "name": "HubSidebar",
-          "startLine": 73,
-          "endLine": 151,
+          "startLine": 91,
+          "endLine": 157,
           "params": []
         }
       ],
       "exports": [
         {
           "name": "HubSidebar",
-          "line": 73,
+          "line": 91,
           "isDefault": true
         }
       ],
@@ -130,32 +130,32 @@
         {
           "caller": "isActive",
           "callee": "pathname.startsWith",
-          "lineNumber": 70
+          "lineNumber": 88
         },
         {
           "caller": "HubSidebar",
           "callee": "usePathname",
-          "lineNumber": 74
+          "lineNumber": 92
         },
         {
           "caller": "HubSidebar",
           "callee": "navItems.map",
-          "lineNumber": 97
+          "lineNumber": 108
         },
         {
           "caller": "HubSidebar",
           "callee": "isActive",
-          "lineNumber": 98
+          "lineNumber": 109
         },
         {
           "caller": "HubSidebar",
-          "callee": "[\n                \"hub-dashboard-nav-item group flex min-h-14 items-center gap-4 rounded-2xl px-4 text-sm font-bold transition\",\n                active ? \"hub-dashboard-nav-item-active\" : \"\",\n              ].join",
-          "lineNumber": 104
+          "callee": "[\n                \"hub-dashboard-nav-item group flex min-h-11 items-center gap-3 rounded-xl px-3.5 text-sm font-bold transition sm:min-h-12 sm:rounded-2xl sm:px-4 md:min-h-[3.25rem] lg:min-h-14\",\n                active ? \"hub-dashboard-nav-item-active\" : \"\",\n              ].join",
+          "lineNumber": 115
         },
         {
           "caller": "HubSidebar",
-          "callee": "[\n                  \"h-5 w-5 shrink-0 transition\",\n                  active ? \"text-brand-red\" : \"text-brand-muted group-hover:text-brand-cream\",\n                ].join",
-          "lineNumber": 110
+          "callee": "[\n                  \"h-[18px] w-[18px] shrink-0 transition sm:h-5 sm:w-5\",\n                  active ? \"text-brand-red\" : \"text-brand-muted group-hover:text-brand-cream\",\n                ].join",
+          "lineNumber": 121
         }
       ],
       "metrics": {

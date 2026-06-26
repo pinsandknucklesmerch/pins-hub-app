@@ -178,8 +178,8 @@
       "path": "src/app/hub/garments/GarmentDirectoryClient.tsx",
       "language": "typescript",
       "fileCategory": "code",
-      "totalLines": 513,
-      "nonEmptyLines": 472,
+      "totalLines": 599,
+      "nonEmptyLines": 546,
       "functions": [
         {
           "name": "getTagList",
@@ -216,7 +216,7 @@
         {
           "name": "GarmentDirectoryClient",
           "startLine": 32,
-          "endLine": 513,
+          "endLine": 599,
           "params": [
             "{\n  initialGarments\n}"
           ]
@@ -307,263 +307,363 @@
         },
         {
           "caller": "GarmentDirectoryClient",
-          "callee": "useMemo",
+          "callee": "useId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "useId",
+          "lineNumber": 45
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "useRef",
+          "lineNumber": 46
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "useRef",
           "lineNumber": 47
         },
         {
           "caller": "GarmentDirectoryClient",
+          "callee": "useMemo",
+          "lineNumber": 51
+        },
+        {
+          "caller": "GarmentDirectoryClient",
           "callee": "initialGarments.map",
-          "lineNumber": 48
+          "lineNumber": 52
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "useMemo",
-          "lineNumber": 53
+          "lineNumber": 57
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "normalizeSearch(search).split(\" \").filter",
-          "lineNumber": 54
+          "lineNumber": 58
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "normalizeSearch(search).split",
-          "lineNumber": 54
+          "lineNumber": 58
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "normalizeSearch",
-          "lineNumber": 54
+          "lineNumber": 58
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "garments.filter",
-          "lineNumber": 60
+          "lineNumber": 64
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "normalizeSearch",
-          "lineNumber": 61
+          "lineNumber": 65
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "[\n        g.name,\n        g.code,\n        g.altCode,\n        g.brandName,\n        g.color,\n        g.tags\n      ].filter(Boolean).join",
-          "lineNumber": 61
+          "lineNumber": 65
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "[\n        g.name,\n        g.code,\n        g.altCode,\n        g.brandName,\n        g.color,\n        g.tags\n      ].filter",
-          "lineNumber": 61
+          "lineNumber": 65
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "queryParts.every",
-          "lineNumber": 70
+          "lineNumber": 74
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "searchableText.includes",
-          "lineNumber": 70
+          "lineNumber": 74
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "useEffect",
+          "lineNumber": 78
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "event.preventDefault",
+          "lineNumber": 90
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "setIsModalOpen",
+          "lineNumber": 91
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "document.addEventListener",
+          "lineNumber": 95
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "document.removeEventListener",
+          "lineNumber": 99
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "(dialogReturnFocusRef.current ?? fallbackFocusElement)?.focus",
+          "lineNumber": 100
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "useEffect",
+          "lineNumber": 105
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "event.preventDefault",
+          "lineNumber": 116
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "setEditingGarment",
+          "lineNumber": 117
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "document.addEventListener",
+          "lineNumber": 121
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "document.removeEventListener",
+          "lineNumber": 125
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "dialogReturnFocusRef.current?.focus",
+          "lineNumber": 126
         },
         {
           "caller": "handleAddGarment",
           "callee": "e.preventDefault",
-          "lineNumber": 75
+          "lineNumber": 132
         },
         {
           "caller": "handleAddGarment",
           "callee": "setIsSubmitting",
-          "lineNumber": 76
+          "lineNumber": 133
         },
         {
           "caller": "handleAddGarment",
           "callee": "addGarment",
-          "lineNumber": 80
+          "lineNumber": 137
         },
         {
           "caller": "handleAddGarment",
           "callee": "setIsModalOpen",
-          "lineNumber": 81
+          "lineNumber": 138
         },
         {
           "caller": "handleAddGarment",
           "callee": "router.refresh",
-          "lineNumber": 82
+          "lineNumber": 139
         },
         {
           "caller": "handleAddGarment",
           "callee": "console.error",
-          "lineNumber": 85
+          "lineNumber": 142
         },
         {
           "caller": "handleAddGarment",
           "callee": "alert",
-          "lineNumber": 86
+          "lineNumber": 143
         },
         {
           "caller": "handleAddGarment",
           "callee": "setIsSubmitting",
-          "lineNumber": 88
+          "lineNumber": 145
         },
         {
           "caller": "handleUpdateDetails",
           "callee": "e.preventDefault",
-          "lineNumber": 93
+          "lineNumber": 150
         },
         {
           "caller": "handleUpdateDetails",
           "callee": "setIsUpdatingDetails",
-          "lineNumber": 94
+          "lineNumber": 151
         },
         {
           "caller": "handleUpdateDetails",
           "callee": "updateGarmentDetails",
-          "lineNumber": 98
+          "lineNumber": 155
         },
         {
           "caller": "handleUpdateDetails",
           "callee": "setEditingGarment",
-          "lineNumber": 99
+          "lineNumber": 156
         },
         {
           "caller": "handleUpdateDetails",
           "callee": "router.refresh",
-          "lineNumber": 100
+          "lineNumber": 157
         },
         {
           "caller": "handleUpdateDetails",
           "callee": "console.error",
-          "lineNumber": 102
+          "lineNumber": 159
         },
         {
           "caller": "handleUpdateDetails",
           "callee": "alert",
-          "lineNumber": 103
+          "lineNumber": 160
         },
         {
           "caller": "handleUpdateDetails",
           "callee": "setIsUpdatingDetails",
-          "lineNumber": 105
+          "lineNumber": 162
         },
         {
           "caller": "handleDelete",
           "callee": "confirm",
-          "lineNumber": 111
+          "lineNumber": 168
         },
         {
           "caller": "handleDelete",
           "callee": "setIsDeleting",
-          "lineNumber": 113
+          "lineNumber": 170
         },
         {
           "caller": "handleDelete",
           "callee": "deleteGarment",
-          "lineNumber": 115
+          "lineNumber": 172
         },
         {
           "caller": "handleDelete",
           "callee": "setEditingGarment",
-          "lineNumber": 116
+          "lineNumber": 173
         },
         {
           "caller": "handleDelete",
           "callee": "router.refresh",
-          "lineNumber": 117
+          "lineNumber": 174
         },
         {
           "caller": "handleDelete",
           "callee": "console.error",
-          "lineNumber": 119
+          "lineNumber": 176
         },
         {
           "caller": "handleDelete",
           "callee": "alert",
-          "lineNumber": 120
+          "lineNumber": 177
         },
         {
           "caller": "handleDelete",
           "callee": "setIsDeleting",
-          "lineNumber": 122
+          "lineNumber": 179
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "setSearch",
-          "lineNumber": 138
+          "lineNumber": 195
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "setIsModalOpen",
-          "lineNumber": 145
+          "lineNumber": 206
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "filtered.map",
-          "lineNumber": 184
+          "lineNumber": 246
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "setEditingGarment",
-          "lineNumber": 190
+          "lineNumber": 253
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "normalizeGarmentDirectoryItem",
-          "lineNumber": 190
+          "lineNumber": 253
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "g.connectedMarkupValue.toFixed",
-          "lineNumber": 209
+          "lineNumber": 272
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "getTagList",
-          "lineNumber": 214
+          "lineNumber": 277
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "getTagList(g.tags).map",
-          "lineNumber": 215
+          "lineNumber": 278
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "getTagList",
-          "lineNumber": 215
+          "lineNumber": 278
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "g.basePrice.toFixed",
-          "lineNumber": 226
+          "lineNumber": 289
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "getGbpPriceDisplay",
-          "lineNumber": 228
+          "lineNumber": 291
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "g.extraSizeCost.toFixed",
-          "lineNumber": 231
+          "lineNumber": 294
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "setIsModalOpen",
-          "lineNumber": 248
+          "lineNumber": 308
         },
         {
           "caller": "GarmentDirectoryClient",
-          "callee": "setIsModalOpen",
+          "callee": "event.stopPropagation",
           "lineNumber": 315
         },
         {
           "caller": "GarmentDirectoryClient",
-          "callee": "setEditingGarment",
-          "lineNumber": 343
+          "callee": "setIsModalOpen",
+          "lineNumber": 321
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "setIsModalOpen",
+          "lineNumber": 389
         },
         {
           "caller": "GarmentDirectoryClient",
           "callee": "setEditingGarment",
-          "lineNumber": 491
+          "lineNumber": 411
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "event.stopPropagation",
+          "lineNumber": 418
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "setEditingGarment",
+          "lineNumber": 427
+        },
+        {
+          "caller": "GarmentDirectoryClient",
+          "callee": "setEditingGarment",
+          "lineNumber": 577
         }
       ],
       "metrics": {

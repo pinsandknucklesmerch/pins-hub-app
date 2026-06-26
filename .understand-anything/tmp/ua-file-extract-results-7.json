@@ -402,8 +402,8 @@
       "path": "docs/ai-context/PROJECT_CONTEXT.md",
       "language": "markdown",
       "fileCategory": "docs",
-      "totalLines": 201,
-      "nonEmptyLines": 150,
+      "totalLines": 187,
+      "nonEmptyLines": 167,
       "sections": [
         {
           "heading": "Pins Hub Project Context",
@@ -416,19 +416,24 @@
           "line": 3
         },
         {
+          "heading": "Stack",
+          "level": 2,
+          "line": 6
+        },
+        {
           "heading": "Active Routes",
           "level": 2,
-          "line": 9
+          "line": 13
         },
         {
           "heading": "Navigation And Theme",
           "level": 2,
-          "line": 23
+          "line": 28
         },
         {
           "heading": "Current UI Direction",
           "level": 2,
-          "line": 35
+          "line": 37
         },
         {
           "heading": "Home",
@@ -436,69 +441,59 @@
           "line": 47
         },
         {
-          "heading": "Calculators",
+          "heading": "Price Calculators",
           "level": 2,
-          "line": 59
+          "line": 57
         },
         {
-          "heading": "Route Structure",
+          "heading": "EU Calculator",
           "level": 3,
-          "line": 61
+          "line": 66
         },
         {
-          "heading": "Important Active Calculator Routes",
+          "heading": "UK Trade Calculator",
           "level": 3,
-          "line": 70
-        },
-        {
-          "heading": "Pricing Rules",
-          "level": 3,
-          "line": 77
-        },
-        {
-          "heading": "Data Rules",
-          "level": 3,
-          "line": 84
+          "line": 85
         },
         {
           "heading": "Garment Directory",
           "level": 2,
-          "line": 90
+          "line": 101
+        },
+        {
+          "heading": "Commercial Invoices",
+          "level": 2,
+          "line": 112
         },
         {
           "heading": "PK Tax",
           "level": 2,
-          "line": 104
+          "line": 136
         },
         {
           "heading": "Referrals",
           "level": 2,
-          "line": 117
+          "line": 147
         },
         {
-          "heading": "Quick Reference",
+          "heading": "Database Runtime",
           "level": 2,
-          "line": 134
-        },
-        {
-          "heading": "Database And Runtime",
-          "level": 2,
-          "line": 169
+          "line": 159
         },
         {
           "heading": "Seed State",
           "level": 2,
-          "line": 177
+          "line": 166
         },
         {
-          "heading": "Key Wording Constraints",
+          "heading": "Wording Constraints",
           "level": 2,
-          "line": 186
+          "line": 174
         },
         {
           "heading": "Verification Commands",
           "level": 2,
-          "line": 195
+          "line": 181
         }
       ],
       "metrics": {
@@ -506,15 +501,15 @@
         "exportCount": 0,
         "functionCount": 0,
         "classCount": 0,
-        "sectionCount": 19
+        "sectionCount": 18
       }
     },
     {
       "path": "docs/ai-context/UI_MANUAL_UPDATE_GUIDE.md",
       "language": "markdown",
       "fileCategory": "docs",
-      "totalLines": 668,
-      "nonEmptyLines": 472,
+      "totalLines": 693,
+      "nonEmptyLines": 493,
       "sections": [
         {
           "heading": "Pins Hub UI Manual Update Guide",
@@ -534,237 +529,242 @@
         {
           "heading": "Theme System",
           "level": 2,
-          "line": 99
+          "line": 106
         },
         {
           "heading": "Where theme colors live",
           "level": 3,
-          "line": 101
+          "line": 108
         },
         {
           "heading": "Theme state logic",
           "level": 3,
-          "line": 131
+          "line": 138
         },
         {
           "heading": "Shared Design System Primitives",
           "level": 2,
-          "line": 146
+          "line": 153
         },
         {
           "heading": "Core containers",
           "level": 3,
-          "line": 150
+          "line": 157
         },
         {
           "heading": "Navigation / buttons",
           "level": 3,
-          "line": 159
+          "line": 166
         },
         {
           "heading": "Inputs / controls",
           "level": 3,
-          "line": 172
+          "line": 179
         },
         {
           "heading": "Layout / spacing",
           "level": 3,
-          "line": 181
+          "line": 188
         },
         {
           "heading": "Navigation / cards",
           "level": 3,
-          "line": 192
+          "line": 199
         },
         {
           "heading": "Data-heavy UI",
           "level": 3,
-          "line": 201
+          "line": 208
         },
         {
           "heading": "Branding And Logo Files",
           "level": 2,
-          "line": 218
+          "line": 225
         },
         {
           "heading": "Shared Navigation / Shell Components",
           "level": 2,
-          "line": 235
+          "line": 242
         },
         {
           "heading": "Sidebar",
           "level": 3,
-          "line": 237
+          "line": 244
         },
         {
           "heading": "Home tool cards",
           "level": 3,
-          "line": 254
+          "line": 261
         },
         {
           "heading": "Shared back button",
           "level": 3,
-          "line": 268
+          "line": 275
         },
         {
           "heading": "Page-Level Ownership Map",
           "level": 2,
-          "line": 276
+          "line": 283
         },
         {
           "heading": "Home",
           "level": 3,
-          "line": 278
+          "line": 285
         },
         {
           "heading": "Hub layout",
           "level": 3,
-          "line": 300
+          "line": 307
         },
         {
           "heading": "Calculator route shells",
           "level": 3,
-          "line": 314
+          "line": 321
         },
         {
           "heading": "Standard EU and US Clients calculators",
           "level": 3,
-          "line": 329
+          "line": 337
+        },
+        {
+          "heading": "UK Trade Calculator",
+          "level": 3,
+          "line": 361
         },
         {
           "heading": "Garment Directory",
           "level": 3,
-          "line": 351
+          "line": 377
         },
         {
           "heading": "PK Tax",
           "level": 3,
-          "line": 368
+          "line": 394
         },
         {
           "heading": "Referrals",
           "level": 3,
-          "line": 385
+          "line": 411
         },
         {
           "heading": "Quick Reference",
           "level": 3,
-          "line": 406
+          "line": 432
         },
         {
           "heading": "Where To Change Specific Things",
           "level": 2,
-          "line": 425
+          "line": 451
         },
         {
           "heading": "1. Update global colors",
           "level": 3,
-          "line": 427
+          "line": 453
         },
         {
           "heading": "2. Update page header spacing everywhere",
           "level": 3,
-          "line": 438
+          "line": 464
         },
         {
           "heading": "3. Update sidebar container position or width",
           "level": 3,
-          "line": 451
+          "line": 477
         },
         {
           "heading": "4. Update home hero position / compactness",
           "level": 3,
-          "line": 465
+          "line": 491
         },
         {
           "heading": "5. Update search bar styling across multiple pages",
           "level": 3,
-          "line": 478
+          "line": 504
         },
         {
           "heading": "6. Update card hover / elevation globally",
           "level": 3,
-          "line": 493
+          "line": 519
         },
         {
           "heading": "7. Update back button styling everywhere",
           "level": 3,
-          "line": 506
+          "line": 532
         },
         {
           "heading": "8. Update calculator result cards",
           "level": 3,
-          "line": 513
+          "line": 539
         },
         {
           "heading": "9. Update garment table row density / header",
           "level": 3,
-          "line": 526
+          "line": 552
         },
         {
           "heading": "10. Update accordion appearance",
           "level": 3,
-          "line": 539
+          "line": 565
         },
         {
           "heading": "Useful Search Terms",
           "level": 2,
-          "line": 548
+          "line": 574
         },
         {
           "heading": "Theme / colors",
           "level": 3,
-          "line": 552
+          "line": 578
         },
         {
           "heading": "Spacing / headers",
           "level": 3,
-          "line": 560
+          "line": 586
         },
         {
           "heading": "Home",
           "level": 3,
-          "line": 567
+          "line": 593
         },
         {
           "heading": "Sidebar",
           "level": 3,
-          "line": 573
+          "line": 599
         },
         {
           "heading": "Calculator",
           "level": 3,
-          "line": 580
+          "line": 606
         },
         {
           "heading": "Garments",
           "level": 3,
-          "line": 588
+          "line": 614
         },
         {
           "heading": "PK Tax",
           "level": 3,
-          "line": 594
+          "line": 620
         },
         {
           "heading": "Referrals",
           "level": 3,
-          "line": 601
+          "line": 627
         },
         {
           "heading": "Quick Reference",
           "level": 3,
-          "line": 608
+          "line": 634
         },
         {
           "heading": "Safe Prompt Template For ChatGPT",
           "level": 2,
-          "line": 614
+          "line": 640
         },
         {
           "heading": "Final Reminder",
           "level": 2,
-          "line": 656
+          "line": 682
         }
       ],
       "metrics": {
@@ -772,15 +772,15 @@
         "exportCount": 0,
         "functionCount": 0,
         "classCount": 0,
-        "sectionCount": 50
+        "sectionCount": 51
       }
     },
     {
       "path": "eslint.config.mjs",
       "language": "javascript",
       "fileCategory": "code",
-      "totalLines": 18,
-      "nonEmptyLines": 16,
+      "totalLines": 20,
+      "nonEmptyLines": 17,
       "metrics": {
         "importCount": 0,
         "exportCount": 0,
@@ -1194,8 +1194,8 @@
       "path": "prisma/schema.prisma",
       "language": "prisma",
       "fileCategory": "data",
-      "totalLines": 160,
-      "nonEmptyLines": 139,
+      "totalLines": 239,
+      "nonEmptyLines": 210,
       "metrics": {}
     },
     {
@@ -1486,8 +1486,8 @@
       "path": "src/app/globals.css",
       "language": "css",
       "fileCategory": "markup",
-      "totalLines": 515,
-      "nonEmptyLines": 448,
+      "totalLines": 541,
+      "nonEmptyLines": 469,
       "metrics": {}
     }
   ]

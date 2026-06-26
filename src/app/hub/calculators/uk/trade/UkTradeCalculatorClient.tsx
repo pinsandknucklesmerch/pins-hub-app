@@ -3,18 +3,20 @@
 import { toast } from "sonner"
 import { useMemo, useState } from "react"
 
-import { PRINT_POSITIONS } from "@/components/DesignCard"
 import {
   CUSTOMER_QUOTE_COPY_LABEL,
   formatBreakdownAmount,
-  formatPrintBreakdownLabel,
   formatBreakdownUnitAmount,
   formatSubtotalBreakdownLabel,
   getBreakdownItemLabel,
 } from "../../displayStandards"
 import {
-  getUkTradeScreenPrintPrice,
-  UK_TRADE_SCREEN_SETUP_PER_COLOUR,
+  getUkTradePrintPositionPrice,
+  getUkTradePricingColorCount,
+  getUkTradeSetupScreenCount,
+  isUkTradeFixedNeckPrintPosition,
+  isUkTradeScreenSetupPosition,
+  UK_TRADE_SCREEN_SETUP_PER_SCREEN,
 } from "../tradeScreenPrintData"
 import {
   getUkTradeEmbroideryPrice,
@@ -25,7 +27,14 @@ import UkTradeDesignCard, {
   type UkTradeDesign,
   type UkTradeEmbroideryKey,
 } from "./UkTradeDesignCard"
-import type { UkTradeGarment } from "./types"
+import {
+  UK_TRADE_NECK_PRINT_STANDARD_POSITION,
+  UK_TRADE_NECK_PRINT_TRANSFER_POSITION,
+  UK_TRADE_PRINT_POSITIONS,
+  type UkTradeGarment,
+  type UkTradePrintPositionId,
+  type UkTradePrintPositionState,
+} from "./types"
 
 type UkTradeEmbroideryBreakdown = {
   key: UkTradeEmbroideryKey
@@ -41,6 +50,7 @@ type UkTradeEmbroideryBreakdown = {
 type UkTradeItemBreakdown = {
   garmentCost: number
   printCost: number
+  screenSetupScreenCount: number
   screenSetupCost: number
   embroideryCost: number
   embroiderySetupCost: number
@@ -63,8 +73,18 @@ function createDefaultDesign(): UkTradeDesign {
   }
 }
 
-function getSelectedPositionEntries(positions: Record<string, number>) {
-  return Object.entries(positions).filter(([, colorCount]) => colorCount > 0)
+function getSelectedPositionEntries(
+  positions: UkTradePrintPositionState,
+): Array<[UkTradePrintPositionId, number]> {
+  return UK_TRADE_PRINT_POSITIONS.flatMap((position) => {
+    const colorCount = positions[position.value] ?? 0
+
+    if (colorCount <= 0) {
+      return []
+    }
+
+    return [[position.value, colorCount]]
+  })
 }
 
 function getSelectedEmbroideryEntries(design: UkTradeDesign) {
@@ -94,7 +114,38 @@ function getGarmentQuoteSummary(garment?: UkTradeGarment) {
 }
 
 function getPrintPositionLabel(position: string) {
-  return PRINT_POSITIONS.find((item) => item.value === position)?.label ?? position
+  return (
+    UK_TRADE_PRINT_POSITIONS.find((item) => item.value === position)?.label ??
+    position
+  )
+}
+
+function formatUkTradePrintQuoteLabel(
+  position: UkTradePrintPositionId,
+  colorCount: number,
+) {
+  if (
+    position === UK_TRADE_NECK_PRINT_STANDARD_POSITION ||
+    position === UK_TRADE_NECK_PRINT_TRANSFER_POSITION
+  ) {
+    return getPrintPositionLabel(position)
+  }
+
+  return `${colorCount} Col ${getPrintPositionLabel(position)}`
+}
+
+function formatUkTradePrintBreakdownLabel(
+  position: UkTradePrintPositionId,
+  colorCount: number,
+) {
+  if (
+    position === UK_TRADE_NECK_PRINT_STANDARD_POSITION ||
+    position === UK_TRADE_NECK_PRINT_TRANSFER_POSITION
+  ) {
+    return getPrintPositionLabel(position)
+  }
+
+  return `${getPrintPositionLabel(position)} Print (${colorCount} col)`
 }
 
 function formatEmbroideryQuoteLabel(embroidery: UkTradeEmbroideryBreakdown) {
@@ -125,7 +176,7 @@ function formatUkTradeQuoteCopy({
       const garment = garments.find((item) => item.id === design.garmentId)
       const printSummary = getSelectedPositionEntries(design.positions).map(
         ([position, colorCount]) =>
-          `${colorCount} Col ${getPrintPositionLabel(position)}`,
+          formatUkTradePrintQuoteLabel(position, colorCount),
       )
       const embroiderySummary = breakdown.embroideryBreakdowns.map(
         formatEmbroideryQuoteLabel,
@@ -171,13 +222,32 @@ function calculateUkTradeItemBreakdown(
   }
 
   let printCost = 0
+  let screenSetupScreenCount = 0
   let screenSetupCost = 0
 
-  for (const [, colorCount] of selectedPositions) {
-    const price = getUkTradeScreenPrintPrice(design.quantity, colorCount)
+  for (const [position, colorCount] of selectedPositions) {
+    const pricingColorCount = getUkTradePricingColorCount(position, colorCount)
+    const price = getUkTradePrintPositionPrice(
+      design.quantity,
+      position,
+      pricingColorCount,
+    )
+
+    if (price.unitPrice === null) {
+      missingReasons.push(`Missing price for ${getPrintPositionLabel(position)}.`)
+    }
+
     printCost += (price.unitPrice ?? 0) * design.quantity
-    screenSetupCost += colorCount * UK_TRADE_SCREEN_SETUP_PER_COLOUR
+
+    if (isUkTradeScreenSetupPosition(position)) {
+      screenSetupScreenCount += getUkTradeSetupScreenCount(
+        position,
+        pricingColorCount,
+      )
+    }
   }
+
+  screenSetupCost = screenSetupScreenCount * UK_TRADE_SCREEN_SETUP_PER_SCREEN
 
   const embroideryBreakdowns = selectedEmbroideryEntries.map((embroidery) => {
     const price = getUkTradeEmbroideryPrice(
@@ -218,6 +288,7 @@ function calculateUkTradeItemBreakdown(
   return {
     garmentCost,
     printCost,
+    screenSetupScreenCount,
     screenSetupCost,
     embroideryCost,
     embroiderySetupCost,
@@ -283,6 +354,7 @@ export default function UkTradeCalculatorClient({
   const totals = useMemo(() => {
     let garmentCost = 0
     let printCost = 0
+    let screenSetupScreenCount = 0
     let screenSetupCost = 0
     let embroideryCost = 0
     let embroiderySetupCost = 0
@@ -294,6 +366,7 @@ export default function UkTradeCalculatorClient({
     for (const breakdown of breakdowns) {
       garmentCost += breakdown.garmentCost
       printCost += breakdown.printCost
+      screenSetupScreenCount += breakdown.screenSetupScreenCount
       screenSetupCost += breakdown.screenSetupCost
       embroideryCost += breakdown.embroideryCost
       embroiderySetupCost += breakdown.embroiderySetupCost
@@ -309,6 +382,7 @@ export default function UkTradeCalculatorClient({
     return {
       garmentCost,
       printCost,
+      screenSetupScreenCount,
       screenSetupCost,
       embroideryCost,
       embroiderySetupCost,
@@ -432,9 +506,21 @@ export default function UkTradeCalculatorClient({
                 </div>
 
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
-                  <span>Screen Setup</span>
+                  <span>Setup screens</span>
                   <span className="font-mono text-brand-cream/90">
-                    {formatBreakdownAmount(CURRENCY, totals.screenSetupCost)}
+                    {totals.screenSetupScreenCount}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
+                  <span>Screen setup</span>
+                  <span className="font-mono text-brand-cream/90">
+                    {totals.screenSetupScreenCount} ×{" "}
+                    {formatBreakdownAmount(
+                      CURRENCY,
+                      UK_TRADE_SCREEN_SETUP_PER_SCREEN,
+                    )}{" "}
+                    = {formatBreakdownAmount(CURRENCY, totals.screenSetupCost)}
                   </span>
                 </div>
 
@@ -521,10 +607,50 @@ export default function UkTradeCalculatorClient({
 
                         {getSelectedPositionEntries(design.positions).map(
                           ([position, colorCount]) => {
-                            const unitPrice = getUkTradeScreenPrintPrice(
+                            const pricingColorCount =
+                              getUkTradePricingColorCount(position, colorCount)
+                            const unitPrice = getUkTradePrintPositionPrice(
                               design.quantity,
-                              colorCount,
+                              position,
+                              pricingColorCount,
                             )
+                            const unitPriceValue = unitPrice.unitPrice
+                            const hasUnitPrice = unitPriceValue !== null
+                            const isFixedNeck =
+                              isUkTradeFixedNeckPrintPosition(position)
+
+                            if (isFixedNeck) {
+                              const fixedDescription =
+                                position === UK_TRADE_NECK_PRINT_STANDARD_POSITION
+                                  ? "fixed 1 colour"
+                                  : "fixed transfer"
+
+                              return (
+                                <div
+                                  key={position}
+                                  className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted"
+                                >
+                                  <span className="font-semibold text-brand-red/90">
+                                    {getPrintPositionLabel(position)} ·{" "}
+                                    {fixedDescription}
+                                  </span>
+                                  <span
+                                    className={`font-mono font-semibold ${
+                                      unitPriceValue === null
+                                        ? "text-brand-red/90"
+                                        : "text-brand-cream/90"
+                                    }`}
+                                  >
+                                    {unitPriceValue === null
+                                      ? "Missing price"
+                                      : `${formatBreakdownAmount(
+                                          CURRENCY,
+                                          unitPriceValue,
+                                        )}/unit`}
+                                  </span>
+                                </div>
+                              )
+                            }
 
                             return (
                               <div
@@ -532,13 +658,24 @@ export default function UkTradeCalculatorClient({
                                 className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted"
                               >
                                 <span>
-                                  {formatPrintBreakdownLabel(position, colorCount)}
-                                </span>
-                                <span className="font-mono text-brand-cream/90">
-                                  {formatBreakdownUnitAmount(
-                                    CURRENCY,
-                                    unitPrice.unitPrice ?? 0,
+                                  {formatUkTradePrintBreakdownLabel(
+                                    position,
+                                    colorCount,
                                   )}
+                                </span>
+                                <span
+                                  className={`font-mono ${
+                                    hasUnitPrice
+                                      ? "text-brand-cream/90"
+                                      : "text-brand-red/90"
+                                  }`}
+                                >
+                                  {unitPriceValue !== null
+                                    ? formatBreakdownUnitAmount(
+                                        CURRENCY,
+                                        unitPriceValue,
+                                      )
+                                    : "Missing price"}
                                 </span>
                               </div>
                             )
@@ -572,8 +709,21 @@ export default function UkTradeCalculatorClient({
                         ))}
 
                         <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
-                          <span>Screen Setup</span>
+                          <span>Setup screens</span>
                           <span className="font-mono text-brand-cream/90">
+                            {breakdown.screenSetupScreenCount}
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 text-sm text-brand-muted">
+                          <span>Screen setup</span>
+                          <span className="font-mono text-brand-cream/90">
+                            {breakdown.screenSetupScreenCount} ×{" "}
+                            {formatBreakdownAmount(
+                              CURRENCY,
+                              UK_TRADE_SCREEN_SETUP_PER_SCREEN,
+                            )}{" "}
+                            ={" "}
                             {formatBreakdownAmount(
                               CURRENCY,
                               breakdown.screenSetupCost,

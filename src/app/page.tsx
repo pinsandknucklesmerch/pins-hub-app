@@ -18,7 +18,7 @@ export default function Home() {
                     <BrandLogo className="mt-2 h-8 w-auto max-w-full opacity-90" />
                   </div>
                   <span className="rounded-full border border-brand-border bg-brand-panel-alt/70 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-brand-muted">
-                  5 Live Tools
+ 6 Live Tools
                   </span>
                 </div>
                 <p className="max-w-3xl text-sm leading-6 text-brand-muted md:text-[0.95rem]">
@@ -43,12 +43,19 @@ export default function Home() {
               />
 
               <NavigationCard
-                href="/hub/garments"
-                title="Garment Directory"
-                description="Reference catalogue with connected markup visibility and garment management."
+                href="/hub/data"
+                title="Data Management"
+                description="Shared product, address, and invoice reference data, with garments active now."
                 compact
-                icon={<path d="M20.38 3.46 16 2l-2 3-2-3-4.38 1.46L6 9l3 2v9h6v-9l3-2Z" />}
-              />
+                icon={
+                  <>
+                    <path d="M4 7h16" />
+                    <path d="M4 12h16" />
+                    <path d="M4 17h10" />
+                    <path d="M7 4v16" />
+                  </>
+                }
+ />
 
               <NavigationCard
                 href="/hub/pk-tax"

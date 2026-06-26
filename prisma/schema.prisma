@@ -131,6 +131,85 @@ model ReferralScenario {
   @@index([name])
 }
 
+model CommercialInvoice {
+  id              String                  @id @default(cuid())
+  title           String?
+  invoiceNumber   String
+  reference       String?
+  invoiceDate     DateTime?
+  shipDate        DateTime?
+  tracking        String?
+  boxCount        Int?
+  weight          String?
+  currency        String
+  printLocation   String?
+  dutiesPayableBy String?
+  senderJson      Json
+  receiverJson    Json
+  totalQuantity   Int
+  invoiceTotal    Decimal
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  lines           CommercialInvoiceLine[]
+
+  @@index([updatedAt])
+  @@index([invoiceNumber])
+}
+
+model CommercialInvoiceLine {
+  id                  String            @id @default(cuid())
+  commercialInvoiceId String
+  commercialInvoice   CommercialInvoice @relation(fields: [commercialInvoiceId], references: [id], onDelete: Cascade)
+  product             String?
+  designName          String?
+  productType         String?
+  description         String?
+  unitCost            Decimal
+  quantity            Int
+  lineTotal           Decimal
+  commodityCode       String?
+  countryOfOrigin     String?
+  sortOrder           Int
+
+  @@index([commercialInvoiceId])
+}
+
+model SavedInvoiceAddress {
+  id          String   @id @default(cuid())
+  label       String
+  companyName String
+  contactName String?
+  address     String
+  country     String
+  eoriNumber  String?
+  vatNumber   String?
+  einNumber   String?
+  telephone   String?
+  email       String?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([label])
+  @@index([updatedAt])
+}
+
+model CommercialInvoiceCommodityCode {
+  id            String   @id @default(cuid())
+  label         String
+  productType   String
+  material      String?
+  commodityCode String
+  description   String?
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([label])
+  @@index([productType])
+  @@index([commodityCode])
+}
+
 enum PrintPosition {
   FRONT
   BACK

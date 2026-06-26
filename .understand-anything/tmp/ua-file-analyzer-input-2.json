@@ -1,5 +1,5 @@
 {
-  "projectRoot": "/home/duncan/Documents/pins-dashboard",
+  "projectRoot": "/home/duncan/Work/pins-and-knuckles/02-projects/pins-hub/pins-hub-app",
   "batchFiles": [
     {
       "path": "src/app/hub/calculators/CalculatorPageContent.tsx",

@@ -122,8 +122,8 @@
       "path": "README.md",
       "language": "markdown",
       "fileCategory": "docs",
-      "totalLines": 90,
-      "nonEmptyLines": 68,
+      "totalLines": 83,
+      "nonEmptyLines": 62,
       "sections": [
         {
           "heading": "Pins Hub",
@@ -131,39 +131,39 @@
           "line": 1
         },
         {
-          "heading": "Stack",
+          "heading": "Features",
           "level": 2,
-          "line": 5
+          "line": 7
         },
         {
-          "heading": "Current Hub Routes",
+          "heading": "Tech Stack",
           "level": 2,
-          "line": 13
+          "line": 18
         },
         {
-          "heading": "UI Notes",
+          "heading": "Active Routes",
           "level": 2,
-          "line": 27
+          "line": 28
         },
         {
-          "heading": "Quick Reference",
+          "heading": "Local Setup",
           "level": 2,
-          "line": 36
+          "line": 43
         },
         {
-          "heading": "Database Setup",
+          "heading": "Environment Notes",
           "level": 2,
-          "line": 50
+          "line": 66
         },
         {
-          "heading": "Common Commands",
+          "heading": "Deployment Notes",
           "level": 2,
-          "line": 71
+          "line": 73
         },
         {
-          "heading": "Important Constraints",
+          "heading": "Safety Notes",
           "level": 2,
-          "line": 80
+          "line": 79
         }
       ],
       "metrics": {
@@ -178,8 +178,8 @@
       "path": "package.json",
       "language": "json",
       "fileCategory": "config",
-      "totalLines": 36,
-      "nonEmptyLines": 36,
+      "totalLines": 39,
+      "nonEmptyLines": 39,
       "sections": [
         {
           "heading": "name",
@@ -209,7 +209,7 @@
         {
           "heading": "devDependencies",
           "level": 1,
-          "line": 25
+          "line": 28
         }
       ],
       "metrics": {

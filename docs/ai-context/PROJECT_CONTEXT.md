@@ -18,6 +18,7 @@
 - `/hub/calculators/eu/us-clients`
 - `/hub/calculators/uk`
 - `/hub/calculators/uk/trade`
+- `/hub/commercial-invoices`
 - `/hub/garments`
 - `/hub/pk-tax`
 - `/hub/referrals`
@@ -26,7 +27,7 @@
 
 ## Navigation And Theme
 - hub uses compact sidebar navigation in `src/components/HubSidebar.tsx`.
-- Sidebar items currently map `Home`, `Price Calculators`, `Garment Directory`, `PK Tax`, `Referrals`, and `Quick Reference`.
+- Sidebar items currently map `Home`, `Price Calculators`, `Commercial Invoices`, `Garment Directory`, `PK Tax`, `Referrals`, and `Quick Reference`.
 - Only usable routes appear in sidebar.
 - app supports two persistent local themes: `brand` `classic`.
 - Theme state managed in `src/components/theme/HubThemeProvider.tsx`.
@@ -45,7 +46,7 @@
 
 ## Home
 - Current surface dark hub shell sidebar, compact hero, grid tool cards.
-- home screen currently advertises `5 Live Tools`.
+- home screen currently advertises `6 Live Tools`.
 - Home cards are:
   - `Price Calculators`
   - `Garment Directory`
@@ -105,8 +106,32 @@
   - `src/app/hub/garments/data.ts`
   - `src/app/hub/garments/actions.ts`
 - Notes:
-  - Directory data cached behind `garment-directory` tag
-  - Garment mutations revalidate garment directory calculator reference surfaces
+ - Directory data cached behind `garment-directory` tag
+ - Garment mutations revalidate garment directory calculator reference surfaces
+
+## Commercial Invoices
+- Route: `/hub/commercial-invoices`
+- Files:
+ - `src/app/hub/commercial-invoices/page.tsx`
+ - `src/app/hub/commercial-invoices/CommercialInvoiceClient.tsx`
+ - `src/app/hub/commercial-invoices/actions.ts`
+ - `src/app/hub/commercial-invoices/data.ts`
+ - `src/app/hub/commercial-invoices/types.ts`
+- Current behavior:
+ - Manual-first commercial invoice builder for internal shipment paperwork
+ - Sender, receiver, duties payer, and print location start blank/unselected
+ - Sender/receiver dropdowns currently use static starter addresses in the client: `EPCC` => `The Embroidered & Printed Clothing Company`, `Sportimadok` => `Sportimadok.hu kft`, and `AAA Vans Ireland`
+ - Selecting a starter address copies values into editable invoice fields; editing copied fields must not mutate starter source data
+ - Excel export is primary editable output using `exceljs`
+ - PDF export is secondary final/shareable output using `jspdf` and `jspdf-autotable`
+ - Exports include invoice details, sender/receiver snapshots, line items, totals, print location declaration, and blank signature fields
+ - `Print Location` means where the order was printed: `United Kingdom` or `Hungary`
+ - `Country of Origin` means where the blank garment/product was manufactured, not where it was printed
+ - Commodity code is product/material/type based, not brand based
+ - Country of origin is garment/product specific and stays editable per line item
+ - Variable COO support is local/static metadata: `Gildan` line items show a COO dropdown with `Bangladesh`, `Honduras`, `Nicaragua`, `Haiti`, plus `Other / manual`; `Westford Mill W101` auto-fills fixed known COO `China` when blank but remains editable; unknown products show a normal blank COO input and helper copy to check garment label or supplier spec sheet
+ - Save/load persists editable invoice snapshots when the commercial invoice database models are available
+ - Do not turn this route into a full accounting system or change calculator pricing logic from here
 
 ## PK Tax
 - Route: `/hub/pk-tax`

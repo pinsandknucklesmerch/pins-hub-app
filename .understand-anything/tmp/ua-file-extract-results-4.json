@@ -1,0 +1,3210 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "src/app/hub/calculators/CalculatorClient.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 920,
+      "nonEmptyLines": 833,
+      "functions": [
+        {
+          "name": "formatDigitizingFeeVatDisplay",
+          "startLine": 60,
+          "endLine": 63,
+          "params": [
+            "currency",
+            "valueExclVat",
+            "vatRate"
+          ]
+        },
+        {
+          "name": "CalculatorClient",
+          "startLine": 65,
+          "endLine": 920,
+          "params": [
+            "{\n  garments,\n  printPrices,\n  garmentMarkups,\n  calculatorTitle,\n}"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CalculatorClient",
+          "line": 65,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "formatDigitizingFeeVatDisplay",
+          "callee": "valueInclVat.toFixed",
+          "lineNumber": 62
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useState",
+          "lineNumber": 76
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useState",
+          "lineNumber": 85
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useState",
+          "lineNumber": 86
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useState",
+          "lineNumber": 87
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useState",
+          "lineNumber": 88
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useState",
+          "lineNumber": 89
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useState",
+          "lineNumber": 90
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useState",
+          "lineNumber": 91
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useId",
+          "lineNumber": 92
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useRef",
+          "lineNumber": 93
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useRef",
+          "lineNumber": 94
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useEffect",
+          "lineNumber": 99
+        },
+        {
+          "caller": "getFocusableElements",
+          "callee": "Array.from(\n        dialog.querySelectorAll<HTMLElement>(\n          'button, [href], input, select, textarea, [tabindex]:not([tabindex=\"-1\"])'\n        )\n      ).filter",
+          "lineNumber": 114
+        },
+        {
+          "caller": "getFocusableElements",
+          "callee": "Array.from",
+          "lineNumber": 114
+        },
+        {
+          "caller": "getFocusableElements",
+          "callee": "dialog.querySelectorAll",
+          "lineNumber": 115
+        },
+        {
+          "caller": "getFocusableElements",
+          "callee": "element.hasAttribute",
+          "lineNumber": 118
+        },
+        {
+          "caller": "getFocusableElements",
+          "callee": "element.getAttribute",
+          "lineNumber": 118
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getFocusableElements()[0]?.focus",
+          "lineNumber": 121
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getFocusableElements",
+          "lineNumber": 121
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "event.preventDefault",
+          "lineNumber": 125
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "setIsBoxCapacityGuideOpen",
+          "lineNumber": 126
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "getFocusableElements",
+          "lineNumber": 134
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "event.preventDefault",
+          "lineNumber": 136
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "event.preventDefault",
+          "lineNumber": 145
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "lastElement.focus",
+          "lineNumber": 146
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "event.preventDefault",
+          "lineNumber": 148
+        },
+        {
+          "caller": "handleKeyDown",
+          "callee": "firstElement.focus",
+          "lineNumber": 149
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "document.addEventListener",
+          "lineNumber": 153
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "document.removeEventListener",
+          "lineNumber": 157
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "triggerElement?.focus",
+          "lineNumber": 158
+        },
+        {
+          "caller": "addDesign",
+          "callee": "setDesigns",
+          "lineNumber": 163
+        },
+        {
+          "caller": "updateDesign",
+          "callee": "setDesigns",
+          "lineNumber": 177
+        },
+        {
+          "caller": "removeDesign",
+          "callee": "newDesigns.splice",
+          "lineNumber": 182
+        },
+        {
+          "caller": "removeDesign",
+          "callee": "setDesigns",
+          "lineNumber": 183
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 186
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "designs.map",
+          "lineNumber": 187
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "calculateDesignCosts",
+          "lineNumber": 187
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 190
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "breakdowns.reduce",
+          "lineNumber": 191
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 194
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "navigator.clipboard.writeText",
+          "lineNumber": 232
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "document.createElement",
+          "lineNumber": 236
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "document.body.appendChild",
+          "lineNumber": 242
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "textArea.focus",
+          "lineNumber": 243
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "textArea.select",
+          "lineNumber": 244
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "document.execCommand",
+          "lineNumber": 245
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "document.body.removeChild",
+          "lineNumber": 246
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 264
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "designs.some",
+          "lineNumber": 265
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 268
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "DELIVERY_RATES.find",
+          "lineNumber": 269
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 272
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "Number",
+          "lineNumber": 273
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "Number.isFinite",
+          "lineNumber": 274
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 277
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 281
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 285
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 289
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 293
+        },
+        {
+          "caller": "handleCopyClick",
+          "callee": "getQuoteFormatter",
+          "lineNumber": 306
+        },
+        {
+          "caller": "handleCopyClick",
+          "callee": "quoteFormatter",
+          "lineNumber": 307
+        },
+        {
+          "caller": "handleCopyClick",
+          "callee": "copyToClipboard",
+          "lineNumber": 315
+        },
+        {
+          "caller": "handleCopyClick",
+          "callee": "toast.success",
+          "lineNumber": 316
+        },
+        {
+          "caller": "handleDeliveryCopyClick",
+          "callee": "formatDeliveryCopy",
+          "lineNumber": 322
+        },
+        {
+          "caller": "handleDeliveryCopyClick",
+          "callee": "copyToClipboard",
+          "lineNumber": 331
+        },
+        {
+          "caller": "handleDeliveryCopyClick",
+          "callee": "toast.success",
+          "lineNumber": 332
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "designs.map",
+          "lineNumber": 342
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "updateDesign",
+          "lineNumber": 348
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "removeDesign",
+          "lineNumber": 349
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "setIsDeliveryHelperEnabled",
+          "lineNumber": 373
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "setIsBoxCapacityGuideOpen",
+          "lineNumber": 386
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "setDeliveryCountry",
+          "lineNumber": 406
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "DELIVERY_RATES.map",
+          "lineNumber": 409
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "setDeliveryBoxCount",
+          "lineNumber": 425
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "Math.max",
+          "lineNumber": 425
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "Number",
+          "lineNumber": 425
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "setDeliveryMarkupEnabled",
+          "lineNumber": 453
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "/^-?\\d*\\.?\\d*$/.test",
+          "lineNumber": 464
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "setDeliveryMarkupInput",
+          "lineNumber": 465
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "deliveryMarkupExclVat.toFixed",
+          "lineNumber": 512
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "deliverySubtotalExclVat.toFixed",
+          "lineNumber": 517
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "deliveryVatAmount.toFixed",
+          "lineNumber": 521
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "deliveryTotalInclVat.toFixed",
+          "lineNumber": 525
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "setIsBoxCapacityGuideOpen",
+          "lineNumber": 538
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "event.stopPropagation",
+          "lineNumber": 546
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "setIsBoxCapacityGuideOpen",
+          "lineNumber": 560
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "BOX_CAPACITY_GUIDE_ITEMS.map",
+          "lineNumber": 597
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "displayPinsTotalInclVat.toFixed",
+          "lineNumber": 639
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "displayProductionSubtotalExclVat.toFixed",
+          "lineNumber": 654
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "setIsBreakdownOpen",
+          "lineNumber": 665
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "breakdowns.map",
+          "lineNumber": 692
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "garments.find",
+          "lineNumber": 695
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "(\n                      b.baseCost +\n                      b.pinsCost +\n                      b.markupCost +\n                      b.pkMarkupCost +\n                      b.embroideryCost +\n                      b.digitizingFee\n                    ).toFixed",
+          "lineNumber": 710
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getBreakdownItemLabel",
+          "lineNumber": 722
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 730
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 739
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "garmentMarkups.find",
+          "lineNumber": 739
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "Object.keys(d.positions).filter((pos) => d.positions[pos] > 0).map",
+          "lineNumber": 744
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "Object.keys(d.positions).filter",
+          "lineNumber": 744
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "Object.keys",
+          "lineNumber": 744
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getPrintPositionLabel",
+          "lineNumber": 745
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getPrintUnitPrices",
+          "lineNumber": 746
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatPrintBreakdownLabel",
+          "lineNumber": 752
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 753
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getSelectedDesignEmbroideryEntries(d).map",
+          "lineNumber": 758
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getSelectedDesignEmbroideryEntries",
+          "lineNumber": 758
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 764
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatDigitizingFeeVatDisplay",
+          "lineNumber": 773
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 781
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 787
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatSubtotalBreakdownLabel",
+          "lineNumber": 790
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "breakdowns.map",
+          "lineNumber": 803
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "garments.find",
+          "lineNumber": 806
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getBreakdownItemLabel",
+          "lineNumber": 822
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 828
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "Object.keys(d.positions).filter((pos) => d.positions[pos] > 0).map",
+          "lineNumber": 831
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "Object.keys(d.positions).filter",
+          "lineNumber": 831
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "Object.keys",
+          "lineNumber": 831
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getPrintPositionLabel",
+          "lineNumber": 832
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getPrintUnitPrices",
+          "lineNumber": 833
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatPrintBreakdownLabel",
+          "lineNumber": 839
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 840
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getSelectedDesignEmbroideryEntries(d).map",
+          "lineNumber": 844
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "getSelectedDesignEmbroideryEntries",
+          "lineNumber": 844
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 850
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "b.digitizingProductionCost.toFixed",
+          "lineNumber": 859
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 865
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "formatSubtotalBreakdownLabel",
+          "lineNumber": 868
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "(\n                                    b.baseCost +\n                                    b.productionCost +\n                                    b.embroideryProductionCost +\n                                    b.digitizingProductionCost\n                                  ).toFixed",
+          "lineNumber": 872
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "displayProductionSubtotalExclVat.toFixed",
+          "lineNumber": 892
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "displayPinsSubtotalExclVat.toFixed",
+          "lineNumber": 896
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "displayPinsVatAmount.toFixed",
+          "lineNumber": 900
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "displayPinsTotalInclVat.toFixed",
+          "lineNumber": 904
+        },
+        {
+          "caller": "CalculatorClient",
+          "callee": "displayPinsProfit.toFixed",
+          "lineNumber": 908
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/app/hub/calculators/copyFormatters.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 238,
+      "nonEmptyLines": 205,
+      "functions": [
+        {
+          "name": "getCustomerSubtotalExclVat",
+          "startLine": 46,
+          "endLine": 55,
+          "params": [
+            "breakdown"
+          ]
+        },
+        {
+          "name": "formatDigitizingFeeLine",
+          "startLine": 57,
+          "endLine": 63,
+          "params": [
+            "breakdown",
+            "currency",
+            "vatRate"
+          ]
+        },
+        {
+          "name": "formatEuDigitizingFeeLine",
+          "startLine": 65,
+          "endLine": 71,
+          "params": [
+            "breakdown",
+            "currency"
+          ]
+        },
+        {
+          "name": "formatDigitizingFeeInclVatText",
+          "startLine": 73,
+          "endLine": 76,
+          "params": [
+            "currency",
+            "valueExclVat",
+            "vatRate"
+          ]
+        },
+        {
+          "name": "formatEmbroiderySummary",
+          "startLine": 78,
+          "endLine": 88,
+          "params": [
+            "design"
+          ]
+        },
+        {
+          "name": "formatPositionSummary",
+          "startLine": 90,
+          "endLine": 105,
+          "params": [
+            "design",
+            "variant"
+          ]
+        },
+        {
+          "name": "formatGarmentSummary",
+          "startLine": 107,
+          "endLine": 121,
+          "params": [
+            "garment",
+            "positionsText",
+            "suffix"
+          ]
+        },
+        {
+          "name": "formatEuQuoteCopy",
+          "startLine": 123,
+          "endLine": 151,
+          "params": [
+            "{\n  designs,\n  breakdowns,\n  garments,\n  currency,\n}"
+          ]
+        },
+        {
+          "name": "formatUsClientQuoteCopy",
+          "startLine": 153,
+          "endLine": 185,
+          "params": [
+            "{\n  designs,\n  breakdowns,\n  garments,\n  currency,\n  vatRate,\n}"
+          ]
+        },
+        {
+          "name": "formatUkTradeQuoteCopy",
+          "startLine": 187,
+          "endLine": 211,
+          "params": [
+            "{\n  designs,\n  breakdowns,\n  garments,\n  currency,\n}"
+          ]
+        },
+        {
+          "name": "formatDeliveryCopy",
+          "startLine": 213,
+          "endLine": 230,
+          "params": [
+            "{\n  country,\n  deliveryTime,\n  boxCount,\n  costPerBox,\n  totalInclVat,\n  currency,\n}"
+          ]
+        },
+        {
+          "name": "getQuoteFormatter",
+          "startLine": 232,
+          "endLine": 238,
+          "params": [
+            "calculatorTitle"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "formatEuQuoteCopy",
+          "line": 123,
+          "isDefault": false
+        },
+        {
+          "name": "formatUsClientQuoteCopy",
+          "line": 153,
+          "isDefault": false
+        },
+        {
+          "name": "formatUkTradeQuoteCopy",
+          "line": 187,
+          "isDefault": false
+        },
+        {
+          "name": "formatDeliveryCopy",
+          "line": 213,
+          "isDefault": false
+        },
+        {
+          "name": "getQuoteFormatter",
+          "line": 232,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "formatDigitizingFeeLine",
+          "callee": "formatDigitizingFeeInclVatText",
+          "lineNumber": 62
+        },
+        {
+          "caller": "formatEuDigitizingFeeLine",
+          "callee": "formatDigitizingFeeInclVatText",
+          "lineNumber": 70
+        },
+        {
+          "caller": "formatDigitizingFeeInclVatText",
+          "callee": "valueInclVat.toFixed",
+          "lineNumber": 75
+        },
+        {
+          "caller": "formatEmbroiderySummary",
+          "callee": "DESIGN_EMBROIDERY_ITEMS.flatMap((item) => {\n    const size = design.embroideryItems?.[item.key]\n\n    if (!size) {\n      return []\n    }\n\n    return item.label\n  }).join",
+          "lineNumber": 79
+        },
+        {
+          "caller": "formatEmbroiderySummary",
+          "callee": "DESIGN_EMBROIDERY_ITEMS.flatMap",
+          "lineNumber": 79
+        },
+        {
+          "caller": "formatPositionSummary",
+          "callee": "Object.entries(design.positions)\n    .filter(([, colorCount]) => colorCount > 0)\n    .map",
+          "lineNumber": 91
+        },
+        {
+          "caller": "formatPositionSummary",
+          "callee": "Object.entries(design.positions)\n    .filter",
+          "lineNumber": 91
+        },
+        {
+          "caller": "formatPositionSummary",
+          "callee": "Object.entries",
+          "lineNumber": 91
+        },
+        {
+          "caller": "formatPositionSummary",
+          "callee": "getPrintPositionLabel",
+          "lineNumber": 94
+        },
+        {
+          "caller": "formatPositionSummary",
+          "callee": "label.toLowerCase",
+          "lineNumber": 97
+        },
+        {
+          "caller": "formatPositionSummary",
+          "callee": "formatEmbroiderySummary",
+          "lineNumber": 102
+        },
+        {
+          "caller": "formatPositionSummary",
+          "callee": "[...printSummary, embroiderySummary].filter(Boolean).join",
+          "lineNumber": 104
+        },
+        {
+          "caller": "formatPositionSummary",
+          "callee": "[...printSummary, embroiderySummary].filter",
+          "lineNumber": 104
+        },
+        {
+          "caller": "formatGarmentSummary",
+          "callee": "[\n    garment?.code?.trim(),\n    garment?.brandName?.trim(),\n    garment?.name?.trim(),\n    garment?.color?.trim(),\n  ].filter",
+          "lineNumber": 112
+        },
+        {
+          "caller": "formatGarmentSummary",
+          "callee": "garment?.code?.trim",
+          "lineNumber": 113
+        },
+        {
+          "caller": "formatGarmentSummary",
+          "callee": "garment?.brandName?.trim",
+          "lineNumber": 114
+        },
+        {
+          "caller": "formatGarmentSummary",
+          "callee": "garment?.name?.trim",
+          "lineNumber": 115
+        },
+        {
+          "caller": "formatGarmentSummary",
+          "callee": "garment?.color?.trim",
+          "lineNumber": 116
+        },
+        {
+          "caller": "formatGarmentSummary",
+          "callee": "garmentParts.join",
+          "lineNumber": 118
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "breakdowns\n    .map((breakdown, index) => {\n      const design = designs[index]\n      if (!design) return null\n\n      const garment = garments.find((item) => item.id === design.garmentId)\n      const positionsText = formatPositionSummary(design, \"eu\")\n      const subtotalExclVat = getCustomerSubtotalExclVat(breakdown)\n      const digitizingFeeLine = formatEuDigitizingFeeLine(breakdown, currency)\n      const unitExclVat = design.quantity > 0 ? subtotalExclVat / design.quantity : 0\n      const totalInclVat = subtotalExclVat * 1.27\n\n      return [\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        formatGarmentSummary(garment, positionsText),\n        ...(digitizingFeeLine ? [digitizingFeeLine] : []),\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} (excl vat) ea = ${currency}${totalInclVat.toFixed(2)}`,\n      ].filter(Boolean).join(\"\\n\\n\")\n    })\n    .filter((entry): entry is string => Boolean(entry))\n    .join",
+          "lineNumber": 129
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "breakdowns\n    .map((breakdown, index) => {\n      const design = designs[index]\n      if (!design) return null\n\n      const garment = garments.find((item) => item.id === design.garmentId)\n      const positionsText = formatPositionSummary(design, \"eu\")\n      const subtotalExclVat = getCustomerSubtotalExclVat(breakdown)\n      const digitizingFeeLine = formatEuDigitizingFeeLine(breakdown, currency)\n      const unitExclVat = design.quantity > 0 ? subtotalExclVat / design.quantity : 0\n      const totalInclVat = subtotalExclVat * 1.27\n\n      return [\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        formatGarmentSummary(garment, positionsText),\n        ...(digitizingFeeLine ? [digitizingFeeLine] : []),\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} (excl vat) ea = ${currency}${totalInclVat.toFixed(2)}`,\n      ].filter(Boolean).join(\"\\n\\n\")\n    })\n    .filter",
+          "lineNumber": 129
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "breakdowns\n    .map",
+          "lineNumber": 129
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "garments.find",
+          "lineNumber": 134
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "formatPositionSummary",
+          "lineNumber": 135
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "getCustomerSubtotalExclVat",
+          "lineNumber": 136
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "formatEuDigitizingFeeLine",
+          "lineNumber": 137
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "[\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        formatGarmentSummary(garment, positionsText),\n        ...(digitizingFeeLine ? [digitizingFeeLine] : []),\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} (excl vat) ea = ${currency}${totalInclVat.toFixed(2)}`,\n      ].filter(Boolean).join",
+          "lineNumber": 141
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "[\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        formatGarmentSummary(garment, positionsText),\n        ...(digitizingFeeLine ? [digitizingFeeLine] : []),\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} (excl vat) ea = ${currency}${totalInclVat.toFixed(2)}`,\n      ].filter",
+          "lineNumber": 141
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "getBreakdownItemLabel",
+          "lineNumber": 142
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "formatGarmentSummary",
+          "lineNumber": 144
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "unitExclVat.toFixed",
+          "lineNumber": 146
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "totalInclVat.toFixed",
+          "lineNumber": 146
+        },
+        {
+          "caller": "formatEuQuoteCopy",
+          "callee": "Boolean",
+          "lineNumber": 149
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "breakdowns\n    .map((breakdown, index) => {\n      const design = designs[index]\n      if (!design) return null\n\n      const garment = garments.find((item) => item.id === design.garmentId)\n      const positionsText = formatPositionSummary(design, \"us\")\n      const subtotalExclVat = getCustomerSubtotalExclVat(breakdown)\n      const digitizingFeeLine = formatDigitizingFeeLine(breakdown, currency, vatRate)\n      const unitExclVat = design.quantity > 0 ? subtotalExclVat / design.quantity : 0\n      const totalInclVat = subtotalExclVat * (1 + vatRate / 100)\n      const vatAmount = totalInclVat - subtotalExclVat\n\n      return [\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        formatGarmentSummary(garment, positionsText, \" + base\"),\n        ...(digitizingFeeLine ? [digitizingFeeLine] : []),\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${subtotalExclVat.toFixed(2)} ex vat)`,\n        `VAT = ${currency}${vatAmount.toFixed(2)}`,\n        `TOTAL = ${currency}${totalInclVat.toFixed(2)}`,\n      ].join(\"\\n\")\n    })\n    .filter((entry): entry is string => Boolean(entry))\n    .join",
+          "lineNumber": 160
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "breakdowns\n    .map((breakdown, index) => {\n      const design = designs[index]\n      if (!design) return null\n\n      const garment = garments.find((item) => item.id === design.garmentId)\n      const positionsText = formatPositionSummary(design, \"us\")\n      const subtotalExclVat = getCustomerSubtotalExclVat(breakdown)\n      const digitizingFeeLine = formatDigitizingFeeLine(breakdown, currency, vatRate)\n      const unitExclVat = design.quantity > 0 ? subtotalExclVat / design.quantity : 0\n      const totalInclVat = subtotalExclVat * (1 + vatRate / 100)\n      const vatAmount = totalInclVat - subtotalExclVat\n\n      return [\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        formatGarmentSummary(garment, positionsText, \" + base\"),\n        ...(digitizingFeeLine ? [digitizingFeeLine] : []),\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${subtotalExclVat.toFixed(2)} ex vat)`,\n        `VAT = ${currency}${vatAmount.toFixed(2)}`,\n        `TOTAL = ${currency}${totalInclVat.toFixed(2)}`,\n      ].join(\"\\n\")\n    })\n    .filter",
+          "lineNumber": 160
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "breakdowns\n    .map",
+          "lineNumber": 160
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "garments.find",
+          "lineNumber": 165
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "formatPositionSummary",
+          "lineNumber": 166
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "getCustomerSubtotalExclVat",
+          "lineNumber": 167
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "formatDigitizingFeeLine",
+          "lineNumber": 168
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "[\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        formatGarmentSummary(garment, positionsText, \" + base\"),\n        ...(digitizingFeeLine ? [digitizingFeeLine] : []),\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${subtotalExclVat.toFixed(2)} ex vat)`,\n        `VAT = ${currency}${vatAmount.toFixed(2)}`,\n        `TOTAL = ${currency}${totalInclVat.toFixed(2)}`,\n      ].join",
+          "lineNumber": 173
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "getBreakdownItemLabel",
+          "lineNumber": 174
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "formatGarmentSummary",
+          "lineNumber": 176
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "unitExclVat.toFixed",
+          "lineNumber": 178
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "subtotalExclVat.toFixed",
+          "lineNumber": 178
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "vatAmount.toFixed",
+          "lineNumber": 179
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "totalInclVat.toFixed",
+          "lineNumber": 180
+        },
+        {
+          "caller": "formatUsClientQuoteCopy",
+          "callee": "Boolean",
+          "lineNumber": 183
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "breakdowns\n    .map((breakdown, index) => {\n      const design = designs[index]\n      if (!design || !breakdown.hasValidPrice) return null\n\n      const garment = garments.find((item) => item.id === design.garmentId)\n      const positionsText = formatPositionSummary(design, \"eu\")\n      const unitExclVat = design.quantity > 0 ? breakdown.totalCost / design.quantity : 0\n\n      return [\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        formatGarmentSummary(garment, positionsText),\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${breakdown.totalCost.toFixed(2)} ex vat)`,\n      ].join(\"\\n\")\n    })\n    .filter((entry): entry is string => Boolean(entry))\n    .join",
+          "lineNumber": 193
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "breakdowns\n    .map((breakdown, index) => {\n      const design = designs[index]\n      if (!design || !breakdown.hasValidPrice) return null\n\n      const garment = garments.find((item) => item.id === design.garmentId)\n      const positionsText = formatPositionSummary(design, \"eu\")\n      const unitExclVat = design.quantity > 0 ? breakdown.totalCost / design.quantity : 0\n\n      return [\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        formatGarmentSummary(garment, positionsText),\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${breakdown.totalCost.toFixed(2)} ex vat)`,\n      ].join(\"\\n\")\n    })\n    .filter",
+          "lineNumber": 193
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "breakdowns\n    .map",
+          "lineNumber": 193
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "garments.find",
+          "lineNumber": 198
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "formatPositionSummary",
+          "lineNumber": 199
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "[\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        formatGarmentSummary(garment, positionsText),\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${breakdown.totalCost.toFixed(2)} ex vat)`,\n      ].join",
+          "lineNumber": 202
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "getBreakdownItemLabel",
+          "lineNumber": 203
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "formatGarmentSummary",
+          "lineNumber": 205
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "unitExclVat.toFixed",
+          "lineNumber": 206
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "breakdown.totalCost.toFixed",
+          "lineNumber": 206
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "Boolean",
+          "lineNumber": 209
+        },
+        {
+          "caller": "formatDeliveryCopy",
+          "callee": "[\n    \"Delivery Helper\",\n    \"\",\n    `Delivery Country: ${country}`,\n    `Delivery Time: ${deliveryTime}`,\n    `Boxes: ${boxCount}`,\n    `Cost Per Box: ${currency}${costPerBox.toFixed(2)} excl. VAT`,\n    `Total Delivery Cost Incl. VAT: ${currency}${totalInclVat.toFixed(2)}`,\n  ].join",
+          "lineNumber": 221
+        },
+        {
+          "caller": "formatDeliveryCopy",
+          "callee": "costPerBox.toFixed",
+          "lineNumber": 227
+        },
+        {
+          "caller": "formatDeliveryCopy",
+          "callee": "totalInclVat.toFixed",
+          "lineNumber": 228
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 5,
+        "functionCount": 12,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/app/hub/calculators/uk/trade/UkTradeCalculatorClient.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 631,
+      "nonEmptyLines": 560,
+      "functions": [
+        {
+          "name": "createDefaultDesign",
+          "startLine": 59,
+          "endLine": 64,
+          "params": []
+        },
+        {
+          "name": "getSelectedPositionEntries",
+          "startLine": 66,
+          "endLine": 68,
+          "params": [
+            "positions"
+          ]
+        },
+        {
+          "name": "getSelectedEmbroideryEntries",
+          "startLine": 70,
+          "endLine": 80,
+          "params": [
+            "design"
+          ]
+        },
+        {
+          "name": "getGarmentDisplayName",
+          "startLine": 82,
+          "endLine": 86,
+          "params": [
+            "garment"
+          ]
+        },
+        {
+          "name": "getGarmentQuoteSummary",
+          "startLine": 88,
+          "endLine": 94,
+          "params": [
+            "garment"
+          ]
+        },
+        {
+          "name": "getPrintPositionLabel",
+          "startLine": 96,
+          "endLine": 98,
+          "params": [
+            "position"
+          ]
+        },
+        {
+          "name": "formatEmbroideryQuoteLabel",
+          "startLine": 100,
+          "endLine": 107,
+          "params": [
+            "embroidery"
+          ]
+        },
+        {
+          "name": "formatUkTradeQuoteCopy",
+          "startLine": 109,
+          "endLine": 150,
+          "params": [
+            "{\n  designs,\n  breakdowns,\n  garments,\n  currency,\n}"
+          ]
+        },
+        {
+          "name": "calculateUkTradeItemBreakdown",
+          "startLine": 152,
+          "endLine": 233,
+          "params": [
+            "design",
+            "garments"
+          ]
+        },
+        {
+          "name": "copyToClipboard",
+          "startLine": 235,
+          "endLine": 251,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "UkTradeCalculatorClient",
+          "startLine": 253,
+          "endLine": 631,
+          "params": [
+            "{\n  garments,\n}"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UkTradeCalculatorClient",
+          "line": 253,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getSelectedPositionEntries",
+          "callee": "Object.entries(positions).filter",
+          "lineNumber": 67
+        },
+        {
+          "caller": "getSelectedPositionEntries",
+          "callee": "Object.entries",
+          "lineNumber": 67
+        },
+        {
+          "caller": "getSelectedEmbroideryEntries",
+          "callee": "UK_TRADE_EMBROIDERY_ITEMS.flatMap",
+          "lineNumber": 71
+        },
+        {
+          "caller": "getGarmentDisplayName",
+          "callee": "[garment.brandName, garment.name, garment.color].filter(Boolean).join",
+          "lineNumber": 85
+        },
+        {
+          "caller": "getGarmentDisplayName",
+          "callee": "[garment.brandName, garment.name, garment.color].filter",
+          "lineNumber": 85
+        },
+        {
+          "caller": "getGarmentQuoteSummary",
+          "callee": "[garment.code, garment.brandName, garment.name, garment.color]\n    .filter(Boolean)\n    .join",
+          "lineNumber": 91
+        },
+        {
+          "caller": "getGarmentQuoteSummary",
+          "callee": "[garment.code, garment.brandName, garment.name, garment.color]\n    .filter",
+          "lineNumber": 91
+        },
+        {
+          "caller": "getPrintPositionLabel",
+          "callee": "PRINT_POSITIONS.find",
+          "lineNumber": 97
+        },
+        {
+          "caller": "formatEmbroideryQuoteLabel",
+          "callee": "embroidery.stitchCount.toLocaleString",
+          "lineNumber": 106
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "breakdowns\n    .map((breakdown, index) => {\n      const design = designs[index]\n      if (!design || !breakdown.hasValidPrice) return null\n\n      const garment = garments.find((item) => item.id === design.garmentId)\n      const printSummary = getSelectedPositionEntries(design.positions).map(\n        ([position, colorCount]) =>\n          `${colorCount} Col ${getPrintPositionLabel(position)}`,\n      )\n      const embroiderySummary = breakdown.embroideryBreakdowns.map(\n        formatEmbroideryQuoteLabel,\n      )\n      const workSummary = [...printSummary, ...embroiderySummary]\n        .filter(Boolean)\n        .join(\", \")\n      const unitExclVat =\n        design.quantity > 0 ? breakdown.totalCost / design.quantity : 0\n\n      return [\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        `${getGarmentQuoteSummary(garment)}${\n          workSummary ? ` (${workSummary})` : \"\"\n        }`,\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${breakdown.totalCost.toFixed(2)} ex vat)`,\n      ].join(\"\\n\")\n    })\n    .filter((entry): entry is string => Boolean(entry))\n    .join",
+          "lineNumber": 120
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "breakdowns\n    .map((breakdown, index) => {\n      const design = designs[index]\n      if (!design || !breakdown.hasValidPrice) return null\n\n      const garment = garments.find((item) => item.id === design.garmentId)\n      const printSummary = getSelectedPositionEntries(design.positions).map(\n        ([position, colorCount]) =>\n          `${colorCount} Col ${getPrintPositionLabel(position)}`,\n      )\n      const embroiderySummary = breakdown.embroideryBreakdowns.map(\n        formatEmbroideryQuoteLabel,\n      )\n      const workSummary = [...printSummary, ...embroiderySummary]\n        .filter(Boolean)\n        .join(\", \")\n      const unitExclVat =\n        design.quantity > 0 ? breakdown.totalCost / design.quantity : 0\n\n      return [\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        `${getGarmentQuoteSummary(garment)}${\n          workSummary ? ` (${workSummary})` : \"\"\n        }`,\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${breakdown.totalCost.toFixed(2)} ex vat)`,\n      ].join(\"\\n\")\n    })\n    .filter",
+          "lineNumber": 120
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "breakdowns\n    .map",
+          "lineNumber": 120
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "garments.find",
+          "lineNumber": 125
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "getSelectedPositionEntries(design.positions).map",
+          "lineNumber": 126
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "getSelectedPositionEntries",
+          "lineNumber": 126
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "getPrintPositionLabel",
+          "lineNumber": 128
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "breakdown.embroideryBreakdowns.map",
+          "lineNumber": 130
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "[...printSummary, ...embroiderySummary]\n        .filter(Boolean)\n        .join",
+          "lineNumber": 133
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "[...printSummary, ...embroiderySummary]\n        .filter",
+          "lineNumber": 133
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "[\n        `${getBreakdownItemLabel(design.itemLabel, index)}:`,\n        \"\",\n        `${getGarmentQuoteSummary(garment)}${\n          workSummary ? ` (${workSummary})` : \"\"\n        }`,\n        `${design.quantity} x ${currency}${unitExclVat.toFixed(2)} each (${currency}${breakdown.totalCost.toFixed(2)} ex vat)`,\n      ].join",
+          "lineNumber": 139
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "getBreakdownItemLabel",
+          "lineNumber": 140
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "getGarmentQuoteSummary",
+          "lineNumber": 142
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "unitExclVat.toFixed",
+          "lineNumber": 145
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "breakdown.totalCost.toFixed",
+          "lineNumber": 145
+        },
+        {
+          "caller": "formatUkTradeQuoteCopy",
+          "callee": "Boolean",
+          "lineNumber": 148
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "garments.find",
+          "lineNumber": 156
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "getSelectedPositionEntries",
+          "lineNumber": 157
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "getSelectedEmbroideryEntries",
+          "lineNumber": 158
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "missingReasons.push",
+          "lineNumber": 162
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "missingReasons.push",
+          "lineNumber": 166
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "missingReasons.push",
+          "lineNumber": 170
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "getUkTradeScreenPrintPrice",
+          "lineNumber": 177
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "selectedEmbroideryEntries.map",
+          "lineNumber": 182
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "getUkTradeEmbroideryPrice",
+          "lineNumber": 183
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "embroideryBreakdowns.reduce",
+          "lineNumber": 202
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "embroideryBreakdowns.reduce",
+          "lineNumber": 206
+        },
+        {
+          "caller": "calculateUkTradeItemBreakdown",
+          "callee": "getGarmentDisplayName",
+          "lineNumber": 228
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "navigator.clipboard.writeText",
+          "lineNumber": 237
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "document.createElement",
+          "lineNumber": 241
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "document.body.appendChild",
+          "lineNumber": 246
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "textArea.focus",
+          "lineNumber": 247
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "textArea.select",
+          "lineNumber": 248
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "document.execCommand",
+          "lineNumber": 249
+        },
+        {
+          "caller": "copyToClipboard",
+          "callee": "document.body.removeChild",
+          "lineNumber": 250
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "useState",
+          "lineNumber": 258
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "createDefaultDesign",
+          "lineNumber": 258
+        },
+        {
+          "caller": "addDesign",
+          "callee": "setDesigns",
+          "lineNumber": 261
+        },
+        {
+          "caller": "addDesign",
+          "callee": "createDefaultDesign",
+          "lineNumber": 261
+        },
+        {
+          "caller": "updateDesign",
+          "callee": "setDesigns",
+          "lineNumber": 265
+        },
+        {
+          "caller": "removeDesign",
+          "callee": "setDesigns",
+          "lineNumber": 273
+        },
+        {
+          "caller": "removeDesign",
+          "callee": "current.filter",
+          "lineNumber": 273
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 276
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "designs.map",
+          "lineNumber": 277
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "calculateUkTradeItemBreakdown",
+          "lineNumber": 277
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "designs.some",
+          "lineNumber": 281
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "Boolean",
+          "lineNumber": 281
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "useMemo",
+          "lineNumber": 283
+        },
+        {
+          "caller": "handleCopyClick",
+          "callee": "formatUkTradeQuoteCopy",
+          "lineNumber": 326
+        },
+        {
+          "caller": "handleCopyClick",
+          "callee": "body.trim",
+          "lineNumber": 333
+        },
+        {
+          "caller": "handleCopyClick",
+          "callee": "copyToClipboard",
+          "lineNumber": 335
+        },
+        {
+          "caller": "handleCopyClick",
+          "callee": "toast.success",
+          "lineNumber": 336
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "designs.map",
+          "lineNumber": 342
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "updateDesign",
+          "lineNumber": 348
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "removeDesign",
+          "lineNumber": 349
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownAmount",
+          "lineNumber": 389
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownAmount",
+          "lineNumber": 410
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownAmount",
+          "lineNumber": 430
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownAmount",
+          "lineNumber": 437
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownAmount",
+          "lineNumber": 444
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownAmount",
+          "lineNumber": 451
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 458
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatSubtotalBreakdownLabel",
+          "lineNumber": 464
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownAmount",
+          "lineNumber": 467
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "breakdowns.map",
+          "lineNumber": 485
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "garments.find",
+          "lineNumber": 487
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "getBreakdownItemLabel",
+          "lineNumber": 500
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 512
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "getSelectedPositionEntries(design.positions).map",
+          "lineNumber": 522
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "getSelectedPositionEntries",
+          "lineNumber": 522
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "getUkTradeScreenPrintPrice",
+          "lineNumber": 524
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatPrintBreakdownLabel",
+          "lineNumber": 535
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 538
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "breakdown.embroideryBreakdowns.map",
+          "lineNumber": 548
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "embroidery.stitchCount.toLocaleString",
+          "lineNumber": 553
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 556
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownAmount",
+          "lineNumber": 565
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownAmount",
+          "lineNumber": 577
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownAmount",
+          "lineNumber": 587
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownUnitAmount",
+          "lineNumber": 597
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "formatBreakdownAmount",
+          "lineNumber": 607
+        },
+        {
+          "caller": "UkTradeCalculatorClient",
+          "callee": "breakdown.missingReasons.map",
+          "lineNumber": 614
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 11,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/app/hub/calculators/uk/trade/UkTradeDesignCard.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 549,
+      "nonEmptyLines": 487,
+      "functions": [
+        {
+          "name": "normalizeSearch",
+          "startLine": 39,
+          "endLine": 41,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "getGarmentLabel",
+          "startLine": 43,
+          "endLine": 45,
+          "params": [
+            "garment"
+          ]
+        },
+        {
+          "name": "getDefaultItemLabel",
+          "startLine": 47,
+          "endLine": 49,
+          "params": [
+            "itemNumber"
+          ]
+        },
+        {
+          "name": "getColorInputState",
+          "startLine": 51,
+          "endLine": 57,
+          "params": [
+            "positions"
+          ]
+        },
+        {
+          "name": "getEmbroideryInputState",
+          "startLine": 59,
+          "endLine": 65,
+          "params": [
+            "embroideryItems"
+          ]
+        },
+        {
+          "name": "GarmentSelector",
+          "startLine": 67,
+          "endLine": 148,
+          "params": [
+            "{\n  garments,\n  value,\n  onChange,\n}"
+          ]
+        },
+        {
+          "name": "UkTradeDesignCard",
+          "startLine": 150,
+          "endLine": 549,
+          "params": [
+            "{\n  design,\n  garments,\n  itemNumber,\n  onChange,\n  onRemove,\n}"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UK_TRADE_EMBROIDERY_ITEMS",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "UkTradeDesignCard",
+          "line": 150,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "normalizeSearch",
+          "callee": "value.toLowerCase().replace(/[^a-z0-9]+/g, \" \").trim",
+          "lineNumber": 40
+        },
+        {
+          "caller": "normalizeSearch",
+          "callee": "value.toLowerCase().replace",
+          "lineNumber": 40
+        },
+        {
+          "caller": "normalizeSearch",
+          "callee": "value.toLowerCase",
+          "lineNumber": 40
+        },
+        {
+          "caller": "getGarmentLabel",
+          "callee": "[garment.brandName, garment.name, garment.color].filter(Boolean).join",
+          "lineNumber": 44
+        },
+        {
+          "caller": "getGarmentLabel",
+          "callee": "[garment.brandName, garment.name, garment.color].filter",
+          "lineNumber": 44
+        },
+        {
+          "caller": "getColorInputState",
+          "callee": "Object.fromEntries",
+          "lineNumber": 52
+        },
+        {
+          "caller": "getColorInputState",
+          "callee": "Object.entries(positions)\n      .filter(([, colorCount]) => colorCount > 0)\n      .map",
+          "lineNumber": 53
+        },
+        {
+          "caller": "getColorInputState",
+          "callee": "Object.entries(positions)\n      .filter",
+          "lineNumber": 53
+        },
+        {
+          "caller": "getColorInputState",
+          "callee": "Object.entries",
+          "lineNumber": 53
+        },
+        {
+          "caller": "getColorInputState",
+          "callee": "String",
+          "lineNumber": 55
+        },
+        {
+          "caller": "getEmbroideryInputState",
+          "callee": "Object.fromEntries",
+          "lineNumber": 60
+        },
+        {
+          "caller": "getEmbroideryInputState",
+          "callee": "UK_TRADE_EMBROIDERY_ITEMS.filter(\n      (item) => typeof embroideryItems?.[item.key] === \"number\",\n    ).map",
+          "lineNumber": 61
+        },
+        {
+          "caller": "getEmbroideryInputState",
+          "callee": "UK_TRADE_EMBROIDERY_ITEMS.filter",
+          "lineNumber": 61
+        },
+        {
+          "caller": "getEmbroideryInputState",
+          "callee": "String",
+          "lineNumber": 63
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "useState",
+          "lineNumber": 76
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "useState",
+          "lineNumber": 77
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "garments.find",
+          "lineNumber": 79
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "getGarmentLabel",
+          "lineNumber": 80
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "garments.filter",
+          "lineNumber": 82
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "normalizeSearch(query).split(\" \").filter",
+          "lineNumber": 83
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "normalizeSearch(query).split",
+          "lineNumber": 83
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "normalizeSearch",
+          "lineNumber": 83
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "normalizeSearch",
+          "lineNumber": 89
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "[\n        garment.name,\n        garment.code,\n        garment.altCode,\n        garment.brandName,\n        garment.color,\n        garment.tags,\n      ]\n        .filter(Boolean)\n        .join",
+          "lineNumber": 90
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "[\n        garment.name,\n        garment.code,\n        garment.altCode,\n        garment.brandName,\n        garment.color,\n        garment.tags,\n      ]\n        .filter",
+          "lineNumber": 90
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "queryParts.every",
+          "lineNumber": 102
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "searchableText.includes",
+          "lineNumber": 102
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setQuery",
+          "lineNumber": 111
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setIsOpen",
+          "lineNumber": 112
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setIsOpen",
+          "lineNumber": 114
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "window.setTimeout",
+          "lineNumber": 116
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setIsOpen",
+          "lineNumber": 116
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "filtered.map",
+          "lineNumber": 127
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "onChange",
+          "lineNumber": 131
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setIsOpen",
+          "lineNumber": 132
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setQuery",
+          "lineNumber": 133
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "getGarmentLabel",
+          "lineNumber": 137
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "[garment.code, garment.altCode].filter(Boolean).join",
+          "lineNumber": 139
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "[garment.code, garment.altCode].filter",
+          "lineNumber": 139
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "useState",
+          "lineNumber": 163
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "getColorInputState",
+          "lineNumber": 164
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "useState",
+          "lineNumber": 166
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "getEmbroideryInputState",
+          "lineNumber": 168
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "useState",
+          "lineNumber": 169
+        },
+        {
+          "caller": "updateQuantity",
+          "callee": "onChange",
+          "lineNumber": 172
+        },
+        {
+          "caller": "updateGarment",
+          "callee": "onChange",
+          "lineNumber": 176
+        },
+        {
+          "caller": "updatePositionColor",
+          "callee": "onChange",
+          "lineNumber": 180
+        },
+        {
+          "caller": "togglePosition",
+          "callee": "setColorInputs",
+          "lineNumber": 191
+        },
+        {
+          "caller": "togglePosition",
+          "callee": "updatePositionColor",
+          "lineNumber": 196
+        },
+        {
+          "caller": "togglePosition",
+          "callee": "setColorInputs",
+          "lineNumber": 200
+        },
+        {
+          "caller": "togglePosition",
+          "callee": "String",
+          "lineNumber": 202
+        },
+        {
+          "caller": "togglePosition",
+          "callee": "updatePositionColor",
+          "lineNumber": 204
+        },
+        {
+          "caller": "updatePositionColorInput",
+          "callee": "/^\\d*$/.test",
+          "lineNumber": 208
+        },
+        {
+          "caller": "updatePositionColorInput",
+          "callee": "setColorInputs",
+          "lineNumber": 212
+        },
+        {
+          "caller": "updatePositionColorInput",
+          "callee": "Number",
+          "lineNumber": 221
+        },
+        {
+          "caller": "updatePositionColorInput",
+          "callee": "Number.isInteger",
+          "lineNumber": 224
+        },
+        {
+          "caller": "updatePositionColorInput",
+          "callee": "updatePositionColor",
+          "lineNumber": 228
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "Number",
+          "lineNumber": 234
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "Number.isInteger",
+          "lineNumber": 237
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "setColorError",
+          "lineNumber": 242
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "setColorInputs",
+          "lineNumber": 243
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "String",
+          "lineNumber": 245
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "updatePositionColor",
+          "lineNumber": 247
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "setColorError",
+          "lineNumber": 251
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "String",
+          "lineNumber": 252
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "setColorInputs",
+          "lineNumber": 255
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "updatePositionColor",
+          "lineNumber": 261
+        },
+        {
+          "caller": "updateItemLabel",
+          "callee": "onChange",
+          "lineNumber": 265
+        },
+        {
+          "caller": "normalizeItemLabel",
+          "callee": "(design.itemLabel ?? \"\").trim",
+          "lineNumber": 269
+        },
+        {
+          "caller": "normalizeItemLabel",
+          "callee": "onChange",
+          "lineNumber": 270
+        },
+        {
+          "caller": "updateEmbroideryItem",
+          "callee": "onChange",
+          "lineNumber": 285
+        },
+        {
+          "caller": "updateEmbroideryItem",
+          "callee": "Object.keys",
+          "lineNumber": 288
+        },
+        {
+          "caller": "toggleEmbroideryItem",
+          "callee": "setEmbroideryInputs",
+          "lineNumber": 299
+        },
+        {
+          "caller": "toggleEmbroideryItem",
+          "callee": "updateEmbroideryItem",
+          "lineNumber": 304
+        },
+        {
+          "caller": "toggleEmbroideryItem",
+          "callee": "setEmbroideryInputs",
+          "lineNumber": 308
+        },
+        {
+          "caller": "toggleEmbroideryItem",
+          "callee": "String",
+          "lineNumber": 310
+        },
+        {
+          "caller": "toggleEmbroideryItem",
+          "callee": "updateEmbroideryItem",
+          "lineNumber": 312
+        },
+        {
+          "caller": "updateEmbroideryInput",
+          "callee": "/^\\d*$/.test",
+          "lineNumber": 319
+        },
+        {
+          "caller": "updateEmbroideryInput",
+          "callee": "setEmbroideryInputs",
+          "lineNumber": 323
+        },
+        {
+          "caller": "updateEmbroideryInput",
+          "callee": "updateEmbroideryItem",
+          "lineNumber": 332
+        },
+        {
+          "caller": "updateEmbroideryInput",
+          "callee": "Math.max",
+          "lineNumber": 334
+        },
+        {
+          "caller": "updateEmbroideryInput",
+          "callee": "Number",
+          "lineNumber": 334
+        },
+        {
+          "caller": "normalizeEmbroideryInput",
+          "callee": "Number",
+          "lineNumber": 340
+        },
+        {
+          "caller": "normalizeEmbroideryInput",
+          "callee": "Number.isInteger",
+          "lineNumber": 342
+        },
+        {
+          "caller": "normalizeEmbroideryInput",
+          "callee": "Math.max",
+          "lineNumber": 343
+        },
+        {
+          "caller": "normalizeEmbroideryInput",
+          "callee": "setEmbroideryInputs",
+          "lineNumber": 346
+        },
+        {
+          "caller": "normalizeEmbroideryInput",
+          "callee": "String",
+          "lineNumber": 348
+        },
+        {
+          "caller": "normalizeEmbroideryInput",
+          "callee": "updateEmbroideryItem",
+          "lineNumber": 350
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "getDefaultItemLabel",
+          "lineNumber": 353
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "PRINT_POSITIONS.filter",
+          "lineNumber": 355
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "UK_TRADE_EMBROIDERY_ITEMS.filter",
+          "lineNumber": 358
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "updateItemLabel",
+          "lineNumber": 395
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "onChange",
+          "lineNumber": 398
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "updateQuantity",
+          "lineNumber": 426
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "Number",
+          "lineNumber": 426
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "PRINT_POSITIONS.map",
+          "lineNumber": 439
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "togglePosition",
+          "lineNumber": 446
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "UK_TRADE_EMBROIDERY_ITEMS.map",
+          "lineNumber": 460
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "toggleEmbroideryItem",
+          "lineNumber": 468
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "selectedPrintPositions.map",
+          "lineNumber": 484
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "updatePositionColorInput",
+          "lineNumber": 501
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "normalizePositionColorInput",
+          "lineNumber": 503
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "selectedEmbroideryItems.map",
+          "lineNumber": 520
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "updateEmbroideryInput",
+          "lineNumber": 537
+        },
+        {
+          "caller": "UkTradeDesignCard",
+          "callee": "normalizeEmbroideryInput",
+          "lineNumber": 539
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 7,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/app/hub/calculators/uk/trade/data.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "loadUkTradeCalculatorGarments",
+          "startLine": 9,
+          "endLine": 14,
+          "params": []
+        },
+        {
+          "name": "getUkTradeGarmentsTag",
+          "startLine": 22,
+          "endLine": 24,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "getUkTradeCalculatorGarments",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "getUkTradeGarmentsTag",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "loadUkTradeCalculatorGarments",
+          "callee": "prisma.garment.findMany",
+          "lineNumber": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/app/hub/calculators/uk/trade/page.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "UkTradeCalculatorPage",
+          "startLine": 15,
+          "endLine": 32,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "metadata",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "UkTradeCalculatorPage",
+          "line": 15,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UkTradeCalculatorPage",
+          "callee": "connection",
+          "lineNumber": 16
+        },
+        {
+          "caller": "UkTradeCalculatorPage",
+          "callee": "getUkTradeCalculatorGarments",
+          "lineNumber": 17
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/app/hub/calculators/uk/tradeScreenPrintData.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 210,
+      "nonEmptyLines": 197,
+      "functions": [
+        {
+          "name": "getUkTradeScreenPrintPrice",
+          "startLine": 181,
+          "endLine": 210,
+          "params": [
+            "quantity",
+            "colorCount"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UK_TRADE_SCREEN_SETUP_PER_COLOUR",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "UK_TRADE_SCREEN_PRINT_QUANTITY_TIERS",
+          "line": 3,
+          "isDefault": false
+        },
+        {
+          "name": "UK_TRADE_SCREEN_PRINT_COLOUR_COUNTS",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "ukTradeScreenPrintPrices",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "getUkTradeScreenPrintPrice",
+          "line": 181,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getUkTradeScreenPrintPrice",
+          "callee": "ukTradeScreenPrintPrices.find",
+          "lineNumber": 189
+        },
+        {
+          "caller": "getUkTradeScreenPrintPrice",
+          "callee": "[...UK_TRADE_SCREEN_PRINT_QUANTITY_TIERS]\n      .reverse()\n      .find",
+          "lineNumber": 198
+        },
+        {
+          "caller": "getUkTradeScreenPrintPrice",
+          "callee": "[...UK_TRADE_SCREEN_PRINT_QUANTITY_TIERS]\n      .reverse",
+          "lineNumber": 198
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "src/components/DesignCard.tsx",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 647,
+      "nonEmptyLines": 562,
+      "functions": [
+        {
+          "name": "getDefaultItemLabel",
+          "startLine": 76,
+          "endLine": 78,
+          "params": [
+            "itemNumber"
+          ]
+        },
+        {
+          "name": "getColorInputState",
+          "startLine": 80,
+          "endLine": 86,
+          "params": [
+            "positions"
+          ]
+        },
+        {
+          "name": "formatDesignEmbroiderySizeLabel",
+          "startLine": 88,
+          "endLine": 90,
+          "params": [
+            "size"
+          ]
+        },
+        {
+          "name": "getSelectedDesignEmbroideryEntries",
+          "startLine": 92,
+          "endLine": 102,
+          "params": [
+            "design"
+          ]
+        },
+        {
+          "name": "isPrintPositionSelected",
+          "startLine": 104,
+          "endLine": 109,
+          "params": [
+            "design",
+            "position"
+          ]
+        },
+        {
+          "name": "getPrintUnitPrices",
+          "startLine": 111,
+          "endLine": 138,
+          "params": [
+            "position",
+            "design",
+            "printPrices"
+          ]
+        },
+        {
+          "name": "calculateDesignCosts",
+          "startLine": 140,
+          "endLine": 191,
+          "params": [
+            "design",
+            "garments",
+            "printPrices",
+            "garmentMarkups"
+          ]
+        },
+        {
+          "name": "normalizeSearch",
+          "startLine": 193,
+          "endLine": 195,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "getGarmentLabel",
+          "startLine": 197,
+          "endLine": 199,
+          "params": [
+            "garment"
+          ]
+        },
+        {
+          "name": "GarmentSelector",
+          "startLine": 201,
+          "endLine": 278,
+          "params": [
+            "{\n  garments,\n  value,\n  onChange\n}"
+          ]
+        },
+        {
+          "name": "DesignCard",
+          "startLine": 280,
+          "endLine": 647,
+          "params": [
+            "{\n  design,\n  garments,\n  itemNumber,\n  onChange,\n  onRemove\n}"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PRINT_POSITIONS",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "NECK_PRINT_UNIT_PRICE",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "DESIGN_EMBROIDERY_ITEMS",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "DESIGN_EMBROIDERY_SIZE_PRICING",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "DESIGN_EMBROIDERY_SIZE_OPTIONS",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "EMBROIDERY_CUSTOMER_DIGITIZING_FEE",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "EMBROIDERY_PRODUCTION_DIGITIZING_COST",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "formatDesignEmbroiderySizeLabel",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "getSelectedDesignEmbroideryEntries",
+          "line": 92,
+          "isDefault": false
+        },
+        {
+          "name": "isPrintPositionSelected",
+          "line": 104,
+          "isDefault": false
+        },
+        {
+          "name": "getPrintUnitPrices",
+          "line": 111,
+          "isDefault": false
+        },
+        {
+          "name": "calculateDesignCosts",
+          "line": 140,
+          "isDefault": false
+        },
+        {
+          "name": "DesignCard",
+          "line": 280,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getColorInputState",
+          "callee": "Object.fromEntries",
+          "lineNumber": 81
+        },
+        {
+          "caller": "getColorInputState",
+          "callee": "Object.entries(positions)\n      .filter(([, colorCount]) => colorCount > 0)\n      .map",
+          "lineNumber": 82
+        },
+        {
+          "caller": "getColorInputState",
+          "callee": "Object.entries(positions)\n      .filter",
+          "lineNumber": 82
+        },
+        {
+          "caller": "getColorInputState",
+          "callee": "Object.entries",
+          "lineNumber": 82
+        },
+        {
+          "caller": "getColorInputState",
+          "callee": "String",
+          "lineNumber": 84
+        },
+        {
+          "caller": "getSelectedDesignEmbroideryEntries",
+          "callee": "DESIGN_EMBROIDERY_ITEMS.flatMap",
+          "lineNumber": 93
+        },
+        {
+          "caller": "getSelectedDesignEmbroideryEntries",
+          "callee": "formatDesignEmbroiderySizeLabel",
+          "lineNumber": 100
+        },
+        {
+          "caller": "getPrintUnitPrices",
+          "callee": "printPrices.find",
+          "lineNumber": 126
+        },
+        {
+          "caller": "calculateDesignCosts",
+          "callee": "Object.keys",
+          "lineNumber": 149
+        },
+        {
+          "caller": "calculateDesignCosts",
+          "callee": "getPrintUnitPrices",
+          "lineNumber": 151
+        },
+        {
+          "caller": "calculateDesignCosts",
+          "callee": "garments.find",
+          "lineNumber": 158
+        },
+        {
+          "caller": "calculateDesignCosts",
+          "callee": "garmentMarkups.find",
+          "lineNumber": 162
+        },
+        {
+          "caller": "calculateDesignCosts",
+          "callee": "getSelectedDesignEmbroideryEntries",
+          "lineNumber": 166
+        },
+        {
+          "caller": "calculateDesignCosts",
+          "callee": "embroideryEntries.reduce",
+          "lineNumber": 167
+        },
+        {
+          "caller": "calculateDesignCosts",
+          "callee": "embroideryEntries.reduce",
+          "lineNumber": 170
+        },
+        {
+          "caller": "normalizeSearch",
+          "callee": "value.toLowerCase().replace(/[^a-z0-9]+/g, \" \").trim",
+          "lineNumber": 194
+        },
+        {
+          "caller": "normalizeSearch",
+          "callee": "value.toLowerCase().replace",
+          "lineNumber": 194
+        },
+        {
+          "caller": "normalizeSearch",
+          "callee": "value.toLowerCase",
+          "lineNumber": 194
+        },
+        {
+          "caller": "getGarmentLabel",
+          "callee": "[garment.name, garment.color].filter(Boolean).join",
+          "lineNumber": 198
+        },
+        {
+          "caller": "getGarmentLabel",
+          "callee": "[garment.name, garment.color].filter",
+          "lineNumber": 198
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "useState",
+          "lineNumber": 210
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "useState",
+          "lineNumber": 211
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "garments.find",
+          "lineNumber": 213
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "getGarmentLabel",
+          "lineNumber": 214
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "garments.filter",
+          "lineNumber": 216
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "normalizeSearch(query).split(\" \").filter",
+          "lineNumber": 217
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "normalizeSearch(query).split",
+          "lineNumber": 217
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "normalizeSearch",
+          "lineNumber": 217
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "normalizeSearch",
+          "lineNumber": 223
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "[\n      g.name,\n      g.code,\n      g.altCode,\n      g.brandName,\n      g.color,\n      g.tags\n    ].filter(Boolean).join",
+          "lineNumber": 223
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "[\n      g.name,\n      g.code,\n      g.altCode,\n      g.brandName,\n      g.color,\n      g.tags\n    ].filter",
+          "lineNumber": 223
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "queryParts.every",
+          "lineNumber": 232
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "searchableText.includes",
+          "lineNumber": 232
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setQuery",
+          "lineNumber": 241
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setIsOpen",
+          "lineNumber": 242
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setIsOpen",
+          "lineNumber": 245
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setQuery",
+          "lineNumber": 246
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setTimeout",
+          "lineNumber": 248
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setIsOpen",
+          "lineNumber": 248
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "filtered.map",
+          "lineNumber": 257
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "onChange",
+          "lineNumber": 261
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setIsOpen",
+          "lineNumber": 262
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "setQuery",
+          "lineNumber": 263
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "getGarmentLabel",
+          "lineNumber": 267
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "[g.code, g.altCode].filter(Boolean).join",
+          "lineNumber": 269
+        },
+        {
+          "caller": "GarmentSelector",
+          "callee": "[g.code, g.altCode].filter",
+          "lineNumber": 269
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "useState",
+          "lineNumber": 293
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "getColorInputState",
+          "lineNumber": 294
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "useState",
+          "lineNumber": 296
+        },
+        {
+          "caller": "updateQuantity",
+          "callee": "onChange",
+          "lineNumber": 299
+        },
+        {
+          "caller": "updateGarment",
+          "callee": "onChange",
+          "lineNumber": 303
+        },
+        {
+          "caller": "updatePositionColor",
+          "callee": "onChange",
+          "lineNumber": 307
+        },
+        {
+          "caller": "togglePosition",
+          "callee": "setColorInputs",
+          "lineNumber": 318
+        },
+        {
+          "caller": "togglePosition",
+          "callee": "updatePositionColor",
+          "lineNumber": 323
+        },
+        {
+          "caller": "togglePosition",
+          "callee": "setColorInputs",
+          "lineNumber": 327
+        },
+        {
+          "caller": "togglePosition",
+          "callee": "String",
+          "lineNumber": 327
+        },
+        {
+          "caller": "togglePosition",
+          "callee": "updatePositionColor",
+          "lineNumber": 328
+        },
+        {
+          "caller": "updatePositionColorInput",
+          "callee": "/^\\d*$/.test",
+          "lineNumber": 332
+        },
+        {
+          "caller": "updatePositionColorInput",
+          "callee": "setColorInputs",
+          "lineNumber": 334
+        },
+        {
+          "caller": "updatePositionColorInput",
+          "callee": "Number",
+          "lineNumber": 338
+        },
+        {
+          "caller": "updatePositionColorInput",
+          "callee": "Number.isInteger",
+          "lineNumber": 340
+        },
+        {
+          "caller": "updatePositionColorInput",
+          "callee": "updatePositionColor",
+          "lineNumber": 344
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "Number",
+          "lineNumber": 350
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "Number.isInteger",
+          "lineNumber": 353
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "setColorError",
+          "lineNumber": 358
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "setColorInputs",
+          "lineNumber": 359
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "String",
+          "lineNumber": 361
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "updatePositionColor",
+          "lineNumber": 363
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "setColorError",
+          "lineNumber": 367
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "String",
+          "lineNumber": 368
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "setColorInputs",
+          "lineNumber": 370
+        },
+        {
+          "caller": "normalizePositionColorInput",
+          "callee": "updatePositionColor",
+          "lineNumber": 376
+        },
+        {
+          "caller": "updatePkMarkupEnabled",
+          "callee": "onChange",
+          "lineNumber": 380
+        },
+        {
+          "caller": "updatePkMarkupPerUnit",
+          "callee": "/^-?\\d*\\.?\\d*$/.test",
+          "lineNumber": 387
+        },
+        {
+          "caller": "updatePkMarkupPerUnit",
+          "callee": "Number",
+          "lineNumber": 389
+        },
+        {
+          "caller": "updatePkMarkupPerUnit",
+          "callee": "onChange",
+          "lineNumber": 391
+        },
+        {
+          "caller": "updatePkMarkupPerUnit",
+          "callee": "Number.isFinite",
+          "lineNumber": 394
+        },
+        {
+          "caller": "toggleDesignEmbroideryItem",
+          "callee": "onChange",
+          "lineNumber": 407
+        },
+        {
+          "caller": "updateDesignEmbroiderySize",
+          "callee": "onChange",
+          "lineNumber": 414
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "getDefaultItemLabel",
+          "lineNumber": 423
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "PRINT_POSITIONS.filter",
+          "lineNumber": 425
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "isPrintPositionSelected",
+          "lineNumber": 426
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "DESIGN_EMBROIDERY_ITEMS.filter",
+          "lineNumber": 428
+        },
+        {
+          "caller": "updateItemLabel",
+          "callee": "onChange",
+          "lineNumber": 433
+        },
+        {
+          "caller": "normalizeItemLabel",
+          "callee": "(design.itemLabel ?? \"\").trim",
+          "lineNumber": 440
+        },
+        {
+          "caller": "normalizeItemLabel",
+          "callee": "onChange",
+          "lineNumber": 442
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "updateItemLabel",
+          "lineNumber": 467
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "updateQuantity",
+          "lineNumber": 490
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "Number",
+          "lineNumber": 490
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "PRINT_POSITIONS.map",
+          "lineNumber": 503
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "togglePosition",
+          "lineNumber": 510
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "DESIGN_EMBROIDERY_ITEMS.map",
+          "lineNumber": 524
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "Boolean",
+          "lineNumber": 525
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "toggleDesignEmbroideryItem",
+          "lineNumber": 531
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "activePositionRows.map",
+          "lineNumber": 547
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "updatePositionColorInput",
+          "lineNumber": 566
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "normalizePositionColorInput",
+          "lineNumber": 567
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "selectedEmbroideryItems.map",
+          "lineNumber": 589
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "updateDesignEmbroiderySize",
+          "lineNumber": 606
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "DESIGN_EMBROIDERY_SIZE_OPTIONS.map",
+          "lineNumber": 610
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "updatePkMarkupEnabled",
+          "lineNumber": 629
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "String",
+          "lineNumber": 638
+        },
+        {
+          "caller": "DesignCard",
+          "callee": "updatePkMarkupPerUnit",
+          "lineNumber": 639
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 13,
+        "functionCount": 11,
+        "classCount": 0
+      }
+    }
+  ]
+}

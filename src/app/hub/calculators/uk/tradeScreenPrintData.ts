@@ -1,4 +1,10 @@
-export const UK_TRADE_SCREEN_SETUP_PER_COLOUR = 20
+import {
+  UK_TRADE_NECK_PRINT_STANDARD_POSITION,
+  UK_TRADE_NECK_PRINT_TRANSFER_POSITION,
+  type UkTradePrintPositionId,
+} from "./trade/types"
+
+export const UK_TRADE_SCREEN_SETUP_PER_SCREEN = 20
 
 export const UK_TRADE_SCREEN_PRINT_QUANTITY_TIERS = [
   50,
@@ -34,6 +40,8 @@ type UkTradeScreenPrintPriceRow = {
   colorCount: UkTradeScreenPrintColourCount
   pricesByTier: Record<UkTradeScreenPrintQuantityTier, number>
 }
+
+type UkTradeTierPriceMap = Record<UkTradeScreenPrintQuantityTier, number>
 
 export const ukTradeScreenPrintPrices: readonly UkTradeScreenPrintPriceRow[] = [
   {
@@ -178,14 +186,99 @@ export type UkTradeScreenPrintPriceLookupResult =
       unitPrice: null
     }
 
+const ukTradeInsideNeckScreenPrintPrices: UkTradeTierPriceMap = {
+  50: 0.89,
+  100: 0.6,
+  200: 0.6,
+  500: 0.6,
+  1000: 0.6,
+  2500: 0.6,
+  5000: 0.6,
+  10000: 0.6,
+}
+
+const ukTradeInsideNeckTransferPrices: UkTradeTierPriceMap = {
+  50: 1.34,
+  100: 0.9,
+  200: 0.9,
+  500: 0.9,
+  1000: 0.9,
+  2500: 0.9,
+  5000: 0.9,
+  10000: 0.9,
+}
+
+function getUkTradeQuantityTier(
+  quantity: number,
+): UkTradeScreenPrintQuantityTier | null {
+  if (quantity < UK_TRADE_SCREEN_PRINT_QUANTITY_TIERS[0]) {
+    return null
+  }
+
+  return (
+    [...UK_TRADE_SCREEN_PRINT_QUANTITY_TIERS]
+      .reverse()
+      .find((tier) => quantity >= tier) ?? null
+  )
+}
+
+function getUkTradeTierPrice(
+  quantity: number,
+  pricesByTier: UkTradeTierPriceMap,
+): UkTradeScreenPrintPriceLookupResult {
+  const quantityTier = getUkTradeQuantityTier(quantity)
+
+  if (quantityTier === null) {
+    return { quantityTier: null, unitPrice: null }
+  }
+
+  return {
+    quantityTier,
+    unitPrice: pricesByTier[quantityTier],
+  }
+}
+
+export function isUkTradeScreenSetupPosition(
+  position: UkTradePrintPositionId,
+) {
+  return position !== UK_TRADE_NECK_PRINT_TRANSFER_POSITION
+}
+
+export function isUkTradeFixedNeckPrintPosition(
+  position: UkTradePrintPositionId,
+) {
+  return (
+    position === UK_TRADE_NECK_PRINT_STANDARD_POSITION ||
+    position === UK_TRADE_NECK_PRINT_TRANSFER_POSITION
+  )
+}
+
+export function getUkTradePricingColorCount(
+  position: UkTradePrintPositionId,
+  colorCount: number,
+) {
+  return position === UK_TRADE_NECK_PRINT_STANDARD_POSITION ? 1 : colorCount
+}
+
+export function getUkTradeSetupScreenCount(
+  position: UkTradePrintPositionId,
+  colorCount: number,
+) {
+  if (position === UK_TRADE_NECK_PRINT_STANDARD_POSITION) {
+    return 2
+  }
+
+  if (position === UK_TRADE_NECK_PRINT_TRANSFER_POSITION) {
+    return 0
+  }
+
+  return colorCount + 1
+}
+
 export function getUkTradeScreenPrintPrice(
   quantity: number,
   colorCount: number,
 ): UkTradeScreenPrintPriceLookupResult {
-  if (quantity < UK_TRADE_SCREEN_PRINT_QUANTITY_TIERS[0]) {
-    return { quantityTier: null, unitPrice: null }
-  }
-
   const priceRow = ukTradeScreenPrintPrices.find(
     (row) => row.colorCount === colorCount,
   )
@@ -194,17 +287,21 @@ export function getUkTradeScreenPrintPrice(
     return { quantityTier: null, unitPrice: null }
   }
 
-  const quantityTier =
-    [...UK_TRADE_SCREEN_PRINT_QUANTITY_TIERS]
-      .reverse()
-      .find((tier) => quantity >= tier) ?? null
+  return getUkTradeTierPrice(quantity, priceRow.pricesByTier)
+}
 
-  if (quantityTier === null) {
-    return { quantityTier: null, unitPrice: null }
+export function getUkTradePrintPositionPrice(
+  quantity: number,
+  position: UkTradePrintPositionId,
+  colorCount: number,
+): UkTradeScreenPrintPriceLookupResult {
+  if (position === UK_TRADE_NECK_PRINT_STANDARD_POSITION) {
+    return getUkTradeTierPrice(quantity, ukTradeInsideNeckScreenPrintPrices)
   }
 
-  return {
-    quantityTier,
-    unitPrice: priceRow.pricesByTier[quantityTier],
+  if (position === UK_TRADE_NECK_PRINT_TRANSFER_POSITION) {
+    return getUkTradeTierPrice(quantity, ukTradeInsideNeckTransferPrices)
   }
+
+  return getUkTradeScreenPrintPrice(quantity, colorCount)
 }

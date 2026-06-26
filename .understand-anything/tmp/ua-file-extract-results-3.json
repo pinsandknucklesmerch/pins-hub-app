@@ -2333,21 +2333,21 @@
       "path": "src/components/NavigationCard.tsx",
       "language": "typescript",
       "fileCategory": "code",
-      "totalLines": 105,
-      "nonEmptyLines": 97,
+      "totalLines": 117,
+      "nonEmptyLines": 110,
       "functions": [
         {
           "name": "CardInner",
-          "startLine": 13,
-          "endLine": 93,
+          "startLine": 14,
+          "endLine": 105,
           "params": [
-            "{\n  title,\n  description,\n  icon,\n  badge,\n  disabled,\n}"
+            "{\n  title,\n  description,\n  icon,\n  badge,\n  disabled,\n  compact = false,\n}"
           ]
         },
         {
           "name": "NavigationCard",
-          "startLine": 95,
-          "endLine": 105,
+          "startLine": 107,
+          "endLine": 117,
           "params": [
             "props"
           ]
@@ -2356,25 +2356,40 @@
       "exports": [
         {
           "name": "NavigationCard",
-          "line": 95,
+          "line": 107,
           "isDefault": true
         }
       ],
       "callGraph": [
         {
           "caller": "CardInner",
-          "callee": "[\n        \"group relative flex min-h-[210px] overflow-hidden rounded-[1.65rem] border p-6 shadow-[var(--shadow-card)] transition\",\n        disabled\n          ? \"border-brand-border bg-brand-panel/70 opacity-70\"\n          : \"border-brand-border bg-brand-panel hover:-translate-y-1 hover:border-brand-red/70\",\n      ].join",
-          "lineNumber": 22
+          "callee": "[\n        \"group relative flex overflow-hidden border transition\",\n        compact\n          ? \"min-h-[152px] rounded-[1.1rem] p-4 shadow-[var(--shadow-soft)]\"\n          : \"min-h-[210px] rounded-[1.65rem] p-6 shadow-[var(--shadow-card)]\",\n        disabled\n          ? \"border-brand-border bg-brand-panel/70 opacity-70\"\n          : \"border-brand-border bg-brand-panel hover:-translate-y-1 hover:border-brand-red/70\",\n      ].join",
+          "lineNumber": 24
         },
         {
           "caller": "CardInner",
-          "callee": "[\n              \"flex h-12 w-12 items-center justify-center rounded-2xl border\",\n              disabled\n                ? \"border-brand-border bg-brand-panel-alt text-brand-muted\"\n                : \"border-brand-red/45 bg-brand-red/10 text-brand-red\",\n            ].join",
-          "lineNumber": 34
+          "callee": "[\n          \"pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(222,59,67,0.08),transparent_35%),linear-gradient(180deg,rgba(255,255,255,0.025),rgba(255,255,255,0))]\",\n          compact ? \"opacity-70\" : \"\",\n        ].join",
+          "lineNumber": 35
         },
         {
           "caller": "CardInner",
-          "callee": "[\n                \"rounded-full border px-4 py-1.5 text-[0.68rem] font-black uppercase tracking-[0.18em]\",\n                disabled\n                  ? \"border-brand-border bg-brand-panel-alt text-brand-muted\"\n                  : \"border-brand-red/45 bg-brand-red/15 text-brand-cream\",\n              ].join",
-          "lineNumber": 58
+          "callee": "[\n              \"flex items-center justify-center border\",\n              compact ? \"h-10 w-10 rounded-xl\" : \"h-12 w-12 rounded-2xl\",\n              disabled\n                ? \"border-brand-border bg-brand-panel-alt text-brand-muted\"\n                : \"border-brand-red/45 bg-brand-red/10 text-brand-red\",\n            ].join",
+          "lineNumber": 44
+        },
+        {
+          "caller": "CardInner",
+          "callee": "[\n                \"rounded-full border font-black uppercase\",\n                compact\n                  ? \"px-2.5 py-1 text-[0.6rem] tracking-[0.14em]\"\n                  : \"px-4 py-1.5 text-[0.68rem] tracking-[0.18em]\",\n                disabled\n                  ? \"border-brand-border bg-brand-panel-alt text-brand-muted\"\n                  : \"border-brand-red/45 bg-brand-red/15 text-brand-cream\",\n              ].join",
+          "lineNumber": 69
+        },
+        {
+          "caller": "CardInner",
+          "callee": "[\n              \"font-black tracking-[-0.035em] text-brand-cream\",\n              compact ? \"text-lg\" : \"text-xl\",\n            ].join",
+          "lineNumber": 86
+        },
+        {
+          "caller": "CardInner",
+          "callee": "[\n              \"text-sm text-brand-muted\",\n              compact ? \"mt-2 leading-5\" : \"mt-4 leading-6\",\n            ].join",
+          "lineNumber": 94
         }
       ],
       "metrics": {
