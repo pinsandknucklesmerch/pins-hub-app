@@ -2,13 +2,31 @@
 
 import { useState } from "react"
 
-import { PRINT_POSITIONS } from "@/components/DesignCard"
 import { UK_TRADE_EMBROIDERY_MIN_STITCH_COUNT } from "../tradeEmbroideryData"
-import type { UkTradeGarment } from "./types"
+import {
+  UK_TRADE_NECK_PRINT_STANDARD_POSITION,
+  UK_TRADE_NECK_PRINT_TRANSFER_POSITION,
+  UK_TRADE_PRINT_POSITIONS,
+  type UkTradeGarment,
+  type UkTradePrintPositionId,
+  type UkTradePrintPositionState,
+} from "./types"
 
 const MIN_COLOR_COUNT = 1
 const MAX_COLOR_COUNT = 10
 const COLOR_COUNT_WARNING = "Acceptable color counts are between 1 and 10."
+
+const UK_TRADE_STANDARD_PRINT_POSITIONS = UK_TRADE_PRINT_POSITIONS.filter(
+  (position) =>
+    position.value !== UK_TRADE_NECK_PRINT_STANDARD_POSITION &&
+    position.value !== UK_TRADE_NECK_PRINT_TRANSFER_POSITION,
+)
+
+const UK_TRADE_NECK_PRINT_POSITIONS = UK_TRADE_PRINT_POSITIONS.filter(
+  (position) =>
+    position.value === UK_TRADE_NECK_PRINT_STANDARD_POSITION ||
+    position.value === UK_TRADE_NECK_PRINT_TRANSFER_POSITION,
+)
 
 export type UkTradeEmbroideryKey =
   | "embroidery1"
@@ -31,7 +49,7 @@ export type UkTradeEmbroideryState = Partial<
 export type UkTradeDesign = {
   garmentId?: string
   quantity: number
-  positions: Record<string, number>
+  positions: UkTradePrintPositionState
   embroideryItems?: UkTradeEmbroideryState
   itemLabel?: string
 }
@@ -48,12 +66,22 @@ function getDefaultItemLabel(itemNumber?: number) {
   return itemNumber ? `Item #${itemNumber}` : "Item"
 }
 
-function getColorInputState(positions: Record<string, number>) {
-  return Object.fromEntries(
-    Object.entries(positions)
-      .filter(([, colorCount]) => colorCount > 0)
-      .map(([position, colorCount]) => [position, String(colorCount)]),
-  )
+function getColorInputState(positions: UkTradePrintPositionState) {
+  return UK_TRADE_PRINT_POSITIONS.reduce<
+    Partial<Record<UkTradePrintPositionId, string>>
+  >((nextInputs, position) => {
+    const colorCount = positions[position.value] ?? 0
+
+    if (
+      colorCount > 0 &&
+      position.value !== UK_TRADE_NECK_PRINT_STANDARD_POSITION &&
+      position.value !== UK_TRADE_NECK_PRINT_TRANSFER_POSITION
+    ) {
+      nextInputs[position.value] = String(colorCount)
+    }
+
+    return nextInputs
+  }, {})
 }
 
 function getEmbroideryInputState(embroideryItems?: UkTradeEmbroideryState) {
@@ -160,9 +188,9 @@ export default function UkTradeDesignCard({
   onChange: (design: UkTradeDesign) => void
   onRemove?: () => void
 }) {
-  const [colorInputs, setColorInputs] = useState<Record<string, string>>(() =>
-    getColorInputState(design.positions),
-  )
+  const [colorInputs, setColorInputs] = useState<
+    Partial<Record<UkTradePrintPositionId, string>>
+  >(() => getColorInputState(design.positions))
   const [embroideryInputs, setEmbroideryInputs] = useState<
     Record<UkTradeEmbroideryKey, string>
   >(() => getEmbroideryInputState(design.embroideryItems))
@@ -176,7 +204,7 @@ export default function UkTradeDesignCard({
     onChange({ ...design, garmentId })
   }
 
-  function updatePositionColor(position: string, colors: number) {
+  function updatePositionColor(position: UkTradePrintPositionId, colors: number) {
     onChange({
       ...design,
       positions: {
@@ -186,7 +214,7 @@ export default function UkTradeDesignCard({
     })
   }
 
-  function togglePosition(position: string, isSelected: boolean) {
+  function togglePosition(position: UkTradePrintPositionId, isSelected: boolean) {
     if (isSelected) {
       setColorInputs((current) => {
         const next = { ...current }
@@ -197,14 +225,23 @@ export default function UkTradeDesignCard({
       return
     }
 
-    setColorInputs((current) => ({
-      ...current,
-      [position]: String(MIN_COLOR_COUNT),
-    }))
+    if (
+      position !== UK_TRADE_NECK_PRINT_STANDARD_POSITION &&
+      position !== UK_TRADE_NECK_PRINT_TRANSFER_POSITION
+    ) {
+      setColorInputs((current) => ({
+        ...current,
+        [position]: String(MIN_COLOR_COUNT),
+      }))
+    }
+
     updatePositionColor(position, MIN_COLOR_COUNT)
   }
 
-  function updatePositionColorInput(position: string, value: string) {
+  function updatePositionColorInput(
+    position: UkTradePrintPositionId,
+    value: string,
+  ) {
     if (!/^\d*$/.test(value)) {
       return
     }
@@ -229,7 +266,7 @@ export default function UkTradeDesignCard({
     }
   }
 
-  function normalizePositionColorInput(position: string) {
+  function normalizePositionColorInput(position: UkTradePrintPositionId) {
     const value = colorInputs[position] ?? ""
     const parsedValue = Number(value)
     const isValid =
@@ -352,14 +389,23 @@ export default function UkTradeDesignCard({
 
   const defaultItemLabel = getDefaultItemLabel(itemNumber)
   const itemLabelValue = design.itemLabel ?? defaultItemLabel
-  const selectedPrintPositions = PRINT_POSITIONS.filter(
+  const selectedPrintPositions = UK_TRADE_PRINT_POSITIONS.filter(
     (position) => (design.positions[position.value] || 0) > 0,
+  )
+  const selectedConfigurablePrintPositions = selectedPrintPositions.filter(
+    (position) =>
+      position.value !== UK_TRADE_NECK_PRINT_STANDARD_POSITION &&
+      position.value !== UK_TRADE_NECK_PRINT_TRANSFER_POSITION,
   )
   const selectedEmbroideryItems = UK_TRADE_EMBROIDERY_ITEMS.filter(
     (item) => typeof design.embroideryItems?.[item.key] === "number",
   )
   const hasSelectedPrintAndEmbroidery =
-    selectedPrintPositions.length > 0 && selectedEmbroideryItems.length > 0
+    selectedConfigurablePrintPositions.length > 0 &&
+    selectedEmbroideryItems.length > 0
+  const hasConfigurableSelections =
+    selectedConfigurablePrintPositions.length > 0 ||
+    selectedEmbroideryItems.length > 0
 
   return (
     <div className="relative mb-6 min-h-[520px] w-full max-w-full min-w-0 overflow-hidden rounded-2xl border border-brand-border/80 bg-brand-panel p-6 shadow-[0_0_15px_rgba(0,0,0,0.2)]">
@@ -435,11 +481,11 @@ export default function UkTradeDesignCard({
         </h4>
 
         <div className="mb-4 space-y-3">
-          <div className="flex flex-wrap gap-3">
-            {PRINT_POSITIONS.map((position) => {
-              const isSelected = (design.positions[position.value] || 0) > 0
+            <div className="flex flex-wrap gap-3">
+              {UK_TRADE_STANDARD_PRINT_POSITIONS.map((position) => {
+                const isSelected = (design.positions[position.value] || 0) > 0
 
-              return (
+                return (
                 <button
                   key={position.value}
                   type="button"
@@ -453,11 +499,32 @@ export default function UkTradeDesignCard({
                   {position.label}
                 </button>
               )
-            })}
-          </div>
+              })}
+            </div>
 
-          <div className="flex flex-wrap gap-3">
-            {UK_TRADE_EMBROIDERY_ITEMS.map((item) => {
+            <div className="flex flex-wrap gap-3">
+              {UK_TRADE_NECK_PRINT_POSITIONS.map((position) => {
+                const isSelected = (design.positions[position.value] || 0) > 0
+
+                return (
+                  <button
+                    key={position.value}
+                    type="button"
+                    onClick={() => togglePosition(position.value, isSelected)}
+                    className={`cursor-pointer rounded-lg border px-4 py-2 text-sm font-medium transition-all ${
+                      isSelected
+                        ? "border-brand-red/40 bg-brand-red/16 text-brand-red/90 shadow-[0_0_15px_rgba(239,68,68,0.1)]"
+                        : "border-brand-border bg-brand-panel-alt text-brand-muted hover:border-brand-border/80 hover:bg-brand-surface"
+                    }`}
+                  >
+                    {position.label}
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {UK_TRADE_EMBROIDERY_ITEMS.map((item) => {
               const isSelected =
                 typeof design.embroideryItems?.[item.key] === "number"
 
@@ -479,70 +546,79 @@ export default function UkTradeDesignCard({
           </div>
         </div>
 
-        <div className="space-y-4 rounded-xl border border-brand-border/60 bg-brand-panel-alt/50 p-4">
-          <div className="flex flex-wrap gap-4">
-            {selectedPrintPositions.map((position) => (
-              <div
-                key={position.value}
-                className="flex min-h-[104px] w-full max-w-[180px] flex-col rounded-lg border border-brand-border bg-brand-panel p-3"
-              >
-                <label className="mb-2 text-xs font-bold uppercase tracking-wider text-brand-red/90">
-                  {position.label}
-                </label>
-                <span className="mb-1 text-[11px] font-semibold text-brand-muted/80">
-                  Print Colours
-                </span>
-                <input
-                  type="number"
-                  min={1}
-                  max={10}
-                  value={colorInputs[position.value] ?? ""}
-                  onChange={(event) =>
-                    updatePositionColorInput(position.value, event.target.value)
-                  }
-                  onBlur={() => normalizePositionColorInput(position.value)}
-                  className="w-full rounded-lg border border-brand-border bg-brand-panel-alt p-2.5 text-sm text-brand-cream outline-none transition-shadow focus:border-brand-red/60 focus:ring-2 focus:ring-brand-red/40"
-                />
-                <div className="min-h-[18px]">
-                  {colorError ? (
-                    <p className="mt-1 text-xs text-brand-red/80">{colorError}</p>
-                  ) : null}
+        {hasConfigurableSelections ? (
+          <div className="space-y-4 rounded-xl border border-brand-border/60 bg-brand-panel-alt/50 p-4">
+            <div className="flex flex-wrap gap-4">
+              {selectedConfigurablePrintPositions.map((position) => (
+                <div
+                  key={position.value}
+                  className="flex min-h-[104px] w-full max-w-[180px] flex-col rounded-lg border border-brand-border bg-brand-panel p-3"
+                  >
+                  <label className="mb-2 text-xs font-bold uppercase tracking-wider text-brand-red/90">
+                    {position.label}
+                  </label>
+
+                  <span className="mb-1 text-[11px] font-semibold text-brand-muted/80">
+                    Print Colours
+                  </span>
+                  <input
+                    type="number"
+                    min={1}
+                    max={10}
+                    value={colorInputs[position.value] ?? ""}
+                    onChange={(event) =>
+                      updatePositionColorInput(
+                        position.value,
+                        event.target.value,
+                      )
+                    }
+                    onBlur={() => normalizePositionColorInput(position.value)}
+                    className="w-full rounded-lg border border-brand-border bg-brand-panel-alt p-2.5 text-sm text-brand-cream outline-none transition-shadow focus:border-brand-red/60 focus:ring-2 focus:ring-brand-red/40"
+                  />
+
+                  <div className="min-h-[18px]">
+                    {colorError ? (
+                      <p className="mt-1 text-xs text-brand-red/80">
+                        {colorError}
+                      </p>
+                      ) : null}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          {hasSelectedPrintAndEmbroidery ? (
-            <div className="border-t border-brand-border/70" />
-          ) : null}
+            {hasSelectedPrintAndEmbroidery ? (
+              <div className="border-t border-brand-border/70" />
+            ) : null}
 
-          <div className="flex flex-wrap gap-4">
-            {selectedEmbroideryItems.map((item) => (
-              <div
-                key={item.key}
-                className="flex min-h-[104px] w-full max-w-[180px] flex-col rounded-lg border border-brand-red/40 bg-brand-red/10 p-3 shadow-[0_0_15px_rgba(239,68,68,0.08)]"
-              >
-                <label className="mb-2 text-xs font-bold uppercase tracking-wider text-brand-red/90">
-                  {item.label}
-                </label>
-                <span className="mb-1 text-[11px] font-semibold text-brand-muted/80">
-                  Stitch Count
-                </span>
-                <input
-                  type="number"
-                  min={UK_TRADE_EMBROIDERY_MIN_STITCH_COUNT}
-                  step={1}
-                  value={embroideryInputs[item.key] ?? ""}
-                  onChange={(event) =>
-                    updateEmbroideryInput(item.key, event.target.value)
-                  }
-                  onBlur={() => normalizeEmbroideryInput(item.key)}
-                  className="w-full rounded-lg border border-brand-border bg-brand-panel-alt p-2.5 text-sm text-brand-cream outline-none transition-shadow focus:border-brand-red/60 focus:ring-2 focus:ring-brand-red/40"
-                />
-              </div>
-            ))}
+            <div className="flex flex-wrap gap-4">
+              {selectedEmbroideryItems.map((item) => (
+                <div
+                  key={item.key}
+                  className="flex min-h-[104px] w-full max-w-[180px] flex-col rounded-lg border border-brand-red/40 bg-brand-red/10 p-3 shadow-[0_0_15px_rgba(239,68,68,0.08)]"
+                >
+                  <label className="mb-2 text-xs font-bold uppercase tracking-wider text-brand-red/90">
+                    {item.label}
+                  </label>
+                  <span className="mb-1 text-[11px] font-semibold text-brand-muted/80">
+                    Stitch Count
+                  </span>
+                  <input
+                    type="number"
+                    min={UK_TRADE_EMBROIDERY_MIN_STITCH_COUNT}
+                    step={1}
+                    value={embroideryInputs[item.key] ?? ""}
+                    onChange={(event) =>
+                      updateEmbroideryInput(item.key, event.target.value)
+                    }
+                    onBlur={() => normalizeEmbroideryInput(item.key)}
+                    className="w-full rounded-lg border border-brand-border bg-brand-panel-alt p-2.5 text-sm text-brand-cream outline-none transition-shadow focus:border-brand-red/60 focus:ring-2 focus:ring-brand-red/40"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   )
