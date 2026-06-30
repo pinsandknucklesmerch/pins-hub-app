@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { GarmentType } from "@prisma/client"
 import { getCalculatorReferenceTag } from "../calculators/data"
+import { getUkTradeGarmentsTag } from "../calculators/uk/trade/data"
 import { getGarmentDirectoryTag } from "./data"
 
 function normalizeTags(value: FormDataEntryValue | null) {
@@ -75,9 +76,11 @@ export async function addGarment(formData: FormData) {
 
   revalidateTag(getGarmentDirectoryTag(), "max")
   revalidateTag(getCalculatorReferenceTag(), "max")
+  revalidateTag(getUkTradeGarmentsTag(), "max")
   revalidatePath("/hub/garments")
   revalidatePath("/hub/calculators/eu/standard")
   revalidatePath("/hub/calculators/eu/us-clients")
+  revalidatePath("/hub/calculators/uk/trade")
 }
 
 export async function updateGarmentDetails(formData: FormData) {
@@ -105,9 +108,11 @@ export async function updateGarmentDetails(formData: FormData) {
 
   revalidateTag(getGarmentDirectoryTag(), "max")
   revalidateTag(getCalculatorReferenceTag(), "max")
+  revalidateTag(getUkTradeGarmentsTag(), "max")
   revalidatePath("/hub/garments")
   revalidatePath("/hub/calculators/eu/standard")
   revalidatePath("/hub/calculators/eu/us-clients")
+  revalidatePath("/hub/calculators/uk/trade")
 }
 
 export async function deleteGarment(id: string) {
@@ -121,7 +126,9 @@ export async function deleteGarment(id: string) {
 
   revalidateTag(getGarmentDirectoryTag(), "max")
   revalidateTag(getCalculatorReferenceTag(), "max")
+  revalidateTag(getUkTradeGarmentsTag(), "max")
   revalidatePath("/hub/garments")
   revalidatePath("/hub/calculators/eu/standard")
   revalidatePath("/hub/calculators/eu/us-clients")
+  revalidatePath("/hub/calculators/uk/trade")
 }
