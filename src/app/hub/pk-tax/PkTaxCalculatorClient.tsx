@@ -91,9 +91,9 @@ const ORDERS_WEIGHT = 0.15
 const DEFAULT_EXCHANGE_RATE = "21"
 
 const ELIGIBILITY_LABELS: Record<AccountManagerEligibility, string> = {
-  eligible_pool_recipient: "Pool recipient",
-  contribution_only_pool_included: "Contribution only — PK Tax included in pool",
-  johan_separate: "Johan separate — 40% own PK Tax",
+  eligible_pool_recipient: "Recipient",
+  contribution_only_pool_included: "Contribution only",
+  johan_separate: "Separate payout",
   excluded: "Excluded",
 }
 
@@ -251,6 +251,22 @@ function formatCurrencyZar(value: number) {
 
 function formatPercent(value: number) {
   return `${(value * 100).toFixed(2)}%`
+}
+
+function formatSpreadsheetMoney(value: number) {
+  return Number.isFinite(value) ? value.toFixed(2) : "0.00"
+}
+
+function formatSpreadsheetInteger(value: number) {
+  return Number.isFinite(value) ? String(Math.trunc(value)) : "0"
+}
+
+function formatSpreadsheetPercent(value: number) {
+  return Number.isFinite(value) ? `${(value * 100).toFixed(2)}%` : "0%"
+}
+
+function joinTsvRow(values: string[]) {
+  return values.join("\t")
 }
 
 async function copyToClipboard(text: string) {
@@ -603,52 +619,160 @@ export default function PkTaxCalculatorClient() {
     toast.success("PK Tax calculator reset.")
   }
 
-  async function handleCopySummary() {
-    const summaryLines = [
-      `PK Tax Calculator Summary${monthLabel.trim() ? ` - ${monthLabel.trim()}` : ""}`,
-      `Exchange Rate: £1 = R${breakdown.exchangeRate.toFixed(2)}`,
-      "",
-      "Netsuite PK Tax Allocation:",
-      `- Total Netsuite PK Tax: ${formatCurrencyGbp(breakdown.totalNetsuitePkTax)}`,
-      `- EPCC retained (40%): ${formatCurrencyGbp(breakdown.epccRetained)}`,
-      `- Admin / bank fees (10%): ${formatCurrencyGbp(breakdown.adminBankFees)}`,
-      `- Marketing (5%): ${formatCurrencyGbp(breakdown.marketing)}`,
-      `- Operations (5%): ${formatCurrencyGbp(breakdown.operations)}`,
-      `- Shared pool PK Tax base: ${formatCurrencyGbp(breakdown.sharedPoolPkTaxBase)}`,
-      `- Shared pool PK Tax contribution (40%): ${formatCurrencyGbp(breakdown.sharedPoolPkTaxContribution)}`,
-      `- Snuggle profit total: ${formatCurrencyGbp(breakdown.totalIncludedSnuggleProfit)}`,
-      `- Snuggle pool contribution (7%): ${formatCurrencyGbp(breakdown.snugglePoolContribution)}`,
-      `- Total shared sales team pool: ${formatCurrencyGbp(breakdown.totalSharedSalesTeamPool)}`,
-      `- Johan PK Tax: ${formatCurrencyGbp(breakdown.johanPkTax)}`,
-      `- Johan separate payout (40%): ${formatCurrencyGbp(breakdown.johanSeparatePayout)}`,
-      "",
-      "Weighted Contribution Scores:",
-      ...results.map(
-        (row) => `- ${row.name}: ${formatPercent(row.weightedScore)} (${ELIGIBILITY_LABELS[row.eligibility]})`
-      ),
-      "",
-      "Final Payouts:",
-      ...results
-        .filter((row) => isEligiblePoolRecipient(row) || isJohanSeparate(row))
-        .map((row) => {
-          if (isJohanSeparate(row)) {
-            return `- ${row.name}: separate payout ${formatCurrencyGbp(row.separatePkTaxPayoutGbp)} / ${formatCurrencyZar(row.totalZar)}`
-          }
-
-          return `- ${row.name}: shared pool ${formatCurrencyGbp(row.finalSharedPoolPayoutGbp)} / ${formatCurrencyZar(row.totalZar)}`
-        }),
-      "",
-      `Total redistributed amount: ${formatCurrencyGbp(breakdown.totalRedistributedAmount)}`,
-      `Total payable GBP: ${formatCurrencyGbp(breakdown.totalPayableGbp)}`,
-      `Total payable ZAR: ${formatCurrencyZar(breakdown.totalPayableZar)}`,
+  function getSpreadsheetSummaryText() {
+    const sectionRows = [
+      {
+        title: "SNUGGLE",
+        total: totals.snuggleProfit,
+        values: includedRows.map((row) => parseCurrencyInput(row.snuggleProfit)),
+        formatValue: formatSpreadsheetMoney,
+      },
+      {
+        title: "PK TAX",
+        total: totals.pkTax,
+        values: includedRows.map((row) => parseCurrencyInput(row.pkTax)),
+        formatValue: formatSpreadsheetMoney,
+      },
+      {
+        title: "COMPANY PROFIT",
+        total: totals.companyProfit,
+        values: includedRows.map((row) => parseCurrencyInput(row.companyProfit)),
+        formatValue: formatSpreadsheetMoney,
+      },
+      {
+        title: "# OF ORDERS",
+        total: totals.orders,
+        values: includedRows.map((row) => parseOrdersInput(row.orders)),
+        formatValue: formatSpreadsheetInteger,
+      },
     ]
 
+    return sectionRows
+      .flatMap((section) => [
+        section.title,
+        joinTsvRow(["TOTAL", section.formatValue(section.total)]),
+        joinTsvRow(["ACCOUNT MANAGER", ...includedRows.map((row) => row.name || `Row ${row.id}`)]),
+        joinTsvRow(["VALUE", ...section.values.map(section.formatValue)]),
+        joinTsvRow([
+          "PERCENTAGE",
+          ...section.values.map((value) =>
+            section.total > 0 ? formatSpreadsheetPercent(value / section.total) : "0%"
+          ),
+        ]),
+        "",
+      ])
+      .join("\n")
+      .trim()
+  }
+
+  function getResultsSummaryText() {
+    return [
+      `PK Tax Results${monthLabel.trim() ? ` - ${monthLabel.trim()}` : ""}`,
+      `Exchange Rate: £1 = R${breakdown.exchangeRate.toFixed(2)}`,
+      "",
+      ...results.map((row) =>
+        [
+          row.name,
+          `Eligibility: ${ELIGIBILITY_LABELS[row.eligibility]}`,
+          `Company Profit: ${formatPercent(row.companyProfitShare)}`,
+          `Snuggle Profit: ${formatPercent(row.snuggleProfitShare)}`,
+          `PK Tax: ${formatPercent(row.pkTaxShare)}`,
+          `Orders: ${formatPercent(row.ordersShare)}`,
+          `Weighted Score: ${formatPercent(row.weightedScore)}`,
+          `Initial Shared Pool Share GBP: ${formatCurrencyGbp(row.initialSharedPoolShareGbp)}`,
+          `Redistributed Adjustment GBP: ${formatCurrencyGbp(row.redistributedAdjustmentGbp)}`,
+          `Final Shared Pool Payout GBP: ${formatCurrencyGbp(row.finalSharedPoolPayoutGbp)}`,
+          `Separate PK Tax Payout GBP: ${formatCurrencyGbp(row.separatePkTaxPayoutGbp)}`,
+          `Total GBP: ${formatCurrencyGbp(row.totalGbp)}`,
+          `Total ZAR: ${formatCurrencyZar(row.totalZar)}`,
+        ].join("\n")
+      ),
+    ].join("\n\n")
+  }
+
+  function getPoolAllocationSummaryText() {
+    return [
+      "PK Tax Pool Allocation",
+      "",
+      "A. Netsuite PK Tax Allocation",
+      `Total Netsuite PK Tax: ${formatCurrencyGbp(breakdown.totalNetsuitePkTax)}`,
+      `EPCC retained, 40% of total PK Tax: ${formatCurrencyGbp(breakdown.epccRetained)}`,
+      `Admin / bank fees, 10% of total PK Tax: ${formatCurrencyGbp(breakdown.adminBankFees)}`,
+      `Marketing, 5% of total PK Tax: ${formatCurrencyGbp(breakdown.marketing)}`,
+      `Operations, 5% of total PK Tax: ${formatCurrencyGbp(breakdown.operations)}`,
+      `Johan separate PK Tax payout, 40% of Johan PK Tax: ${formatCurrencyGbp(breakdown.johanSeparatePayout)}`,
+      "",
+      "B. Shared Pool Inputs",
+      `Shared pool PK Tax base: ${formatCurrencyGbp(breakdown.sharedPoolPkTaxBase)}`,
+      `Shared pool PK Tax contribution, 40% of base: ${formatCurrencyGbp(breakdown.sharedPoolPkTaxContribution)}`,
+      `Total included Snuggle profit: ${formatCurrencyGbp(breakdown.totalIncludedSnuggleProfit)}`,
+      `Snuggle pool contribution, 7% of Snuggle profit: ${formatCurrencyGbp(breakdown.snugglePoolContribution)}`,
+      "",
+      "C. Final Shared Pool",
+      `Shared pool PK Tax contribution: ${formatCurrencyGbp(breakdown.sharedPoolPkTaxContribution)}`,
+      `Snuggle pool contribution: ${formatCurrencyGbp(breakdown.snugglePoolContribution)}`,
+      `Total shared sales team pool: ${formatCurrencyGbp(breakdown.totalSharedSalesTeamPool)}`,
+    ].join("\n")
+  }
+
+  function getTotalsSummaryText() {
+    return [
+      "PK Tax Totals and Checks",
+      "",
+      `Total company profit used for percentages: ${formatCurrencyGbp(breakdown.totalCompanyProfitUsed)}`,
+      `Total Snuggle profit used for percentages: ${formatCurrencyGbp(breakdown.totalSnuggleProfitUsed)}`,
+      `Total PK Tax used for percentages: ${formatCurrencyGbp(breakdown.totalPkTaxUsed)}`,
+      `Total orders used for percentages: ${breakdown.totalOrdersUsed.toFixed(0)}`,
+      `Shared pool PK Tax base: ${formatCurrencyGbp(breakdown.sharedPoolPkTaxBase)}`,
+      `Shared pool PK Tax contribution at 40%: ${formatCurrencyGbp(breakdown.sharedPoolPkTaxContribution)}`,
+      `Total Snuggle pool contribution at 7%: ${formatCurrencyGbp(breakdown.snugglePoolContribution)}`,
+      `Total shared sales team pool: ${formatCurrencyGbp(breakdown.totalSharedSalesTeamPool)}`,
+      "",
+      `Johan PK Tax: ${formatCurrencyGbp(breakdown.johanPkTax)}`,
+      `Johan separate payout at 40%: ${formatCurrencyGbp(breakdown.johanSeparatePayout)}`,
+      `Total initial non-recipient calculated shared-pool share: ${formatCurrencyGbp(breakdown.totalInitialNonRecipientShare)}`,
+      `Total redistributed amount: ${formatCurrencyGbp(breakdown.totalRedistributedAmount)}`,
+      `Total final shared pool payout GBP: ${formatCurrencyGbp(breakdown.totalFinalSharedPoolPayoutGbp)}`,
+      `Total separate Johan payout GBP: ${formatCurrencyGbp(breakdown.totalSeparateJohanPayoutGbp)}`,
+      `Total payable GBP: ${formatCurrencyGbp(breakdown.totalPayableGbp)}`,
+      `Total payable ZAR: ${formatCurrencyZar(breakdown.totalPayableZar)}`,
+      `Remaining / rounding difference against total shared sales team pool: ${formatCurrencyGbp(breakdown.remainingDifference)}`,
+      `Total weighted score: ${formatPercent(breakdown.totalWeightedScore)}`,
+      `Eligible weighted score total: ${formatPercent(breakdown.eligibleWeightedScoreTotal)}`,
+    ].join("\n")
+  }
+
+  async function copyReport(text: string, successMessage: string, errorMessage: string) {
     try {
-      await copyToClipboard(summaryLines.join("\n"))
-      toast.success("PK Tax summary copied.")
+      await copyToClipboard(text)
+      toast.success(successMessage)
     } catch {
-      toast.error("Failed to copy PK Tax summary.")
+      toast.error(errorMessage)
     }
+  }
+
+  async function handleCopySpreadsheetSummary() {
+    await copyReport(
+      getSpreadsheetSummaryText(),
+      "Spreadsheet summary copied.",
+      "Failed to copy spreadsheet summary."
+    )
+  }
+
+  async function handleCopyResults() {
+    await copyReport(getResultsSummaryText(), "Results copied.", "Failed to copy results.")
+  }
+
+  async function handleCopyPoolAllocation() {
+    await copyReport(
+      getPoolAllocationSummaryText(),
+      "Pool allocation copied.",
+      "Failed to copy pool allocation."
+    )
+  }
+
+  async function handleCopyTotals() {
+    await copyReport(getTotalsSummaryText(), "Totals copied.", "Failed to copy totals.")
   }
 
   async function handleCopyFactoryInvoiceTotal() {
@@ -668,10 +792,6 @@ export default function PkTaxCalculatorClient() {
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-brand-muted/80">Month Setup</p>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-brand-muted">
-              Set the month, exchange rate, and optional bulk company profit value. The guide
-              button contains the allocation notes, report-source reminders, and payout checks.
-            </p>
           </div>
 
           <button
@@ -732,17 +852,12 @@ export default function PkTaxCalculatorClient() {
                 Apply to all
               </button>
             </div>
-            <p className="text-xs leading-5 text-brand-muted/80">
-              Use this when the same company profit value applies to all account managers. You can
-              still edit individual rows afterwards.
-            </p>
           </div>
         </div>
       </section>
 
       <AccordionSection
         title="Account Manager Inputs"
-        description="Default rows are set up for Bux, Hardus, Justin, Seth, Shannon, and Johan. Expand this section when you need to edit or add manual-entry rows."
         isOpen={isInputsOpen}
         onToggle={() => setIsInputsOpen((current) => !current)}
       >
@@ -864,23 +979,45 @@ export default function PkTaxCalculatorClient() {
 
       <AccordionSection
         title="Results"
-        description="Expand to view all weighted contribution percentages, shared-pool allocations, separate Johan payout values, and copy-ready summary outputs."
         isOpen={isResultsOpen}
         onToggle={() => setIsResultsOpen((current) => !current)}
       >
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <p className="text-sm leading-6 text-brand-muted">
-            All included rows are shown below. Shannon and Johan stay in the weighted score
-            calculation, but only Bux, Hardus, Justin, and Seth receive shared-pool payouts.
-          </p>
-
-          <button
-            type="button"
-            onClick={handleCopySummary}
-            className="rounded-xl border border-brand-red/40 bg-brand-red/16 px-4 py-2 text-sm font-medium text-brand-cream transition hover:border-brand-red/60 hover:bg-brand-red/20"
-          >
-            Copy Summary
-          </button>
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-end">
+          <div className="w-full rounded-2xl border border-brand-border bg-brand-panel-alt p-3 lg:w-[27rem]">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-brand-muted/80">
+              Export / Copy
+            </p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={handleCopySpreadsheetSummary}
+                className="rounded-xl border border-brand-red/40 bg-brand-red/16 px-3 py-2 text-xs font-semibold text-brand-cream transition hover:border-brand-red/60 hover:bg-brand-red/20"
+              >
+                Copy Spreadsheet Summary
+              </button>
+              <button
+                type="button"
+                onClick={handleCopyResults}
+                className="rounded-xl border border-brand-border/80 bg-brand-panel px-3 py-2 text-xs font-semibold text-brand-cream/90 transition hover:border-brand-red/50 hover:text-brand-cream"
+              >
+                Copy Results
+              </button>
+              <button
+                type="button"
+                onClick={handleCopyPoolAllocation}
+                className="rounded-xl border border-brand-border/80 bg-brand-panel px-3 py-2 text-xs font-semibold text-brand-cream/90 transition hover:border-brand-red/50 hover:text-brand-cream"
+              >
+                Copy Pool Allocation
+              </button>
+              <button
+                type="button"
+                onClick={handleCopyTotals}
+                className="rounded-xl border border-brand-border/80 bg-brand-panel px-3 py-2 text-xs font-semibold text-brand-cream/90 transition hover:border-brand-red/50 hover:text-brand-cream"
+              >
+                Copy Totals
+              </button>
+            </div>
+          </div>
         </div>
 
         {hasZeroMetricTotal ? (
@@ -939,7 +1076,6 @@ export default function PkTaxCalculatorClient() {
 
       <AccordionSection
         title="Pool & Allocation Breakdown"
-        description="Expand to view the three supporting breakdown cards: Netsuite PK Tax Allocation, Shared Pool Inputs, and Final Shared Pool."
         isOpen={isBreakdownOpen}
         onToggle={() => setIsBreakdownOpen((current) => !current)}
       >
@@ -1020,7 +1156,6 @@ export default function PkTaxCalculatorClient() {
 
       <AccordionSection
         title="Totals and Checks"
-        description="Expand to review the calculated totals, redistribution values, weighted-score totals, and payout reconciliation checks."
         isOpen={isTotalsOpen}
         onToggle={() => setIsTotalsOpen((current) => !current)}
       >
@@ -1111,7 +1246,6 @@ export default function PkTaxCalculatorClient() {
 
       <AccordionSection
         title="Factory Invoice"
-        description="Expand to view the invoice total Justin Baker / EPCC should be billed for the Netsuite PK Tax portion only."
         isOpen={isFactoryInvoiceOpen}
         onToggle={() => setIsFactoryInvoiceOpen((current) => !current)}
       >
