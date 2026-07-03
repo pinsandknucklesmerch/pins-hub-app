@@ -14,16 +14,15 @@ export default function Home() {
               <div className="relative z-10 flex flex-col gap-3">
                 <div className="flex items-center justify-between gap-4">
                   <div className="min-w-0">
-                    <p className="hub-kicker">Pins Hub</p>
+                    {/* <p className="hub-kicker">Pins Hub</p> */}
                     <BrandLogo className="mt-2 h-8 w-auto max-w-full opacity-90" />
                   </div>
-                  <span className="rounded-full border border-brand-border bg-brand-panel-alt/70 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-brand-muted">
+                  {/* <span className="rounded-full border border-brand-border bg-brand-panel-alt/70 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-brand-muted">
  6 Live Tools
-                  </span>
+                  </span> */}
                 </div>
                 <p className="max-w-3xl text-sm leading-6 text-brand-muted md:text-[0.95rem]">
-                  Pricing, garment data, commercial invoices, PK Tax workflows, referrals, and reusable operational copy in
-                  one system.
+                  Pins & Knuckles Internal Tools
                 </p>
               </div>
             </section>
@@ -32,7 +31,7 @@ export default function Home() {
               <NavigationCard
                 href="/hub/calculators"
                 title="Price Calculators"
-                description="Operational quote builders EU pricing flows client-ready copy."
+                description=""
                 compact
                 icon={
                   <>
@@ -45,7 +44,7 @@ export default function Home() {
               <NavigationCard
                 href="/hub/data"
                 title="Data Management"
-                description="Shared product, address, and invoice reference data, with garments active now."
+                description=""
                 compact
                 icon={
                   <>
@@ -60,7 +59,7 @@ export default function Home() {
               <NavigationCard
                 href="/hub/pk-tax"
                 title="PK Tax"
-                description="Finance dashboard PK Tax, payout allocation, shared-pool outputs."
+                description=""
                 compact
                 icon={
                   <>
@@ -72,8 +71,8 @@ export default function Home() {
 
               <NavigationCard
                 href="/hub/referrals"
-                title="Refferals"
-                description="Referral planning, scenario modelling, CRM-style team operations."
+                title="Referrals"
+                description=""
                 compact
                 icon={
                   <>
@@ -88,7 +87,7 @@ export default function Home() {
               <NavigationCard
                 href="/hub/commercial-invoices"
                 title="Commercial Invoices"
-                description="Manual commercial invoice builder for addresses, shipment details, line items."
+                description=""
                 compact
                 icon={
                   <>
@@ -103,7 +102,7 @@ export default function Home() {
               <NavigationCard
                 href="/hub/reference"
                 title="Quick Reference"
-                description="Operational copy, delivery import data, saved messages, supplier emails."
+                description=""
                 compact
                 icon={
                   <>

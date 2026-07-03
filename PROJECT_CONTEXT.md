@@ -19,6 +19,7 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
 - PostgreSQL only; production/deployed database is expected to be Neon.
 - Sonner `^2.0.7` for toast notifications.
 - `dotenv` is used by Prisma/seed tooling.
+- `ts-node` is used for operational TypeScript scripts such as live garment sync.
 
 ## Active Routes
 
@@ -122,19 +123,24 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
   - `src/app/hub/calculators/uk/trade/UkTradeDesignCard.tsx`
   - `src/app/hub/calculators/uk/trade/data.ts`
   - `src/app/hub/calculators/uk/trade/types.ts`
-  - `src/app/hub/calculators/uk/tradeScreenPrintData.ts`
+ - `src/app/hub/calculators/uk/tradeScreenPrintData.ts`
+ - `src/app/hub/calculators/uk/tradeEmbroideryData.ts`
   - shared copy/display helpers in `src/app/hub/calculators/copyFormatters.ts` and `displayStandards.ts`
 - Data source: Prisma `Garment` records selected through `ukTradeGarmentSelect`; uses `gbpPrice`.
+- UK Trade selected garment fields: `id`, `code`, `altCode`, `brandName`, `name`, `color`, `gbpPrice`, `tags`.
 - Data is cached with tag `uk-trade-garments`.
 - Currency: GBP (`£`).
 - Pricing assumptions:
-  - Screen print quantity tiers: `50`, `100`, `200`, `500`, `1000`, `2500`, `5000`, `10000`.
+ - Garment cost uses selected garment `gbpPrice`; do not fall back to EUR `basePrice`.
+ - GBP price resolver accepts plain numbers, numeric strings, and Prisma Decimal-like objects with `toNumber()`.
+ - Screen print quantity tiers: `50`, `100`, `200`, `500`, `1000`, `2500`, `5000`, `10000`.
   - Colour counts supported: `1` through `10`.
   - Setup charge: `£20` per colour.
   - Minimum quantity is effectively `50`.
-  - Missing `gbpPrice`, missing garment, no selected print positions, or unsupported price tiers produce missing-price states.
+  - Missing `gbpPrice`, missing garment, no selected print/embroidery positions, or unsupported price tiers produce missing-price states.
 - Copy behavior uses `formatUkTradeQuoteCopy`; it does not add VAT lines.
 - Item labels are editable and fall back to `Item #n`.
+- Garment selector remains editable after selection; reopening clears transient search query while selected label remains visible when closed.
 - The results panel is kept mounted with opacity changes to avoid layout jumps.
 
 ## Garment Directory
@@ -153,7 +159,7 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
 - Directory rows also expose `connectedMarkupValue`, currently pulled from the Standard EU calculator profile by garment type.
 - Caching/revalidation:
   - Loader uses `unstable_cache` with tag `garment-directory`.
-  - Garment actions revalidate the garment directory and calculator reference surfaces.
+  - Garment actions revalidate `garment-directory`, calculator reference tag, `uk-trade-garments`, `/hub/garments`, `/hub/calculators/eu/standard`, `/hub/calculators/eu/us-clients`, and `/hub/calculators/uk/trade`.
 - Client supports search across code, alt code, brand, name, color, and tags.
 - Add/edit modals include EUR base price, GBP price, extra size cost, tags, and garment metadata.
 - Known setup issue: routes depending on Prisma schema changes require regenerated Prisma client after schema edits; referral data loader has explicit handling for a missing generated `ReferralScenario` delegate.
@@ -272,6 +278,11 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
 - On Vercel, `DATABASE_URL` must not point to localhost and should be the Neon pooled PostgreSQL URL.
 - `DIRECT_DATABASE_URL` is used by `prisma.config.ts` for direct migration access when available.
 - If `DIRECT_DATABASE_URL` is missing, migration config derives a non-pooler URL from `DATABASE_URL`.
+- `LIVE_DATABASE_READONLY_URL` is optional and only for `scripts/sync-live-garments-to-local.ts`; it must point to a production/live read-only role.
+- `CONFIRM_SYNC_LIVE_GARMENTS=1` is required before live garment sync runs.
+- `npm run sync:live-garments` reads live `Garment` rows from `LIVE_DATABASE_READONLY_URL` and upserts them into local/dev `DATABASE_URL`.
+- Live garment sync checks that live and local URLs are not identical, live host is not local, live/local do not appear to be the same host/database/user, and the live user has `SELECT` but no `INSERT`, `UPDATE`, or `DELETE` privilege on `Garment`.
+- Live garment sync never deletes local-only garments and must not be used with writable production credentials.
 - Do not include secrets, copied `.env` values, or database URLs with credentials in code, docs, commits, or prompts.
 - Do not run destructive Prisma commands against shared or production environments.
 - Seed files:
@@ -299,6 +310,7 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
 - Prisma validate: `rtk ./node_modules/.bin/prisma validate` or `./node_modules/.bin/prisma validate`.
 - Prisma generate: `rtk ./node_modules/.bin/prisma generate` or `./node_modules/.bin/prisma generate`.
 - Deploy migrations: `rtk npm run migrate:deploy` or `npm run migrate:deploy`.
+- Sync live garments to local/dev: `CONFIRM_SYNC_LIVE_GARMENTS=1 rtk npm run sync:live-garments`.
 
 ## Important Do And Don't Rules
 
