@@ -85,6 +85,22 @@ export default function Home() {
               />
 
               <NavigationCard
+                href="/hub/sales-dashboard"
+                title="Sales Dashboard"
+                description=""
+                compact
+                icon={
+                  <>
+                    <path d="M4 19V5" />
+                    <path d="M4 19h16" />
+                    <path d="M8 15v-4" />
+                    <path d="M12 15V8" />
+                    <path d="M16 15v-6" />
+                  </>
+                }
+              />
+
+              <NavigationCard
                 href="/hub/commercial-invoices"
                 title="Commercial Invoices"
                 description=""
