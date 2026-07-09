@@ -7,17 +7,13 @@ export default function CalculatorsPage() {
       <BackLink href="/">Back to Hub</BackLink>
 
       <section className="hub-panel hub-page-header">
-        <p className="hub-kicker">Calculators</p>
         <h1 className="hub-page-header-title">Price Calculators</h1>
-        <p className="hub-page-header-copy">Open the live calculator routes below.</p>
       </section>
 
       <section className="grid gap-3 md:grid-cols-2">
         <NavigationCard
           href="/hub/calculators/eu"
           title="EU"
-          description="Existing EU pricing tools, including the standard calculator and the US clients quote flow."
-          badge="Active"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -41,8 +37,6 @@ export default function CalculatorsPage() {
         <NavigationCard
           href="/hub/calculators/uk"
           title="UK"
-          description="UK Trade Calculator plus reserved space for the future Standard UK Calculator."
-          badge="Reserved"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -458,14 +458,9 @@ export default function ReferenceClient() {
       <BackLink href="/">Back to Hub</BackLink>
 
       <section className="hub-panel rounded-[2rem] p-5 md:p-6">
-        <p className="hub-kicker">Quick Reference</p>
         <h1 className="hub-page-header-title">
           Copy, addresses, and saved messages
         </h1>
-        <p className="hub-page-header-copy">
-          Use saved custom messages for repeat copy, then search billing, import, and delivery
-          details from one place.
-        </p>
 
         <div className="mt-3 grid gap-3 rounded-2xl border border-brand-border/70 bg-brand-panel-alt/40 p-4">
           <div className="grid gap-2">

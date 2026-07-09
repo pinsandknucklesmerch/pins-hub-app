@@ -43,12 +43,8 @@
 - Keep copy behavior explicit: customer-facing copy should clearly indicate whether values are incl./excl. VAT.
 
 ## Refferals Rules
-- Route lives under `src/app/hub/referrals/`.
-- Current feature uses Prisma models `Customer`, `Referral`, and `LoyaltyTransaction`.
-- Keep the route resilient: if Prisma client or tables are missing, show a setup state instead of crashing.
-- Loyalty changes must be logged through `LoyaltyTransaction`; do not mutate points silently.
-- Referral reward logic currently awards the bonus when status becomes `REWARDED`.
-- `/ref/[code]` is QR-ready structure only; do not add real QR generation unless requested.
+- Referrals are removed/deferred. Do not reintroduce `/hub/referrals`, `/ref/[code]`, referral Prisma models, or loyalty logic unless explicitly requested.
+
 
 ## Repo-Specific Notes
 - Cached data loaders live next to routes, e.g. `calculator/data.ts`, `garments/data.ts`, `refferals/data.ts`.
@@ -56,7 +52,6 @@
 - Existing active Hub routes:
   - `/hub/calculators/eu/standard`
   - `/hub/garments`
-  - `/hub/referrals`
 
 
 <!-- headroom:rtk-instructions -->

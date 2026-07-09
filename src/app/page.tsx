@@ -14,17 +14,9 @@ export default function Home() {
               <div className="relative z-10 flex flex-col gap-3">
                 <div className="flex items-center justify-between gap-4">
                   <div className="min-w-0">
-                    <p className="hub-kicker">Pins Hub</p>
                     <BrandLogo className="mt-2 h-8 w-auto max-w-full opacity-90" />
                   </div>
-                  <span className="rounded-full border border-brand-border bg-brand-panel-alt/70 px-3 py-1 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-brand-muted">
- 6 Live Tools
-                  </span>
                 </div>
-                <p className="max-w-3xl text-sm leading-6 text-brand-muted md:text-[0.95rem]">
-                  Pricing, garment data, commercial invoices, PK Tax workflows, referrals, and reusable operational copy in
-                  one system.
-                </p>
               </div>
             </section>
 
@@ -32,8 +24,7 @@ export default function Home() {
               <NavigationCard
                 href="/hub/calculators"
                 title="Price Calculators"
-                description="Operational quote builders EU pricing flows client-ready copy."
-                compact
+                               compact
                 icon={
                   <>
                     <rect width="14" height="18" x="5" y="3" rx="2" />
@@ -45,7 +36,6 @@ export default function Home() {
               <NavigationCard
                 href="/hub/data"
                 title="Data Management"
-                description="Shared product, address, and invoice reference data, with garments active now."
                 compact
                 icon={
                   <>
@@ -60,8 +50,7 @@ export default function Home() {
               <NavigationCard
                 href="/hub/pk-tax"
                 title="PK Tax"
-                description="Finance dashboard PK Tax, payout allocation, shared-pool outputs."
-                compact
+                               compact
                 icon={
                   <>
                     <path d="M12 2v20" />
@@ -71,24 +60,8 @@ export default function Home() {
               />
 
               <NavigationCard
-                href="/hub/referrals"
-                title="Refferals"
-                description="Referral planning, scenario modelling, CRM-style team operations."
-                compact
-                icon={
-                  <>
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                  </>
-                }
-              />
-
-              <NavigationCard
                 href="/hub/commercial-invoices"
                 title="Commercial Invoices"
-                description="Manual commercial invoice builder for addresses, shipment details, line items."
                 compact
                 icon={
                   <>
@@ -103,8 +76,7 @@ export default function Home() {
               <NavigationCard
                 href="/hub/reference"
                 title="Quick Reference"
-                description="Operational copy, delivery import data, saved messages, supplier emails."
-                compact
+                               compact
                 icon={
                   <>
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />

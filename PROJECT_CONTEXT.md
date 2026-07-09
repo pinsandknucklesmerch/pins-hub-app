@@ -6,7 +6,7 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
 
 - Pins Hub is an internal operations app for Pins & Knuckles.
 - It is a compact internal SaaS-style tool, not a marketing site.
-- Current operational surfaces cover quote calculators, garment reference data, PK Tax allocation, referral/loyalty planning, and reusable operational reference copy.
+- Current operational surfaces cover quote calculators, garment reference data, PK Tax allocation, and reusable operational reference copy.
 - The app should stay practical, dense, and workflow-focused.
 
 ## Current Stack
@@ -31,9 +31,7 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
 - `/hub/calculators/uk/trade` - UK trade screen-print calculator.
 - `/hub/garments` - Garment directory with search, add/edit/delete, EUR/GBP price fields, tags, and connected markup visibility.
 - `/hub/pk-tax` - Manual-entry PK Tax and Snuggle pooled payout calculator.
-- `/hub/referrals` - Referral reward simulator/planner and shared scenario manager.
 - `/hub/reference` - Quick Reference copy, saved local messages, and supplier/logistics emails.
-- `/ref/[code]` - Referral landing/lookup route that confirms whether a referral code belongs to a customer. It is QR-ready structure only; QR generation is not currently implemented.
 
 ## Design And UI Rules
 
@@ -50,7 +48,7 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
 - Use restrained red accents with zinc/dark panels, stable cards, compact controls, and minimal marketing-style whitespace.
 - Preserve shared `hub-*` classes and existing card/panel language where possible.
 - Avoid layout shift, especially around calculator result panels; pricing containers are intentionally kept mounted/stable.
-- UI-only work must not alter pricing, VAT, PK Tax, referral, loyalty, database, or route behavior unless explicitly requested.
+- UI-only work must not alter pricing, VAT, PK Tax, database, or route behavior unless explicitly requested.
 - EU Standard and US Client copied quote layouts are stable customer-facing contracts. Do not redesign, simplify, or reformat copied quote output unless the request explicitly targets quote copy.
 - The staging updates content in `src/components/StagingUpdatesPanel.tsx` is manually maintained. Codex must not edit, rewrite, remove, or auto-update staging update notes unless explicitly asked. The panel must remain gated by `process.env.NEXT_PUBLIC_SHOW_STAGING_UPDATES === "true"`.
 - Navigation wording should stay consistent with existing routes, especially `Back to Hub`.
@@ -156,7 +154,6 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
   - Garment actions revalidate the garment directory and calculator reference surfaces.
 - Client supports search across code, alt code, brand, name, color, and tags.
 - Add/edit modals include EUR base price, GBP price, extra size cost, tags, and garment metadata.
-- Known setup issue: routes depending on Prisma schema changes require regenerated Prisma client after schema edits; referral data loader has explicit handling for a missing generated `ReferralScenario` delegate.
 
 ## PK Tax
 
@@ -167,12 +164,12 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
 - Current behavior:
   - Manual-entry monthly finance calculator.
   - Inputs include month, GBP/ZAR exchange rate, bulk company profit, per-person company profit, Snuggle profit, PK Tax, order count, and eligibility.
-  - Default rows: Bux, Hardus, Justin, Seth, Shannon, Johan.
+  - Default rows: Bux, Hardus, Justin, Shannon, Johan.
   - Output is copy-ready and includes GBP and ZAR totals.
 - Pool model:
   - The PK Tax system uses a pooled bonus model.
   - Shared sales team pool = `40%` of shared-pool PK Tax base plus `7%` of Snuggle profit.
-  - Shared-pool PK Tax base includes Bux, Hardus, Justin, Seth, and Shannon.
+  - Shared-pool PK Tax base includes Bux, Hardus, Justin, and Shannon.
   - Johan’s PK Tax is kept separate; Johan receives `40%` of his own PK Tax outside the shared pool.
   - Shannon contributes to pool/weighted math but is not a pool recipient.
 - Allocation weighting:
@@ -183,7 +180,7 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
   - Each person’s percentage contribution in each category is multiplied by that category weighting and summed into a final weighted performance score.
   - The final weighted score determines initial share of the shared pool.
   - Non-recipient calculated shares are redistributed across eligible recipients.
-  - Eligible shared-pool recipients are Bux, Hardus, Justin, and Seth.
+  - Eligible shared-pool recipients are Bux, Hardus, and Justin.
 - Additional business rules:
   - EPCC retained allocation is `40%` of total Netsuite PK Tax.
   - Admin/bank fees are `10%` of total Netsuite PK Tax.
@@ -194,48 +191,9 @@ This root `PROJECT_CONTEXT.md` is the canonical AI/project context file. An olde
 - Do not alter payout weights, Johan handling, Shannon handling, factory invoice math, GBP/ZAR conversion, or copy outputs unless explicitly requested.
 
 ## Referrals
-
-- Route: `/hub/referrals`.
-- Main files:
-  - `src/app/hub/referrals/page.tsx`
-  - `src/app/hub/referrals/ReferralsClient.tsx`
-  - `src/app/hub/referrals/ReferralScenarioManager.tsx`
-  - `src/app/hub/referrals/actions.ts`
-  - `src/app/hub/referrals/data.ts`
-  - `src/app/hub/referrals/simulator.ts`
-  - `src/app/hub/referrals/constants.ts`
-  - supporting UI cards/tabs/summary/comparison components in the same folder
-- Prisma models involved:
-  - `Customer`
-  - `Referral`
-  - `LoyaltyTransaction`
-  - `ReferralScenario`
-- Current visible surface is a planning/simulator tool:
-  - Rule simulator.
-  - Test cases.
-  - Scenario comparison.
-  - Referral code preview and message/link copy.
-  - JSON export and planning summary copy.
-- Saved/shared scenario behavior:
-  - `ReferralScenario` stores `rulesJson`, `testCasesJson`, and `summaryJson`.
-  - Server actions can save, update, duplicate, and delete team scenarios.
-  - Loader is resilient if the generated Prisma client does not yet include `ReferralScenario`; it returns a setup issue instead of crashing.
-- Real referral/customer actions exist in `actions.ts`:
-  - Customer creation generates or normalizes unique referral codes.
-  - Referral creation creates the referred customer and logs a referral using the referrer code.
-  - Self-referral checks compare email, phone, and name fallback.
-- Loyalty rules:
-  - Loyalty points must not be silently mutated.
-  - Manual loyalty adjustments create a `LoyaltyTransaction` and update `Customer.loyaltyPoints` in the same transaction.
-  - Referral reward bonus is `REFERRAL_BONUS_POINTS = 100`.
-  - Bonus is awarded when referral status becomes `REWARDED` from another status.
-  - The reward creates a `LoyaltyTransaction` of type `REFERRAL_BONUS` and increments the referrer’s points.
-- `/ref/[code]`:
-  - Looks up a `Customer` by uppercase `referralCode`.
-  - Shows confirmed/not-found state.
-  - Directs users back to `/hub/referrals`.
-  - QR generation is not currently implemented.
-- Do not alter referral reward logic or loyalty mutation behavior while updating docs or UI.
+- Removed/deferred. `/hub/referrals` and `/ref/[code]` are no longer active routes.
+- Referral, loyalty, customer, and scenario Prisma models were removed from the active schema.
+- Historical migrations remain for database history only.
 
 ## Quick Reference
 
@@ -313,7 +271,7 @@ Do:
 
 Don't:
 
-- Do not change pricing, VAT, PK Tax, referral, loyalty, or database behavior unless explicitly requested.
+- Do not change pricing, VAT, PK Tax, or database behavior unless explicitly requested.
 - Do not run destructive Prisma commands against shared or production environments.
 - Do not seed or overwrite production data.
 - Do not commit secrets, `.env` values, or database URLs with credentials.

@@ -1,6 +1,6 @@
 # Pins Hub
 
-Pins Hub is an internal operations app for Pins & Knuckles. It is a compact SaaS-style tool for quote calculators, garment reference data, PK Tax allocation, referral and loyalty planning, and reusable operational reference copy.
+Pins Hub is an internal operations app for Pins & Knuckles. It is a compact SaaS-style tool for quote calculators, garment reference data, PK Tax allocation, and reusable operational reference copy.
 
 This is not a marketing site.
 
@@ -12,7 +12,6 @@ This is not a marketing site.
 - UK Trade Calculator
 - Garment Directory
 - PK Tax Calculator
-- Referrals / Loyalty Planning
 - Quick Reference
 
 ## Tech Stack
@@ -36,9 +35,7 @@ This is not a marketing site.
 - `/hub/calculators/uk/trade` - UK Trade Calculator
 - `/hub/garments` - Garment Directory
 - `/hub/pk-tax` - PK Tax Calculator
-- `/hub/referrals` - Referrals / Loyalty Planning
 - `/hub/reference` - Quick Reference
-- `/ref/[code]` - referral-code landing route
 
 ## Local Setup
 
@@ -78,6 +75,6 @@ npm run vercel-build
 
 ## Safety Notes
 
-- During README-only work, do not change pricing, VAT, PK Tax, referral, loyalty, Prisma models, or database behavior.
+- During README-only work, do not change pricing, VAT, PK Tax, Prisma models, or database behavior.
 - Do not edit staging update notes unless explicitly requested.
 - Keep language practical and internal-tool focused. Do not add marketing-style copy.

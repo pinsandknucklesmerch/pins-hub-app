@@ -14,7 +14,6 @@ export default async function GarmentDirectoryPage() {
       <BackLink href="/">Back to Hub</BackLink>
 
       <section className="hub-panel hub-page-header">
-        <p className="hub-kicker">Directory</p>
         <h1 className="hub-page-header-title">Garment Directory</h1>
       </section>
 

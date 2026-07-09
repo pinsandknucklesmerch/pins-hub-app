@@ -924,11 +924,7 @@ export default function CommercialInvoiceClient({ initialData }: { initialData: 
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-brand-cream">Invoice Details</h2>
-            {/* <p className="mt-1 text-sm text-brand-muted">Duties payer must be selected for every invoice.</p> */}
           </div>
-          <span className="rounded-full border border-brand-border bg-brand-panel-alt/70 px-3 py-1 text-xs font-medium text-brand-muted">
-            Manual V1
-          </span>
         </div>
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           <label className="grid gap-1.5 text-sm font-medium text-brand-cream" htmlFor="invoice-reference">

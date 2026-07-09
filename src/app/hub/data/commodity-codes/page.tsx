@@ -12,9 +12,7 @@ export default async function CommodityCodesDataPage() {
       <BackLink href="/hub/data">Back to Data</BackLink>
 
       <section className="hub-panel hub-page-header">
-        <p className="hub-kicker">Data</p>
         <h1 className="hub-page-header-title">Commodity Codes</h1>
-        <p className="hub-page-header-copy">Maintain commercial invoice product/material commodity references.</p>
       </section>
 
       <CommodityCodeReferenceClient initialCommodityCodes={commodityCodes} />

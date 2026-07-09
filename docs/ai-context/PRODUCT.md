@@ -1,6 +1,6 @@
 # Pins Hub Product Context
 
-Pins Hub is an internal operations app for Pins & Knuckles. It is used by staff who need to quote work, inspect garment data, run PK Tax calculations, prototype referral structures, and copy operational reference material quickly.
+Pins Hub is an internal operations app for Pins & Knuckles. It is used by staff who need to quote work, inspect garment data, run PK Tax calculations, and copy operational reference material quickly.
 
 ## Product Shape
 - This is an internal SaaS-style tool, not a marketing site.
@@ -11,7 +11,6 @@ Pins Hub is an internal operations app for Pins & Knuckles. It is used by staff 
 - Price Calculators
 - Garment Directory
 - PK Tax
-- Referrals
 - Quick Reference
 
 ## UX Priorities
@@ -27,4 +26,4 @@ Pins Hub is an internal operations app for Pins & Knuckles. It is used by staff 
 - Oversized hero patterns outside the existing home shell
 - Playful or editorial styling
 - Unnecessary gradients or decorative surfaces
-- UI changes that alter pricing, referral, or finance behavior
+- UI changes that alter pricing or finance behavior

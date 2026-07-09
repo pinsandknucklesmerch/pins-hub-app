@@ -73,64 +73,6 @@ model DesignPrint {
   design     Design        @relation(fields: [designId], references: [id])
 }
 
-model Customer {
-  id                  String               @id @default(uuid())
-  name                String
-  email               String?
-  phone               String?
-  referralCode        String               @unique
-  loyaltyPoints       Int                  @default(0)
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
-  referralsMade       Referral[]           @relation("ReferrerCustomerReferrals")
-  referralsReceived   Referral[]           @relation("ReferredCustomerReferrals")
-  loyaltyTransactions LoyaltyTransaction[]
-
-  @@index([name])
-}
-
-model Referral {
-  id                 String         @id @default(uuid())
-  referrerCustomerId String
-  referredCustomerId String         @unique
-  referralCodeUsed   String
-  status             ReferralStatus @default(PENDING)
-  notes              String?
-  createdAt          DateTime       @default(now())
-  updatedAt          DateTime       @updatedAt
-  referrerCustomer   Customer       @relation("ReferrerCustomerReferrals", fields: [referrerCustomerId], references: [id], onDelete: Cascade)
-  referredCustomer   Customer       @relation("ReferredCustomerReferrals", fields: [referredCustomerId], references: [id], onDelete: Cascade)
-
-  @@index([referrerCustomerId, status])
-  @@index([referralCodeUsed])
-}
-
-model LoyaltyTransaction {
-  id           String                 @id @default(uuid())
-  customerId   String
-  pointsChange Int
-  type         LoyaltyTransactionType
-  reason       String
-  createdAt    DateTime               @default(now())
-  customer     Customer               @relation(fields: [customerId], references: [id], onDelete: Cascade)
-
-  @@index([customerId, createdAt])
-}
-
-model ReferralScenario {
-  id            String   @id @default(uuid())
-  name          String
-  notes         String
-  rulesJson     Json
-  testCasesJson Json
-  summaryJson   Json
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  @@index([updatedAt])
-  @@index([name])
-}
-
 model CommercialInvoice {
   id              String                  @id @default(cuid())
   title           String?
@@ -222,18 +164,4 @@ enum GarmentType {
   TSHIRT
   LONGSLEEVE
   HOODIE
-}
-
-enum ReferralStatus {
-  PENDING
-  CONVERTED
-  REWARDED
-  CANCELLED
-}
-
-enum LoyaltyTransactionType {
-  EARNED
-  REDEEMED
-  ADJUSTED
-  REFERRAL_BONUS
 }

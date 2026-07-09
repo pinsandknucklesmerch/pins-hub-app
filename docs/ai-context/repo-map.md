@@ -5,27 +5,7 @@ This file summarizes the highest-impact files identified by Understand Anything.
 ## Main Feature Areas
 
 ### Referrals
-
-Core files:
-
-- `src/app/hub/referrals/simulator.ts`
-- `src/app/hub/referrals/actions.ts`
-- `src/app/hub/referrals/ReferralsClient.tsx`
-
-Key responsibilities:
-
-- Referral rule simulation
-- Reward calculations
-- Scenario export/comparison
-- Referral/customer server actions
-- Loyalty point adjustments
-- Referral status updates
-- Scenario save/duplicate/delete
-
-Important caution:
-
-- Do not silently mutate loyalty points.
-- Referral reward logic and loyalty transactions are business-sensitive.
+Removed/deferred. Historical migrations remain, but active route files and Prisma models are removed.
 
 ### PK Tax
 

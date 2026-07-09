@@ -20,7 +20,7 @@ Do not change:
 - calculator pricing logic
 - VAT logic
 - PK Tax calculations
-- referral logic
+- removed referral logic
 - database logic
 - Prisma models
 - route structure
@@ -76,7 +76,7 @@ src/
       pk-tax/
         page.tsx
         PkTaxCalculatorClient.tsx
-      referrals/
+      referrals/ (removed)
         page.tsx
         loading.tsx
         ReferralsClient.tsx
@@ -409,25 +409,7 @@ Change these for:
 Do not change PK Tax formulas.
 
 ### Referrals
-
-Files:
-
-- `src/app/hub/referrals/page.tsx`
-- `src/app/hub/referrals/ReferralsClient.tsx`
-- `src/app/hub/referrals/AccordionSection.tsx`
-- `src/app/hub/referrals/ReferralRuleCard.tsx`
-- `src/app/hub/referrals/ReferralTestCaseCard.tsx`
-- `src/app/hub/referrals/ReferralSimulationSummary.tsx`
-- `src/app/hub/referrals/ReferralTabs.tsx`
-
-Change these for:
-
-- CRM-style layout refinements
-- accordion styles
-- stat card appearance
-- form spacing
-- tab styling
-- planning tool visual grouping
+Removed/deferred. Do not document `/hub/referrals` as active. Historical notes may reference removed files only.
 
 ### Quick Reference
 
@@ -567,7 +549,7 @@ Search for:
 Files:
 
 - `src/app/hub/reference/ReferenceClient.tsx`
-- `src/app/hub/referrals/AccordionSection.tsx`
+- `src/app/hub/referrals/ (removed)AccordionSection.tsx`
 - calculator breakdown areas in `CalculatorClient.tsx`
 - PK Tax breakdown areas in `PkTaxCalculatorClient.tsx`
 
@@ -625,11 +607,7 @@ If using ChatGPT for manual edits, tell it to search for these exact phrases.
 - `Pool & Allocation Breakdown`
 
 ### Referrals
-
-- `Referral Code Preview`
-- `Rule Simulator`
-- `Saved Team Scenarios`
-- `Export Tools`
+Removed/deferred. Do not document `/hub/referrals` as active. Historical notes may reference removed files only.
 
 ### Quick Reference
 
@@ -647,7 +625,7 @@ This is a UI-only update for Pins Hub.
 Do not change:
 - business logic
 - calculations
-- referral logic
+- removed referral logic
 - PK Tax logic
 - Prisma models
 - database behavior

@@ -1,7 +1,7 @@
 # Pins Hub Project Context
 
 ## Overview
-`pins-hub` internal operations app Pins & Knuckles. combines pricing calculators, garment reference data, PK Tax calculations, referral planning tools, reusable operational copy. current direction compact internal SaaS UI rather marketing-style layout.
+`pins-hub` internal operations app Pins & Knuckles. combines pricing calculators, garment reference data, PK Tax calculations, reusable operational copy. current direction compact internal SaaS UI rather marketing-style layout.
 
 ## Stack
 - Next.js 16 App Router
@@ -21,13 +21,12 @@
 - `/hub/commercial-invoices`
 - `/hub/garments`
 - `/hub/pk-tax`
-- `/hub/referrals`
 - `/hub/reference`
 - `/ref/[code]`
 
 ## Navigation And Theme
 - hub uses compact sidebar navigation in `src/components/HubSidebar.tsx`.
-- Sidebar items currently map `Home`, `Price Calculators`, `Commercial Invoices`, `Garment Directory`, `PK Tax`, `Referrals`, and `Quick Reference`.
+- Sidebar items currently map `Home`, `Price Calculators`, `Commercial Invoices`, `Garment Directory`, `PK Tax, and `Quick Reference`.
 - Only usable routes appear in sidebar.
 - app supports two persistent local themes: `brand` `classic`.
 - Theme state managed in `src/components/theme/HubThemeProvider.tsx`.
@@ -145,43 +144,5 @@
   - Keep payout shared-pool logic unchanged unless explicitly requested
 
 ## Referrals
-- Route: `/hub/referrals`
-- reference copy blocks
-
-```ts
-type SavedMessage = { id: string title: string body: string createdAt: string updatedAt: string }
-```
-
-- Saved messages browser-local only stored in `localStorage`
-- Storage key: `pins-hub-reference-saved-messages`
-- Snapshot stability `useSyncExternalStore` matters; empty snapshot should stay stable shared array reference
-
-## Database Runtime
-- Prisma schema: `prisma/schema.prisma`
-- Database is PostgreSQL only
-- `src/lib/db.ts` requires `DATABASE_URL` rejects `file:` URLs
-- On Vercel, `DATABASE_URL` must Neon pooled URL must not point localhost
-- Use `DIRECT_DATABASE_URL` migration access available
-
-## Seed State
-- Seed files:
-  - `prisma/seed.ts`
-  - `prisma/seed-data.ts`
-- Current calculator profiles:
-  - `STANDARD_EU`
-  - `US_CLIENTS`
-
-## Wording Constraints
-Preserve labels:
-- `Back Hub`
-- `Back Calculators`
-- `Back Regions`
-- `Refferals` remains intentionally misspelled on home card now
-
-## Verification Commands
-
-```bash
-rtk npm run lint
-rtk tsc
-rtk npm run vercel-build
-```
+- Removed/deferred. `/hub/referrals` and `/ref/[code]` are no longer active routes.
+- Referral/loyalty Prisma models were removed from the active schema.

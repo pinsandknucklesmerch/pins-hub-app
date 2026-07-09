@@ -3,19 +3,15 @@ import type { ReactNode } from "react"
 
 type NavigationCardProps = {
   title: string
-  description: string
   icon: ReactNode
   href?: string
-  badge?: string
   disabled?: boolean
   compact?: boolean
 }
 
 function CardInner({
   title,
-  description,
   icon,
-  badge,
   disabled,
   compact = false,
 }: NavigationCardProps) {
@@ -64,21 +60,6 @@ function CardInner({
             </svg>
           </div>
 
-          {badge ? (
-            <span
-              className={[
-                "rounded-full border font-black uppercase",
-                compact
-                  ? "px-2.5 py-1 text-[0.6rem] tracking-[0.14em]"
-                  : "px-4 py-1.5 text-[0.68rem] tracking-[0.18em]",
-                disabled
-                  ? "border-brand-border bg-brand-panel-alt text-brand-muted"
-                  : "border-brand-red/45 bg-brand-red/15 text-brand-cream",
-              ].join(" ")}
-            >
-              {badge}
-            </span>
-          ) : null}
         </div>
 
         <div className={compact ? "mt-4 pr-4" : "mt-7 pr-12"}>
@@ -90,14 +71,6 @@ function CardInner({
           >
             {title}
           </h2>
-          <p
-            className={[
-              "text-sm text-brand-muted",
-              compact ? "mt-2 leading-5" : "mt-4 leading-6",
-            ].join(" ")}
-          >
-            {description}
-          </p>
         </div>
       </div>
     </div>

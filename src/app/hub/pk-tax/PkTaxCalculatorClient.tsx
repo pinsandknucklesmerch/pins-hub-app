@@ -9,7 +9,7 @@ export type AccountManagerEligibility =
   | "johan_separate"
   | "excluded"
 
-type AccountManagerCode = "bux" | "hardus" | "justin" | "seth" | "shannon" | "johan"
+type AccountManagerCode = "bux" | "hardus" | "justin" | "shannon" | "johan"
 
 export type AccountManagerMonthlyInput = {
   id: number
@@ -78,7 +78,6 @@ type PoolBreakdown = {
 
 type AccordionSectionProps = {
   title: string
-  description?: string
   isOpen: boolean
   onToggle: () => void
   children: React.ReactNode
@@ -98,12 +97,12 @@ const ELIGIBILITY_LABELS: Record<AccountManagerEligibility, string> = {
 }
 
 const ALLOCATION_RULES = [
-  "Contribution percentages include Bux, Hardus, Justin, Seth, Shannon, and Johan.",
-  "The shared sales team pool is made from 40% of PK Tax from Bux, Hardus, Justin, Seth, and Shannon.",
+  "Contribution percentages include Bux, Hardus, Justin, Shannon, and Johan.",
+  "The shared sales team pool is made from 40% of PK Tax from Bux, Hardus, Justin, and Shannon.",
   "Johan’s PK Tax is kept separate.",
   "Johan receives 40% of his own PK Tax.",
   "7% of Snuggle profit is added to the shared pool.",
-  "Only Bux, Hardus, Justin, and Seth split the shared pool.",
+  "Only Bux, Hardus, and Justin split the shared pool.",
   "Shannon and Johan’s calculated shared-pool shares are redistributed across eligible sales team members.",
   "EPCC, Admin, Marketing, and Operations allocations are calculated from total Netsuite PK Tax, not from the Snuggle pool.",
 ] as const
@@ -130,7 +129,7 @@ const REPORT_SOURCES = [
 ] as const
 
 const CHECKS_GUIDE = [
-  "Total final shared pool payout to Bux, Hardus, Justin, and Seth should equal the total shared sales team pool, allowing for small rounding differences.",
+  "Total final shared pool payout to Bux, Hardus, and Justin should equal the total shared sales team pool, allowing for small rounding differences.",
   "Johan’s separate payout is excluded from the shared pool payout check.",
   "If all four metric totals are above zero, total weighted score for included contributors should equal 100%.",
   "If one or more metric totals are zero, that metric weighting cannot be distributed.",
@@ -138,7 +137,6 @@ const CHECKS_GUIDE = [
 
 function AccordionSection({
   title,
-  description,
   isOpen,
   onToggle,
   children,
@@ -153,7 +151,6 @@ function AccordionSection({
       >
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-brand-muted/80">{title}</p>
-          {description ? <p className="mt-2 text-sm leading-6 text-brand-muted">{description}</p> : null}
         </div>
         <svg
           className={`h-4 w-4 flex-shrink-0 text-brand-muted transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
@@ -179,7 +176,6 @@ function createDefaultRows(): AccountManagerMonthlyInput[] {
     createRow(1, "Bux", "eligible_pool_recipient", false, "bux"),
     createRow(2, "Hardus", "eligible_pool_recipient", false, "hardus"),
     createRow(3, "Justin", "eligible_pool_recipient", false, "justin"),
-    createRow(4, "Seth", "eligible_pool_recipient", false, "seth"),
     createRow(5, "Shannon", "contribution_only_pool_included", false, "shannon"),
     createRow(6, "Johan", "johan_separate", false, "johan"),
   ]
@@ -310,7 +306,7 @@ export default function PkTaxCalculatorClient() {
   const [isTotalsOpen, setIsTotalsOpen] = useState(false)
   const [isFactoryInvoiceOpen, setIsFactoryInvoiceOpen] = useState(false)
   const [rows, setRows] = useState<AccountManagerMonthlyInput[]>(createDefaultRows())
-  const [nextRowId, setNextRowId] = useState(7)
+  const [nextRowId, setNextRowId] = useState(6)
 
   const guideTitleId = useId()
   const guideDialogRef = useRef<HTMLDivElement>(null)
@@ -732,17 +728,12 @@ export default function PkTaxCalculatorClient() {
                 Apply to all
               </button>
             </div>
-            <p className="text-xs leading-5 text-brand-muted/80">
-              Use this when the same company profit value applies to all account managers. You can
-              still edit individual rows afterwards.
-            </p>
           </div>
         </div>
       </section>
 
       <AccordionSection
         title="Account Manager Inputs"
-        description="Default rows are set up for Bux, Hardus, Justin, Seth, Shannon, and Johan. Expand this section when you need to edit or add manual-entry rows."
         isOpen={isInputsOpen}
         onToggle={() => setIsInputsOpen((current) => !current)}
       >
@@ -864,15 +855,10 @@ export default function PkTaxCalculatorClient() {
 
       <AccordionSection
         title="Results"
-        description="Expand to view all weighted contribution percentages, shared-pool allocations, separate Johan payout values, and copy-ready summary outputs."
         isOpen={isResultsOpen}
         onToggle={() => setIsResultsOpen((current) => !current)}
       >
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <p className="text-sm leading-6 text-brand-muted">
-            All included rows are shown below. Shannon and Johan stay in the weighted score
-            calculation, but only Bux, Hardus, Justin, and Seth receive shared-pool payouts.
-          </p>
 
           <button
             type="button"
@@ -939,7 +925,6 @@ export default function PkTaxCalculatorClient() {
 
       <AccordionSection
         title="Pool & Allocation Breakdown"
-        description="Expand to view the three supporting breakdown cards: Netsuite PK Tax Allocation, Shared Pool Inputs, and Final Shared Pool."
         isOpen={isBreakdownOpen}
         onToggle={() => setIsBreakdownOpen((current) => !current)}
       >
@@ -1020,7 +1005,6 @@ export default function PkTaxCalculatorClient() {
 
       <AccordionSection
         title="Totals and Checks"
-        description="Expand to review the calculated totals, redistribution values, weighted-score totals, and payout reconciliation checks."
         isOpen={isTotalsOpen}
         onToggle={() => setIsTotalsOpen((current) => !current)}
       >
@@ -1111,15 +1095,10 @@ export default function PkTaxCalculatorClient() {
 
       <AccordionSection
         title="Factory Invoice"
-        description="Expand to view the invoice total Justin Baker / EPCC should be billed for the Netsuite PK Tax portion only."
         isOpen={isFactoryInvoiceOpen}
         onToggle={() => setIsFactoryInvoiceOpen((current) => !current)}
       >
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <p className="max-w-3xl text-sm leading-6 text-brand-muted">
-            Invoice Justin Baker / EPCC for this GBP total. This is 60% of the total Netsuite PK
-            Tax and does not include any Snuggle profit.
-          </p>
 
           <button
             type="button"

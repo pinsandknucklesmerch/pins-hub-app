@@ -7,20 +7,13 @@ export default function EuCalculatorsPage() {
       <BackLink href="/hub/calculators">Back to Regions</BackLink>
 
       <section className="hub-panel hub-page-header">
-        <p className="hub-kicker">EU Calculators</p>
         <h1 className="hub-page-header-title">EU Calculator Routes</h1>
-        <p className="hub-page-header-copy max-w-2xl">
-          Open the live EU pricing calculators below. Both routes are implemented and should remain
-          visible in the hub.
-        </p>
       </section>
 
       <section className="grid gap-3 md:grid-cols-2">
         <NavigationCard
           href="/hub/calculators/eu/standard"
           title="Standard EU Calculator"
-          description="Current EU pricing calculator with existing production, pins, PK markup, and VAT logic."
-          badge="Active"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -46,8 +39,6 @@ export default function EuCalculatorsPage() {
         <NavigationCard
           href="/hub/calculators/eu/us-clients"
           title="US Clients Calculator"
-          description="EU pricing flow for US clients using the implemented route and existing calculator behaviour."
-          badge="Active"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"

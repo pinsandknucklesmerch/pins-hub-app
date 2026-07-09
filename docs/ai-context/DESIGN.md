@@ -39,7 +39,7 @@ Pins Hub is a compact internal-tool UI. Keep the visual language dense, operatio
 - Calculator pricing logic
 - VAT logic
 - PK Tax formulas
-- Referral reward logic
+- Referral reward logic removed/deferred
 - Prisma models
 - Database behavior
 - Route structure

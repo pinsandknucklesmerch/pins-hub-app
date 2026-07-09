@@ -13,7 +13,6 @@ flowchart TB
   Calculators["Calculators"]
   Invoices["Commercial Invoices"]
   Garments["Garment Directory"]
-  Referrals["Referrals / Planner"]
   PkTax["PK Tax"]
   Reference["Quick Reference"]
   Database["Database<br/>Prisma + Postgres"]
@@ -24,13 +23,11 @@ flowchart TB
   Sidebar --> Calculators
   Sidebar --> Invoices
   Sidebar --> Garments
-  Sidebar --> Referrals
   Sidebar --> PkTax
   Sidebar --> Reference
 
   Invoices --> Database
   Garments --> Database
-  Referrals --> Database
 ```
 
 ## 2. Calculators
@@ -94,23 +91,7 @@ flowchart TB
 
 ## 5. Referrals
 
-```mermaid
-flowchart TB
-  ReferralsPage["Referrals Page"]
-  ReferralsClient["ReferralsClient.tsx"]
-  Simulator["simulator.ts"]
-  Actions["actions.ts"]
-  Data["data.ts"]
-  Components["Rule Cards / Tabs / Summary"]
-  Database["src/lib/db.ts"]
-
-  ReferralsPage --> ReferralsClient
-  ReferralsClient --> Simulator
-  ReferralsClient --> Components
-  ReferralsClient --> Actions
-  Actions --> Data
-  Actions --> Database
-```
+Removed/deferred. `/hub/referrals`, `/ref/[code]`, referral route files, and referral/loyalty Prisma models are no longer active.
 
 ## 6. PK Tax and Quick Reference
 
@@ -135,7 +116,6 @@ flowchart TB
 
 ```mermaid
 flowchart TB
-  Referrals["Referrals<br/>Most interconnected"]
   PkTax["PK Tax<br/>Large calculator"]
   Calculators["Calculators<br/>Pricing + quote copy"]
   Garments["Garments<br/>Feeds calculator data"]
@@ -146,6 +126,5 @@ flowchart TB
   Garments --> Calculators
   Calculators --> Invoices
   Database --> Garments
-  Database --> Referrals
   Database --> Invoices
 ```
