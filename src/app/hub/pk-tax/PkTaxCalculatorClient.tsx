@@ -306,7 +306,7 @@ export default function PkTaxCalculatorClient() {
   const [isTotalsOpen, setIsTotalsOpen] = useState(false)
   const [isFactoryInvoiceOpen, setIsFactoryInvoiceOpen] = useState(false)
   const [rows, setRows] = useState<AccountManagerMonthlyInput[]>(createDefaultRows())
-  const [nextRowId, setNextRowId] = useState(6)
+  const [nextRowId, setNextRowId] = useState(7)
 
   const guideTitleId = useId()
   const guideDialogRef = useRef<HTMLDivElement>(null)
